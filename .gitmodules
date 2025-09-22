@@ -1,0 +1,6 @@
+[submodule "custom-addons/base_accounting_kit"]
+	path = custom-addons/base_accounting_kit
+	url = https://github.com/Aster-00/Accounting-kit-odoo19
+[submodule "custom-addons/base_account_budget"]
+	path = custom-addons/base_account_budget
+	url = https://github.com/Aster-00/Accounting-budget-odoo19
