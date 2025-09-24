@@ -4,3 +4,6 @@
 [submodule "custom-addons/base_account_budget"]
 	path = custom-addons/base_account_budget
 	url = https://github.com/Aster-00/Accounting-budget-odoo19
+[submodule "custom-addons/optimum_1"]
+	path = custom-addons/optimum_1
+	url = https://github.com/Aster-00/optimum-1.git
