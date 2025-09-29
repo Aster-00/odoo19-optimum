@@ -10,13 +10,14 @@
 # Noma Yuki, 2023
 # Martin Trigaux, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Junko Augias (juau)" <juau@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-09-11 14:03+0000\n"
-"PO-Revision-Date: 2025-09-14 21:13+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"PO-Revision-Date: 2025-09-29 02:31+0000\n"
+"Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/website/"
 "ja/>\n"
 "Language: ja\n"
@@ -32,7 +33,8 @@ msgstr ""
 msgid ""
 "\" A trusted partner for growth. <br/>Professional, efficient, and always "
 "ahead of the curve. \""
-msgstr ""
+msgstr "\" 成長のための信頼できるパートナー。<br/> プロフェッショナル、有能、そして常"
+"に時代の先を行く。\""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -40,7 +42,8 @@ msgstr ""
 msgid ""
 "\" Outstanding service and results! <br/>They exceeded our expectations in "
 "every project. \""
-msgstr ""
+msgstr "\" 素晴らしいサービスと成果! <br/>あらゆるプロジェクトにおいて期待以上でした"
+"。\""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -48,7 +51,8 @@ msgstr ""
 msgid ""
 "\" This company transformed our business. <br/>Their solutions are "
 "innovative and reliable. \""
-msgstr ""
+msgstr "\" この会社は私たちのビジネスを変革しました。 <br/>彼らのソリューションは革新"
+"的で信頼できます。\""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_blockquote
@@ -56,7 +60,8 @@ msgstr ""
 msgid ""
 "\" Write a quote here from one of your customers. Quotes are a great way to "
 "build confidence in your products or services. \""
-msgstr ""
+msgstr "\" お客様の声の引用文をここに記入下さい。引用文は、貴社のプロダクトやサービス"
+"に対する信頼性を高めるのに最適な方法です。 \""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
@@ -67,37 +72,37 @@ msgstr "\" アラートが"
 #. odoo-python
 #: code:addons/website/controllers/form.py:0
 msgid "\"%(company)s form submission\" <%(email)s>"
-msgstr ""
+msgstr "\"%(company)sフォーム提出\" <%(email)s>"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/seo.js:0
 msgid "\"%(keyword)s\" is used in page content"
-msgstr ""
+msgstr "\"%(keyword)s\" がページコンテンツで使用されています"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/seo.js:0
 msgid "\"%(keyword)s\" is used in page description"
-msgstr ""
+msgstr "\"%(keyword)s\" がページ説明で使用されています"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/seo.js:0
 msgid "\"%(keyword)s\" is used in page first level heading"
-msgstr ""
+msgstr "\"%(keyword)s\" はページの第１レベル見出しで使用されています"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/seo.js:0
 msgid "\"%(keyword)s\" is used in page second level heading"
-msgstr ""
+msgstr "\"%(keyword)s\" はページ第2レベル見出しで使用されています"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/dialog/seo.js:0
 msgid "\"%(keyword)s\" is used in page title"
-msgstr ""
+msgstr "\"%(keyword)s\" がページタイトルで使用されています"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
@@ -106,6 +111,9 @@ msgid ""
 "proficiency and meticulous approach greatly enhanced our project. I couldn’t "
 "be happier with the final product!\""
 msgstr ""
+"「このチームとのやり取りは、最初から最後までとてもスムーズでした。彼らの高い"
+"専門性と細部へのこだわりが、プロジェクトを大きく前進させてくれました。最終成"
+"果にも大満足です!」"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
@@ -113,6 +121,8 @@ msgid ""
 "\"Exceptional service and great communication throughout the entire process. "
 "They went above and beyond to ensure our project was a complete success.\""
 msgstr ""
+"「プロセス全体を通して、卓越したサービスと素晴らしいコミュニケーションでした"
+"。プロジェクトが完全に成功するよう、期待以上のサポートをしてくれました。」"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
@@ -121,6 +131,9 @@ msgid ""
 "vision and turned it into something even better than we had imagined. Highly "
 "recommend!\""
 msgstr ""
+"「最初の打ち合わせから、安心して任せられることがすぐに分かりました。私たちの"
+"ビジョンを理解し、それを想像以上の形に仕上げてくれました。心からおすすめしま"
+"す!」"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
@@ -129,6 +142,9 @@ msgid ""
 "knowledge and focus on detail significantly benefited our project. I am "
 "extremely happy with the outcome!\""
 msgstr ""
+"「このチームとのコラボレーションは、最初から最後まで本当にスムーズでした。彼"
+"らの知識と細部へのこだわりが、プロジェクトの質を大きく向上してくれました。最"
+"終成果には大満足です!」"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
@@ -137,12 +153,14 @@ msgid ""
 "ideas to the table and delivered a final product that exceeded expectations."
 "\""
 msgstr ""
+"「このチームは、本当の意味でのパートナーシップを体現しています。新しいアイデ"
+"アを提案してくれただけでなく、期待を上回る最終成果を届けてくれました。」"
 
 #. module: website
 #. odoo-python
 #: code:addons/website/models/website_rewrite.py:0
 msgid "\"URL from\" can not be empty."
-msgstr ""
+msgstr "\"URL from\" は空にすることはできません。"
 
 #. module: website
 #. odoo-python
@@ -158,12 +176,16 @@ msgid ""
 "\"Homepage URL\" field in the website settings or the page properties on any "
 "custom page."
 msgstr ""
+"\"次へのURL\"に \"/\""
+"を設定することはできません。ホームページの内容を変更するには、"
+"ウェブサイト設定の\"ホームページURL\" "
+"フィールド、またはカスタムページのページプロパティを使用します。"
 
 #. module: website
 #. odoo-python
 #: code:addons/website/models/website_rewrite.py:0
 msgid "\"URL to\" cannot be set to an existing page."
-msgstr ""
+msgstr "\"次へのURL\"に既存のページを設定することはできません。"
 
 #. module: website
 #. odoo-python
@@ -198,13 +220,17 @@ msgid ""
 "skills and commitment to quality had a major impact on our project. I am "
 "thrilled with the final results!\""
 msgstr ""
+"「このチームとの仕事は、あらゆる段階でスムーズかつ効率的でした。彼らのスキル"
+"と品質へのこだわりは、私たちのプロジェクトに大きな影響を与えました。最終結果"
+"に大変満足しています!」"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_banner
 msgid ""
 "\"Write a quote here from one of your customers. Quotes are a great way to "
 "build confidence in your products.\""
-msgstr ""
+msgstr "\" お客様の声の引用文をここに記入下さい。引用文は、貴社のプロダクトに対する信"
+"頼性を高めるのに最適な方法です。 \""
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_website_visitor__page_count
@@ -221,17 +247,17 @@ msgstr "# 訪問数"
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/options/ecomm_categories_showcase_option.xml:0
 msgid "# of Blocks"
-msgstr ""
+msgstr "ブロックの数"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_charts
 msgid "$ 32M"
-msgstr ""
+msgstr "$ 32M"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$1.50"
-msgstr ""
+msgstr "$1.50"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
@@ -241,96 +267,96 @@ msgstr "$12.00"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
 msgid "$13.00"
-msgstr ""
+msgstr "$13.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
 msgid "$13.50"
-msgstr ""
+msgstr "$13.50"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
 msgid "$14.50"
-msgstr ""
+msgstr "$14.50"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
 msgid "$15.00"
-msgstr ""
+msgstr "$15.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_boxed
 msgid "$16.00"
-msgstr ""
+msgstr "$16.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$25.00"
-msgstr ""
+msgstr "$25.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$26.00"
-msgstr ""
+msgstr "$26.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$28.00"
-msgstr ""
+msgstr "$28.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$3.00"
-msgstr ""
+msgstr "$3.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 msgid "$3.50"
-msgstr ""
+msgstr "$3.50"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 msgid "$4.00"
-msgstr ""
+msgstr "$4.00"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 msgid "$4.10"
-msgstr ""
+msgstr "$4.10"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 msgid "$4.25"
-msgstr ""
+msgstr "$4.25"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_pricelist_cafe
 msgid "$4.50"
-msgstr ""
+msgstr "$4.50"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
 msgid "$5.00"
-msgstr ""
+msgstr "$5.00"
 
 #. module: website
 #. odoo-python
 #: code:addons/website/models/ir_ui_view.py:0
 msgid "%(error)s (website: %(website_id)s)"
-msgstr ""
+msgstr "%(error)s (ウェブサイト: %(website_id)s)"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/form/form_option_plugin.js:0
 msgid "%s List"
-msgstr ""
+msgstr "%s リスト"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/website_builder_action.js:0
 msgid "%s is not a valid URL."
-msgstr ""
+msgstr "%s は無効なURLです。"
 
 #. module: website
 #. odoo-javascript
@@ -378,17 +404,17 @@ msgstr "+ 新規ウェブサイト"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_descriptive
 msgid "+1 555-555-5556"
-msgstr ""
+msgstr "+1 555-555-5556"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_masonry_block_mosaic_template
 msgid "+12"
-msgstr ""
+msgstr "+12"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_charts
 msgid "+25.000"
-msgstr ""
+msgstr "+25.000"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.show_website_info
@@ -428,6 +454,35 @@ msgid ""
 "                    }\n"
 "                }"
 msgstr ""
+".headShake {\n"
+"                    animation: headShake 1.3s ease-in-out forwards;\n"
+"                    animation-delay: 0.75s;\n"
+"                }\n"
+"                @keyframes headShake {\n"
+"                    0% {\n"
+"                        transform: translateX(0)\n"
+"                    }\n"
+"\n"
+"                    6.5% {\n"
+"                        transform: translateX(-6px) rotateY(-9deg)\n"
+"                    }\n"
+"\n"
+"                    18.5% {\n"
+"                        transform: translateX(5px) rotateY(7deg)\n"
+"                    }\n"
+"\n"
+"                    31.5% {\n"
+"                        transform: translateX(-3px) rotateY(-5deg)\n"
+"                    }\n"
+"\n"
+"                    43.5% {\n"
+"                        transform: translateX(2px) rotateY(3deg)\n"
+"                    }\n"
+"\n"
+"                    50% {\n"
+"                        transform: translateX(0)\n"
+"                    }\n"
+"                }"
 
 #. module: website
 #: model:website,contact_us_button_url:website.default_website
@@ -440,22 +495,22 @@ msgstr "/contactus"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_images
 msgid "01"
-msgstr ""
+msgstr "01"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_images
 msgid "02"
-msgstr ""
+msgstr "02"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_images
 msgid "03"
-msgstr ""
+msgstr "03"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_images
 msgid "04"
-msgstr ""
+msgstr "04"
 
 #. module: website
 #. odoo-javascript
@@ -509,7 +564,7 @@ msgstr "1000 km"
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_framed
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_showcase
 msgid "12k"
-msgstr ""
+msgstr "12,000"
 
 #. module: website
 #. odoo-javascript
@@ -520,13 +575,13 @@ msgstr "15 km"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown
 msgid "16"
-msgstr ""
+msgstr "16"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font_awesome_option.xml:0
 msgid "1x"
-msgstr ""
+msgstr "1x"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
@@ -572,17 +627,17 @@ msgstr "2000 km"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_masonry_block_mosaic_template
 msgid "22%"
-msgstr ""
+msgstr "22%"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_features_wave
 msgid "24/7 Customer Support"
-msgstr ""
+msgstr "24/7カスタマーサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "24/7 Support"
-msgstr ""
+msgstr "24/7サポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
@@ -594,23 +649,23 @@ msgstr "25%"
 #: model_terms:ir.ui.view,arch_db:website.template_footer_mega
 #: model_terms:ir.ui.view,arch_db:website.template_footer_mega_columns
 msgid "250 Executive Park Blvd, Suite 3400 <br/>San Francisco CA 94134"
-msgstr ""
+msgstr "250 Executive Park Blvd, Suite 3400 <br/>San Francisco CA 94134"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font_awesome_option.xml:0
 msgid "2x"
-msgstr ""
+msgstr "2x"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_rating
 msgid "3 out of 5 stars"
-msgstr ""
+msgstr "5つ星のうち3つ星"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #. module: website
 #. odoo-javascript
@@ -620,8 +675,9 @@ msgstr "30 km"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_bento_grid
+#, fuzzy
 msgid "30% Off Your First Purchase"
-msgstr ""
+msgstr "初回購入30%オフ"
 
 #. module: website
 #: model:ir.model.fields.selection,name:website.selection__website_page_properties__redirect_type__301
@@ -646,13 +702,13 @@ msgstr "308 リダイレクト・リライト"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
 msgid "3575 Fake Buena Vista Avenue"
-msgstr ""
+msgstr "3575 Fake Buena Vista Avenue"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font_awesome_option.xml:0
 msgid "3x"
-msgstr ""
+msgstr "3x"
 
 #. module: website
 #. odoo-javascript
@@ -663,7 +719,7 @@ msgstr "4 km"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_reviews_wall
 msgid "4 out of 5 stars"
-msgstr ""
+msgstr "5つ星のうち4つ星"
 
 #. module: website
 #. odoo-javascript
@@ -692,19 +748,19 @@ msgstr "404 未検出"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_countdown
 msgid "45"
-msgstr ""
+msgstr "45"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_framed
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_showcase
 msgid "45%"
-msgstr ""
+msgstr "45%"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font_awesome_option.xml:0
 msgid "4x"
-msgstr ""
+msgstr "4x"
 
 #. module: website
 #. odoo-javascript
@@ -729,7 +785,8 @@ msgstr "50 m"
 msgid ""
 "50,000+ companies run Odoo <br class=\"d-none d-lg-inline\"/>to grow their "
 "businesses."
-msgstr ""
+msgstr "50,000+以上の企業様がOdoo <br class=\"d-none d-lg-inline\""
+"/>でビジネスを拡大中です。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_call_to_action
@@ -740,19 +797,19 @@ msgstr "50,000以上の企業がOdooで事業拡大しています。"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_box
 msgid "50,000+ companies run Odoo<br/>to grow their businesses."
-msgstr ""
+msgstr "50,000+以上の企業様がOdoo<br/>でビジネスを拡大中です。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_mobile
 #: model_terms:ir.ui.view,arch_db:website.s_cta_mockups
 msgid "50,000+ companies trust Odoo."
-msgstr ""
+msgstr "50,000+以上の企業様にOdooをご利用いただいています。"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/font_awesome_option.xml:0
 msgid "5x"
-msgstr ""
+msgstr "5x"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_charts
@@ -763,7 +820,7 @@ msgstr "75%"
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_charts
 msgid ""
 "75% of clients have been using the service for over a decade consistently."
-msgstr ""
+msgstr "お客さまの75%が、10年以上にわたり継続的に当サービスをご利用いただいています。"
 
 #. module: website
 #. odoo-javascript
@@ -774,19 +831,19 @@ msgstr "8 km"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_links
 msgid "8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States"
-msgstr ""
+msgstr "8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <br/>United States"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/components/website_loader/website_loader.xml:0
 msgid ": Once loaded, follow the"
-msgstr ""
+msgstr ": ロードが完了したら、以下に従ってください："
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/theme/theme_advanced_option.xml:0
 msgid "<Head> and <body>"
-msgstr ""
+msgstr "<Head> および <body>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_bento_grid
@@ -797,11 +854,16 @@ msgid ""
 "                        </a>\n"
 "                        <br/>"
 msgstr ""
+"<a class=\"o_translate_inline btn btn-secondary\" t-att-href=\"cta_btn_href\""
+">\n"
+"                            今すぐ購入する\n"
+"                        </a>\n"
+"                        <br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<a class=\"o_translate_inline\" href=\"#\">Link</a>"
-msgstr ""
+msgstr "<a class=\"o_translate_inline\" href=\"#\">リンク</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_faq_horizontal
@@ -809,6 +871,8 @@ msgid ""
 "<a class=\"o_translate_inline\" href=\"#\">Read More <i class=\"fa fa-angle-"
 "right\" role=\"img\"/></a>"
 msgstr ""
+"<a class=\"o_translate_inline\" href=\"#\">続きを読む<i class="
+"\"fa fa-angle-right\" role=\"img\"/></a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references
@@ -816,6 +880,8 @@ msgid ""
 "<a class=\"o_translate_inline\" href=\"#\">See our case studies <i "
 "class=\"fa fa-long-arrow-right ms-2\"/></a>"
 msgstr ""
+"<a class=\"o_translate_inline\" href=\"#\">ケーススタディを見る<i class="
+"\"fa fa-long-arrow-right ms-2\"/></a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
@@ -824,6 +890,8 @@ msgid ""
 "to:info@yourcompany.example.com\" title=\"Send an "
 "email\">info@yourcompany.example.com</a>"
 msgstr ""
+"<a class=\"o_translate_inline\" href=\"mail-to:info@yourcompany.example.com\""
+" title=\"Send an email\">info@yourcompany.example.com</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_call_to_action
@@ -831,6 +899,8 @@ msgid ""
 "<a class=\"o_translate_inline\" "
 "href=\"mailto:info@yourcompany.example.com\">info@yourcompany.example.com</a>"
 msgstr ""
+"<a class=\"o_translate_inline\" href=\"mailto:info@yourcompany.example.com\""
+">info@yourcompany.example.com</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
@@ -838,6 +908,8 @@ msgid ""
 "<a class=\"o_translate_inline\" href=\"tel:+1555-555-5556\" title=\"Call "
 "Customer Service\">+1555-555-5556</a>"
 msgstr ""
+"<a class=\"o_translate_inline\" href=\"tel:+1555-555-5556\" title="
+"\"Call Customer Service\">+1555-555-5556</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_freegrid
@@ -845,6 +917,8 @@ msgid ""
 "<a href=\"#\" class=\"btn btn-primary btn-lg o_translate_inline\">Learn "
 "more</a>"
 msgstr ""
+"<a href=\"#\" class=\"btn btn-primary btn-lg o_translate_inline\""
+">さらに詳しく</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_empowerment
@@ -854,6 +928,10 @@ msgid ""
 "                        <a href=\"#\" class=\"btn btn-secondary mb-2 "
 "o_translate_inline\">Learn more</a>"
 msgstr ""
+"<a href=\"#\" class=\"btn btn-primary mb-2 o_translate_inline\""
+">今すぐ始める</a>\n"
+"                        <a href=\"#\" class="
+"\"btn btn-secondary mb-2 o_translate_inline\">さらに詳しく</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_showcase
@@ -861,6 +939,8 @@ msgid ""
 "<a href=\"#\" class=\"btn btn-primary o_translate_inline\" "
 "role=\"button\">More details</a>"
 msgstr ""
+"<a href=\"#\" class=\"btn btn-primary o_translate_inline\" role=\"button\""
+">さらに詳しく</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_text_box
@@ -868,7 +948,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.s_shape_image
 msgid ""
 "<a href=\"#\" class=\"btn btn-primary o_translate_inline\">Learn more</a>"
-msgstr ""
+msgstr "<a href=\"#\" class=\"btn btn-primary o_translate_inline\">さらに詳しく</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_faq_horizontal
@@ -876,6 +956,8 @@ msgid ""
 "<a href=\"#\" class=\"btn btn-secondary o_translate_inline\">Documentation</"
 "a>"
 msgstr ""
+"<a href=\"#\" class=\"btn btn-secondary o_translate_inline\""
+">Documentation</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_text
@@ -883,18 +965,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.s_text_image
 msgid ""
 "<a href=\"#\" class=\"btn btn-secondary o_translate_inline\">Learn more</a>"
-msgstr ""
+msgstr "<a href=\"#\" class=\"btn btn-secondary o_translate_inline\">さらに詳しく</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_headline
 msgid ""
 "<a href=\"#\" class=\"o_translate_inline btn btn-primary\">Get in touch</a>"
-msgstr ""
+msgstr "<a href=\"#\" class=\"o_translate_inline btn btn-primary\">お問い合わせ</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_banner_categories
 msgid "<a href=\"#\" class=\"o_translate_inline text-reset\">Shop all →</a>"
-msgstr ""
+msgstr "<a href=\"#\" class=\"o_translate_inline text-reset\">すべての商品を見る "
+"→</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_bento_banner
@@ -904,6 +987,10 @@ msgid ""
 "                                    Buy now\n"
 "                                </a>"
 msgstr ""
+"<a href=\"#\" role=\"button\" class="
+"\"btn btn-lg btn-secondary o_translate_inline\">\n"
+"                                    今すぐ購入する\n"
+"                                </a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_ecomm_categories_showcase
@@ -911,13 +998,15 @@ msgid ""
 "<a href=\"#\" role=\"button\" class=\"btn btn-secondary "
 "o_translate_inline\">View All</a>"
 msgstr ""
+"<a href=\"#\" role=\"button\" class=\"btn btn-secondary o_translate_inline\""
+">すべて見る</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
 msgid ""
 "<a href=\"/\" class=\"btn btn-primary o_translate_inline\">Start your "
 "journey</a>"
-msgstr ""
+msgstr "<a href=\"/\" class=\"btn btn-primary o_translate_inline\">始めましょう</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
@@ -925,6 +1014,8 @@ msgid ""
 "<a href=\"/contactus\" class=\"btn btn-primary o_translate_inline\">Contact "
 "us</a>"
 msgstr ""
+"<a href=\"/contactus\" class=\"btn btn-primary o_translate_inline\""
+">お問い合わせ</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_split_intro
@@ -932,6 +1023,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-lg btn-primary "
 "o_translate_inline\">Discover more</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-lg btn-primary o_translate_inline\">さらに詳しく見る</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_framed_intro
@@ -939,6 +1032,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-lg btn-primary "
 "o_translate_inline\">Discover</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-lg btn-primary o_translate_inline\">さらに詳しく見る</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_intro_pill
@@ -946,6 +1041,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-lg btn-primary "
 "o_translate_inline\">Get Started</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-lg btn-primary o_translate_inline\">始める</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_banner
@@ -953,6 +1050,9 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-lg btn-primary "
 "o_translate_inline\">Start Now <span class=\"fa fa-angle-right ms-2\"/></a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-lg btn-primary o_translate_inline\">今すぐ始める<span class="
+"\"fa fa-angle-right ms-2\"/></a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_adventure
@@ -960,6 +1060,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-lg btn-primary "
 "o_translate_inline\">Start Now</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-lg btn-primary o_translate_inline\">今すぐ始める</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_hexagonal
@@ -967,6 +1069,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"btn btn-primary btn-lg "
 "o_translate_inline\">Contact Us</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-primary btn-lg o_translate_inline\">お問い合わせ</a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_closer_look
@@ -977,6 +1081,11 @@ msgid ""
 "primary mb-2 o_translate_inline\"><t t-out=\"cta_btn_text\">Contact us</t></"
 "a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-primary mb-2 o_translate_inline\">今すぐ始める</a>\n"
+"                <a t-att-href=\"cta_btn_href\" class="
+"\"btn btn-outline-primary mb-2 o_translate_inline\"><t t-out=\"cta_btn_text\""
+">お問い合わせ</t></a>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_banner_connected
@@ -984,6 +1093,8 @@ msgid ""
 "<a t-att-href=\"cta_btn_href\" class=\"o_translate_inline btn btn-lg btn-"
 "secondary\">Discover</a>"
 msgstr ""
+"<a t-att-href=\"cta_btn_href\" class="
+"\"o_translate_inline btn btn-lg btn-secondary\">さらに詳しく見る</a>"
 
 #. module: website
 #. odoo-javascript
@@ -995,7 +1106,7 @@ msgstr "選択した画像を<b>追加</b>。"
 #. odoo-javascript
 #: code:addons/website/static/src/js/tours/tour_utils.js:0
 msgid "<b>Click Edit</b> dropdown"
-msgstr ""
+msgstr "<b>編集をクリック</b> ドロップダウン"
 
 #. module: website
 #. odoo-javascript
@@ -1066,10 +1177,13 @@ msgstr "<b>画像をダブルクリックして</b>希望のに変更します�
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_descriptive
+#, fuzzy
 msgid ""
 "<b>My Company</b><br/>8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 "
 "<br/>United States"
 msgstr ""
+"<b>My Company</b><br/>8000 Marina Blvd, Suite 300 <br/> Brisbane CA 94005 <"
+"br/>United States"
 
 #. module: website
 #. odoo-javascript
@@ -1107,17 +1221,17 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>Alexander Rivera"
-msgstr ""
+msgstr "<br/>アレクサンダー・リヴェラ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references_social
 msgid "<br/>Amsterdam"
-msgstr ""
+msgstr "<br/>アムステルダム"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>Daniel Foster"
-msgstr ""
+msgstr "<br/>ダニエル・フォスター"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_empowerment
@@ -1126,11 +1240,13 @@ msgid ""
 "and<br/> achieve your goals, ensuring your journey is fully supported.<br/"
 "><br/>"
 msgstr ""
+"<br/>お客様に合わせた革新的なツールで、課題解決を支援し、<br/> "
+"ゴール達成に向けて、継続的なフルサポートをお約束します。<br/><br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>Emily Carter"
-msgstr ""
+msgstr "<br/>エミリー・カーター"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_sidegrid
@@ -1139,11 +1255,14 @@ msgid ""
 "born from spontaneous creativity, contains stories waiting to be discovered."
 "<br/><br/>"
 msgstr ""
+"<br/"
+">あらゆる画期的なイノベーションには、緻密に設計されたものでも、ひらめきから生"
+"まれたものでも、まだ語られていない物語が秘められています。<br/><br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references_social
 msgid "<br/>Firenze"
-msgstr ""
+msgstr "<br/>フィレンツェ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -1152,26 +1271,29 @@ msgid ""
 "metrics of company achievements underscore our strategic prowess and "
 "dedication to driving sustainable business success."
 msgstr ""
+"<br/"
+">収益の成長、顧客の維持、市場の拡大など、当社の主要な業績指標は、持続可能なビ"
+"ジネスの成功に向けた戦略力と取り組みをはっきりと示しています。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>James Mitchell"
-msgstr ""
+msgstr "<br/>ジェームス・ミッチェル"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references_social
 msgid "<br/>Madrid"
-msgstr ""
+msgstr "<br/>マドリッド"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_references_social
 msgid "<br/>Nairobi"
-msgstr ""
+msgstr "<br/>ナイロビ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>Olivia Reed"
-msgstr ""
+msgstr "<br/>オリヴィア・リード"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_shape_image
@@ -1179,6 +1301,10 @@ msgid ""
 "<br/>Our product line offers a range of innovative solutions designed to "
 "meet your needs. Each product is crafted for quality and reliability."
 msgstr ""
+"<br/"
+">当社のプロダクトラインは、お客様のニーズを満たすよう設計された幅広い革新的な"
+"ソリューションを提供しています。各プロダクトは品質と信頼性を重視して製造され"
+"ています。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_text_cover
@@ -1187,11 +1313,14 @@ msgid ""
 "the steps, including setup, inventory management, and payment processing.<br/"
 ">"
 msgstr ""
+"<br/"
+">セットアップ、在庫管理、支払処理など、全てのステップを合理化するユーザフレン"
+"ドリーなプラットフォームで、簡単にオンライン販売ができます。<br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_company_team_detail
 msgid "<br/>Sophia Benett"
-msgstr ""
+msgstr "<br/>ソフィア・ベネット"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_split_intro
@@ -1200,6 +1329,9 @@ msgid ""
 "unique needs of your business. Don’t let outdated processes hold you back "
 "any longer.<br/><br/>"
 msgstr ""
+"<br/"
+">革新的なソリューションで、次の時代へ。貴社のニーズに最適化されたご提案をお届"
+"けします。非効率な旧来のプロセスから、今こそ脱却しましょう。<br/><br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_faq_horizontal
@@ -1212,13 +1344,23 @@ msgid ""
 "preferences, adding any necessary payment information, and selecting the "
 "initial features or modules you wish to use."
 msgstr ""
+"<br/>オンボーディングプロセスの始めの一歩は <b>アカウント作成</b>です。 "
+"お客様のEメールアドレスまたはソーシャルメディアのアカウントを使用して、弊社の"
+"プラットフォームに登録することが必要です。 "
+"アカウントを作成すると、アカウントを有効化するためのリンクが記載された確認メ"
+"ールが送信されます。 "
+"有効化すると、プロフィールの作成が求められます。これには、個人設定、必要な支"
+"払情報の追加、および使用を希望する初期機能またはモジュールの選択が含まれてい"
+"ます。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_banner
 msgid ""
 "<br/>This is a simple hero unit, a simple jumbotron-style component for "
 "calling extra attention to featured content or information.<br/><br/>"
-msgstr ""
+msgstr "<br/"
+">これは注目コンテンツや情報に注意を引くためのシンプルなJumbotronスタイルヒー"
+"ローユニットです。<br/><br/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_faq_horizontal
@@ -1228,6 +1370,11 @@ msgid ""
 "staying current with updates, you can take advantage of the latest tools and "
 "features, ensuring your business remains competitive and efficient."
 msgstr ""
+"<br/"
+">ユーザはベータテストプログラムに参加し、今後のリリースに関するフィードバック"
+"を提供することで、プラットフォームの今後の方向性に影響を与えることができます"
+"。最新情報を入手することで、最新のツールや機能を活用でき、ビジネスを競争力の"
+"ある効率的なものに保つことができます。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_boxed
@@ -1235,6 +1382,8 @@ msgid ""
 "<font style=\"background-image: linear-gradient(135deg, var(--o-color-4) "
 "15%, var(--o-color-5) 100%);\" class=\"text-gradient\">30+</font>"
 msgstr ""
+"<font style=\"background-image: linear-gradient(135deg, var(--o-color-4) "
+"15%, var(--o-color-5) 100%);\" class=\"text-gradient\">30+</font>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_boxed
@@ -1242,6 +1391,8 @@ msgid ""
 "<font style=\"background-image: linear-gradient(45deg, var(--o-color-4) 15%, "
 "var(--o-color-5) 100%);\" class=\"text-gradient\">45%</font>"
 msgstr ""
+"<font style=\"background-image: linear-gradient(45deg, var(--o-color-4) 15%, "
+"var(--o-color-5) 100%);\" class=\"text-gradient\">45%</font>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_boxed
@@ -1249,19 +1400,24 @@ msgid ""
 "<font style=\"background-image: linear-gradient(45deg, var(--o-color-4) 15%, "
 "var(--o-color-5) 100%);\" class=\"text-gradient\">8+</font>"
 msgstr ""
+"<font style=\"background-image: linear-gradient(45deg, var(--o-color-4) 15%, "
+"var(--o-color-5) 100%);\" class=\"text-gradient\">8+</font>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_call_to_action
+#, fuzzy
 msgid ""
 "<font style=\"color: rgba(255, 255, 255, 0.5);\">8000 Marina Blvd, Suite 300 "
 "• Brisbane CA 94005 • United States</font>"
 msgstr ""
+"<font style=\"color: rgba(255, 255, 255, 0.5);\">8000 Marina Blvd, Suite 300 "
+"• Brisbane CA 94005 • United States</font>"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/theme/theme_advanced_option.xml:0
 msgid "<head> and </body>"
-msgstr ""
+msgstr "<head> および </body>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.contactus
@@ -1275,62 +1431,70 @@ msgstr ""
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
+#, fuzzy
 msgid ""
 "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>\n"
 "                        <span class=\"o_force_ltr\"><small>+1 555-555-5556</"
 "small></span>"
 msgstr ""
+"<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>\n"
+"                        <span class=\"o_force_ltr\"><small>+1 "
+"555-555-5556</small></span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
+#, fuzzy
 msgid "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>͏"
-msgstr ""
+msgstr "<i class=\"fa fa-1x fa-fw fa-phone me-1\"/>͏"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_controller_pages_kanban_view
+#, fuzzy
 msgid "<i class=\"fa fa-2x fa-arrow-right text-primary\" title=\"URL\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-2x fa-arrow-right text-primary\" title=\"URL\"/>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_card
 msgid "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  Complete access"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  完全アクセス"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_card
 msgid "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  Quick support"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  クイックサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_card
 msgid ""
 "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  Wonderful experience"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-o-color-1\" role=\"img\"/>  素晴らしい経験"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  24/7 toll-free support"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  "
+"年中無休通話無料サポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Access all modules"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\""
+"/>すべてのモジュールへのアクセス"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Account management"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  アカウント管理"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  All modules &amp; "
 "features"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  全モジュール&amp; 機能"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
@@ -1338,17 +1502,19 @@ msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Complete CRM for any "
 "team"
 msgstr ""
+"<i class=\"fa fa-check text-success\" role=\"img\"/>  "
+"あらゆるチームに対応する完全なCRM"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid "<i class=\"fa fa-check text-success\" role=\"img\"/>  Email support"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  Eメールサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Limited customization"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  限定的なカスタマイズ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
@@ -1356,18 +1522,20 @@ msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Sales &amp; marketing "
 "for 2"
 msgstr ""
+"<i class=\"fa fa-check text-success\" role=\"img\"/>  販売 &amp; "
+"マーケティング 2"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Unlimited CRM support"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  無制限CRMサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<i class=\"fa fa-check text-success\" role=\"img\"/>  Unlimited customization"
-msgstr ""
+msgstr "<i class=\"fa fa-check text-success\" role=\"img\"/>  カスタマイズ無制限"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
@@ -1375,6 +1543,8 @@ msgid ""
 "<i class=\"fa fa-fw fa-building-o\" role=\"presentation\"/>\n"
 "                        Office"
 msgstr ""
+"<i class=\"fa fa-fw fa-building-o\" role=\"presentation\"/>\n"
+"                        オフィス"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_website_form_info
@@ -1392,6 +1562,18 @@ msgid ""
 "role=\"img\"/>\n"
 "                      Brussels, Belgium"
 msgstr ""
+"<i class=\"fa fa-fw fa-envelope o_not-animable\" role=\"img\"/>\n"
+"                      yourcompany@example.com\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <i class=\"fa fa-fw fa-phone o_not-animable\" role="
+"\"img\"/>\n"
+"                       +32(0)499 123 456\n"
+"                    <br/>\n"
+"                    <br/>\n"
+"                    <i class=\"fa fa-fw fa-map-marker o_not-animable\" role="
+"\"img\"/>\n"
+"                      Brussels, Belgium"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
@@ -1399,6 +1581,8 @@ msgid ""
 "<i class=\"fa fa-fw fa-envelope-o\" role=\"presentation\"/>\n"
 "                        Email"
 msgstr ""
+"<i class=\"fa fa-fw fa-envelope-o\" role=\"presentation\"/>\n"
+"                        Eメール"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_cta_badge
@@ -1408,6 +1592,8 @@ msgid ""
 "<i class=\"fa fa-fw fa-info-circle o_not-animable\" role=\"img\"/>  What do "
 "you want to promote&amp;nbsp;?"
 msgstr ""
+"<i class=\"fa fa-fw fa-info-circle o_not-animable\" role=\"img\"/>  "
+"何をプロモーションしたいですか&amp;nbsp;?"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_contact_info
@@ -1415,6 +1601,8 @@ msgid ""
 "<i class=\"fa fa-fw fa-phone\" role=\"presentation\"/>\n"
 "                        Phone"
 msgstr ""
+"<i class=\"fa fa-fw fa-phone\" role=\"presentation\"/>\n"
+"                        電話"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_visitor_view_form
@@ -1470,20 +1658,23 @@ msgstr ""
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.contactus
 #: model_terms:ir.ui.view,arch_db:website.contactus_thanks_ir_ui_view
+#, fuzzy
 msgid ""
 "<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 "
 "555-555-5556</span>"
 msgstr ""
+"<i class=\"fa fa-phone fa-fw me-2\"/><span class=\"o_force_ltr\">+1 "
+"555-555-5556</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid "<i class=\"fa fa-times text-danger\" role=\"img\"/>  No customization"
-msgstr ""
+msgstr "<i class=\"fa fa-times text-danger\" role=\"img\"/>  カスタマイズなし"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid "<i class=\"fa fa-times text-danger\" role=\"img\"/>  No support"
-msgstr ""
+msgstr "<i class=\"fa fa-times text-danger\" role=\"img\"/>  サポートなし"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_little_icons
@@ -1613,6 +1804,16 @@ msgid ""
 "value=\"3\">Three</option>\n"
 "                                                        </select>"
 msgstr ""
+"<select id=\"exampleSelect\" class=\"form-select\">\n"
+"                                                            <option selected="
+"\"true\">この選択メニューを開く</option>\n"
+"                                                            <option value="
+"\"1\">1</option>\n"
+"                                                            <option value="
+"\"2\">2</option>\n"
+"                                                            <option value="
+"\"3\">3</option>\n"
+"                                                        </select>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
@@ -1632,12 +1833,27 @@ msgid ""
 "                        Standard Shipping\n"
 "                    </small>"
 msgstr ""
+"<small class=\"d-flex align-items-center\">\n"
+"                        <i class=\"fa fa-1x fa-fw fa-usd fa-stack me-1\"/>\n"
+"                        低価格保証\n"
+"                    </small>\n"
+"                    <small class=\"d-flex align-items-center\">\n"
+"                        <i class="
+"\"fa fa-1x fa-fw fa-shopping-basket fa-stack me-1\"/>\n"
+"                        30日間オンライン返品\n"
+"                    </small>\n"
+"                    <small class=\"d-flex align-items-center\">\n"
+"                        <i class=\"fa fa-1x fa-fw fa-truck fa-stack me-1\"/>"
+"\n"
+"                        通常配送\n"
+"                    </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons
 msgid ""
 "<small class=\"text-center\">Instant setup, satisfied or reimbursed.</small>"
-msgstr ""
+msgstr "<small class=\"text-center\""
+">即時セットアップ、満足いただけない場合は返金いたします。</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_vertical
@@ -1647,6 +1863,12 @@ msgid ""
 "                            high standards of durability and performance.\n"
 "                        </small>"
 msgstr ""
+"<small class=\"text-muted\" style=\"text-align: center;\">\n"
+"                            "
+"すべての製品は、長く安心してご使用いただけるよう、<br/>\n"
+"                            "
+"厳しい耐久性・性能基準に基づいて検査されています。\n"
+"                        </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_vertical
@@ -1656,6 +1878,10 @@ msgid ""
 "                            or easy exchanges and no stress.\n"
 "                        </small>"
 msgstr ""
+"<small class=\"text-muted\" style=\"text-align: center;\">\n"
+"                            30日以内なら無料で返品可能。<br/>\n"
+"                            迅速な返金対応、簡単な交換手続きで安心です。\n"
+"                        </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_vertical
@@ -1666,6 +1892,11 @@ msgid ""
 "                            checkout and trusted payment methods.\n"
 "                        </small>"
 msgstr ""
+"<small class=\"text-muted\" style=\"text-align: center;\">\n"
+"                            "
+"暗号化されたチェックアウトと信頼性の高い決済方法で、<br/>\n"
+"                           お客様の情報を安全に守ります。\n"
+"                        </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -1676,61 +1907,67 @@ msgid ""
 "their consent.\n"
 "                                    </small>"
 msgstr ""
+"<small class=\"text-muted\">\n"
+"                                        "
+"ユーザが同意していない場合、ユーザを追跡するサードパーティサービス( YouTube, "
+"Google Maps, Facebookなど)をブロックします。\n"
+"                                    </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(rounded-0)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(rounded-0)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, fuzzy
 msgid "<small class=\"text-muted\">(rounded-1)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(rounded-1)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(rounded-2)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(rounded-2)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(rounded-3)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(rounded-3)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(shadow)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(shadow)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(shadow-lg)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(shadow-lg)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">(shadow-sm)</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">(shadow-sm)</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline
 msgid "<small class=\"text-muted\">13/06/2019</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">13/06/2019</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_images
 msgid "<small class=\"text-muted\">13/06/2023</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">13/06/2023</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline
 msgid "<small class=\"text-muted\">21/03/2021</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">21/03/2021</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline
 msgid "<small class=\"text-muted\">25/12/2024</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">25/12/2024</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_horizontal
@@ -1738,6 +1975,9 @@ msgid ""
 "<small class=\"text-muted\">Enjoy fast, free shipping on all orders, no "
 "minimum, no hidden fees.</small>"
 msgstr ""
+"<small class=\"text-muted\""
+">すべてのご注文で迅速かつ送料無料。最低購入額なし、追加料金も一切ありません。"
+"</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_horizontal
@@ -1745,18 +1985,22 @@ msgid ""
 "<small class=\"text-muted\">Every product is carefully tested to meet high "
 "standards of durability and performance.</small>"
 msgstr ""
+"<small class=\"text-muted\""
+">すべてのプロダクトは、高い耐久性と性能の基準を満たすよう慎重にテストされてい"
+"ます。</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_horizontal
 msgid ""
 "<small class=\"text-muted\">Free 30-day returns with quick refunds or easy "
 "exchanges and no stress.</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\""
+">30日間の返品は無料。迅速な返金や簡単な交換で、ストレスなし。</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 msgid "<small class=\"text-muted\">Last updated 3 mins ago</small>"
-msgstr ""
+msgstr "<small class=\"text-muted\">最終更新3分前</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_attributes_horizontal
@@ -1764,6 +2008,9 @@ msgid ""
 "<small class=\"text-muted\">Your information is protected with encrypted "
 "checkout and trusted payment methods.</small>"
 msgstr ""
+"<small class=\"text-muted\""
+">お客様の情報は、暗号化されたチェックアウトと信頼できる決済方法により保護され"
+"ています。</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
@@ -1791,6 +2038,10 @@ msgid ""
 "                            info@yourcompany.example.com\n"
 "                        </small>"
 msgstr ""
+"<small>\n"
+"                            <i class=\"fa fa-1x fa-fw fa-envelope me-1\"/>\n"
+"                            info@yourcompany.example.com\n"
+"                        </small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
@@ -1798,16 +2049,18 @@ msgid ""
 "<small><i class=\"fa fa-1x fa-fw fa-envelope me-1\"/> "
 "info@yourcompany.example.com</small>"
 msgstr ""
+"<small><i class=\"fa fa-1x fa-fw fa-envelope me-1\"/> "
+"info@yourcompany.example.com</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.header_text_element
 msgid "<small>Free Returns and Standard Shipping</small>"
-msgstr ""
+msgstr "<small>返品無料および通常配送</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<small>Instant setup, satisfied or reimbursed.</small>"
-msgstr ""
+msgstr "<small>即時セットアップ、満足いただけない場合は返金保証。</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
@@ -1816,8 +2069,9 @@ msgstr "<small>TABS</small>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
+#, fuzzy
 msgid "<span class=\"badge bg-primary\">14</span>"
-msgstr ""
+msgstr "<span class=\"badge bg-primary\">14</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel_cards
@@ -1827,6 +2081,8 @@ msgid ""
 "<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
 "                            <span class=\"visually-hidden\">Next</span>"
 msgstr ""
+"<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
+"                            <span class=\"visually-hidden\">次へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_gallery
@@ -1834,6 +2090,8 @@ msgid ""
 "<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
 "                        <span class=\"visually-hidden\">Next</span>"
 msgstr ""
+"<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
+"                        <span class=\"visually-hidden\">次へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
@@ -1843,6 +2101,8 @@ msgid ""
 "<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
 "                <span class=\"visually-hidden\">Next</span>"
 msgstr ""
+"<span class=\"carousel-control-next-icon\" aria-hidden=\"true\"/>\n"
+"                <span class=\"visually-hidden\">次へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel_cards
@@ -1852,6 +2112,8 @@ msgid ""
 "<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
 "                            <span class=\"visually-hidden\">Previous</span>"
 msgstr ""
+"<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
+"                            <span class=\"visually-hidden\">前へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_image_gallery
@@ -1859,6 +2121,8 @@ msgid ""
 "<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
 "                        <span class=\"visually-hidden\">Previous</span>"
 msgstr ""
+"<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
+"                        <span class=\"visually-hidden\">前へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel
@@ -1867,6 +2131,8 @@ msgid ""
 "<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
 "                    <span class=\"visually-hidden\">Previous</span>"
 msgstr ""
+"<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
+"                    <span class=\"visually-hidden\">前へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
@@ -1874,6 +2140,8 @@ msgid ""
 "<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
 "                <span class=\"visually-hidden\">Previous</span>"
 msgstr ""
+"<span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"/>\n"
+"                <span class=\"visually-hidden\">前へ</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_thumbnails
@@ -1882,21 +2150,25 @@ msgid ""
 "                            <b>Discover our new products</b>\n"
 "                        </span>"
 msgstr ""
+"<span class=\"d-block p-2 small\">\n"
+"                            <b>新商品のご紹介</b>\n"
+"                        </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "<span class=\"display-3-fs text-o-color-1\">1</span>"
-msgstr ""
+msgstr "<span class=\"display-3-fs text-o-color-1\">1</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
 msgid "<span class=\"display-3-fs text-o-color-1\">2</span>"
-msgstr ""
+msgstr "<span class=\"display-3-fs text-o-color-1\">2</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_key_benefits
+#, fuzzy
 msgid "<span class=\"display-3-fs text-o-color-1\">3</span>"
-msgstr ""
+msgstr "<span class=\"display-3-fs text-o-color-1\">3</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_adventure
@@ -1904,67 +2176,72 @@ msgid ""
 "<span class=\"display-4-fs\">Embark on your</span>\n"
 "                <br/>Next Adventure"
 msgstr ""
+"<span class=\"display-4-fs\">次の冒険を</span>\n"
+"                <br/>始めましょう"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  24/7 Support"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  年中無休サポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Access all modules"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  すべてのモジュールにアクセス可能"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  All modules &amp; features"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  "
+"すべてのモジュールおよび機能を利用可能"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Complete CRM for any team"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  "
+"どんなチームにも最適なオールインワンCRM"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Email support"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  メールサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Limited Customization"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  一部カスタマイズ可能"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  PaaS Access"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  PaaS アクセス"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Unlimited CRM support"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  無制限CRMサポート"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_comparisons_horizontal
 msgid "<span class=\"fa fa-check-circle-o\"/>  Unlimited customization"
-msgstr ""
+msgstr "<span class=\"fa fa-check-circle-o\"/>  無制限カスタマイズ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_accordion
 msgid "<span class=\"flex-grow-1\">How can I contact customer support ?</span>"
-msgstr ""
+msgstr "<span class=\"flex-grow-1\""
+">カスタマーサポートにどのように連絡すれば良いですか?</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_accordion
 msgid "<span class=\"flex-grow-1\">What is your return policy ?</span>"
-msgstr ""
+msgstr "<span class=\"flex-grow-1\">返品ポリシーはどのようになっていますか?</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_accordion
 msgid ""
 "<span class=\"flex-grow-1\">What services does your company offer ?</span>"
-msgstr ""
+msgstr "<span class=\"flex-grow-1\">どんなサービスを提供していますか?</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -1972,6 +2249,8 @@ msgid ""
 "<span class=\"h2-fs\">$50M</span><br/>\n"
 "                        Expected revenue"
 msgstr ""
+"<span class=\"h2-fs\">5千万ドル</span><br/>\n"
+"                        見込収益"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -1979,6 +2258,8 @@ msgid ""
 "<span class=\"h2-fs\">100,000</span><br/>\n"
 "                        Website visitors"
 msgstr ""
+"<span class=\"h2-fs\">100,000</span><br/>\n"
+"                        ウェブサイト訪問者"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -1986,6 +2267,8 @@ msgid ""
 "<span class=\"h2-fs\">15%</span><br/>\n"
 "                        Revenue Growth"
 msgstr ""
+"<span class=\"h2-fs\">15%</span><br/>\n"
+"                        売上成長率"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -1993,6 +2276,8 @@ msgid ""
 "<span class=\"h2-fs\">20+</span><br/>\n"
 "                        Projects deployed"
 msgstr ""
+"<span class=\"h2-fs\">20+</span><br/>\n"
+"                        展開プロジェクト数"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -2000,6 +2285,8 @@ msgid ""
 "<span class=\"h2-fs\">4x</span><br/>\n"
 "                        Inventory turnover"
 msgstr ""
+"<span class=\"h2-fs\">4x</span><br/>\n"
+"                        在庫回転率"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_numbers_list
@@ -2007,6 +2294,8 @@ msgid ""
 "<span class=\"h2-fs\">85%</span><br/>\n"
 "                        User Retention"
 msgstr ""
+"<span class=\"h2-fs\">85%</span><br/>\n"
+"                        ユーザー維持率"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_bento_grid
@@ -2017,6 +2306,11 @@ msgid ""
 "interior space.\"\n"
 "                            </span>"
 msgstr ""
+"<span class=\"h3-fs\">\n"
+"                                "
+"「本コレクションは、卓越した職人技と普遍的なデザインを巧みに融合させ、ワンラ"
+"ンク上の洗練された空間に演出してくれます」\n"
+"                            </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.language_selector_inline
@@ -2026,7 +2320,7 @@ msgstr "<span class=\"list-inline-item\">|</span>"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.website_controller_pages_kanban_view
 msgid "<span class=\"me-1\">On:</span>"
-msgstr ""
+msgstr "<span class=\"me-1\">日付:</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2037,6 +2331,11 @@ msgid ""
 "                        <strong>New Dashboard Features for Custom Reports</"
 "strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年4月3日</small>\n"
+"                        "
+"<strong>カスタムレポート用の新規ダッシュボード機能</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2047,6 +2346,10 @@ msgid ""
 "                        <strong>Improved Security Protocols Implemented</"
 "strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年8月27日</small>\n"
+"                        <strong>セキュリティプロトコルの改善・実装</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2056,6 +2359,10 @@ msgid ""
 "                        <small class=\"text-muted\">Dec 22, 2024</small>\n"
 "                        <strong>Advanced Analytics Tools Introduced</strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年12月22日</small>\n"
+"                        <strong>高度な分析ツール導入</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2066,6 +2373,11 @@ msgid ""
 "                        <strong>Enhanced User Interface for Better "
 "Navigation</strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年2月11日</small>\n"
+"                        "
+"<strong>ナビゲーション改良のためのユーザインターフェース強化</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2076,6 +2388,10 @@ msgid ""
 "                        <strong>Integrated Multi-Language Support Added</"
 "strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年6月15日</small>\n"
+"                        <strong>統合複数言語サポート追加</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_timeline_list
@@ -2085,6 +2401,10 @@ msgid ""
 "                        <small class=\"text-muted\">Oct 09, 2024</small>\n"
 "                        <strong>Mobile App Compatibility Expanded</strong>"
 msgstr ""
+"<span class=\"o_dot o_not_editable position-absolute translate-middle-x "
+"rounded-circle pe-none\" contenteditable=\"false\"/>\n"
+"                        <small class=\"text-muted\">2024年10月9日</small>\n"
+"                        <strong>モバイルアプリの互換性拡張</strong>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.footer_copyright_company_name
@@ -2092,11 +2412,13 @@ msgid ""
 "<span class=\"o_footer_copyright_name me-2 small\">Copyright &amp;copy; "
 "Company name</span>"
 msgstr ""
+"<span class=\"o_footer_copyright_name me-2 small\">Copyright &amp;copy; "
+"会社名</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.template_footer_links
 msgid "<span class=\"o_force_ltr\">+1 555-555-5556\"</span>"
-msgstr ""
+msgstr "<span class=\"o_force_ltr\">+1 555-555-5556\"</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.footer_custom
@@ -2108,7 +2430,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.template_footer_mega_cards
 #: model_terms:ir.ui.view,arch_db:website.template_footer_mega_columns
 msgid "<span class=\"o_force_ltr\">+1 555-555-5556</span>"
-msgstr ""
+msgstr "<span class=\"o_force_ltr\">+1 555-555-5556</span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -2119,6 +2441,12 @@ msgid ""
 "muted\">Manager of MyCompany</span>\n"
 "                                        </span>"
 msgstr ""
+"<span class=\"o_small\">\n"
+"                                            <strong>アイリス・ドー</strong><"
+"br/>\n"
+"                                            <span class=\"text-muted\""
+">MyCompanyマネジャー</span>\n"
+"                                        </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -2129,6 +2457,12 @@ msgid ""
 "of MyCompany</span>\n"
 "                                        </span>"
 msgstr ""
+"<span class=\"o_small\">\n"
+"                                            <strong>ジェーン・ドー</strong><"
+"br/>\n"
+"                                            <span class=\"text-muted\""
+">MyCompany CEO</span>\n"
+"                                        </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel_compact
@@ -2139,6 +2473,12 @@ msgid ""
 "of MyCompany</span>\n"
 "                                        </span>"
 msgstr ""
+"<span class=\"o_small\">\n"
+"                                            <strong>ジョン・ドー</strong><br/"
+">\n"
+"                                            <span class=\"text-muted\""
+">MyCompany CCO </span>\n"
+"                                        </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel
@@ -2150,6 +2490,11 @@ msgid ""
 "MyCompany</span>\n"
 "                                </span>"
 msgstr ""
+"<span class=\"o_small\">\n"
+"                                    <strong>アイリス・ドー</strong><br/>\n"
+"                                    <span class=\"text-muted\""
+">MyCompanyマネジャー</span>\n"
+"                                </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel
@@ -2161,6 +2506,11 @@ msgid ""
 "MyCompany</span>\n"
 "                                </span>"
 msgstr ""
+"<span class=\"o_small\">\n"
+"                                    <strong>ジェーン・ドー</strong><br/>\n"
+"                                    <span class=\"text-muted\">MyCompany "
+"CEO</span>\n"
+"                                </span>"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_quotes_carousel
@@ -2731,7 +3081,7 @@ msgstr "カンマ区切りのフィールド名リスト"
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_stores_locator
 msgid "A map and a listing of your stores"
-msgstr "マップ及びあなたの店舗リスト"
+msgstr "マップ・店舗リスト"
 
 #. module: website
 #. odoo-python
@@ -3899,7 +4249,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/js/tours/configurator_tour.js:0
 msgid "Background Shape"
-msgstr "背景形状"
+msgstr "背景図形"
 
 #. module: website
 #. odoo-javascript
@@ -4121,7 +4471,7 @@ msgstr "ブログ投稿"
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_news
 msgid "Blogging and posting relevant content"
-msgstr "関連内容をブログ・投稿する"
+msgstr "ブログ投稿および関連情報の発信"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
@@ -4700,13 +5050,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/dynamic_svg_option.js:0
 msgid "Change primary color"
-msgstr ""
+msgstr "メインカラーを変更する"
 
 #. module: website
 #. odoo-javascript
 #: code:addons/website/static/src/builder/plugins/dynamic_svg_option.js:0
 msgid "Change secondary color"
-msgstr ""
+msgstr "サブカラーを変更する"
 
 #. module: website
 #. odoo-javascript
@@ -4759,7 +5109,7 @@ msgstr ""
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_live_chat
 msgid "Chat with visitors to improve traction"
-msgstr "訪問者とチャットしてトラクションを高めましょう"
+msgstr "チャット機能で訪問者とのエンゲージメントを向上"
 
 #. module: website
 #. odoo-javascript
@@ -4909,7 +5259,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/configurator/configurator.xml:0
 msgid "Choose your favorite"
-msgstr "お気に入りを選択"
+msgstr "選択してください："
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_product_catalog
@@ -6232,7 +6582,7 @@ msgstr ""
 #. module: website
 #: model:website.configurator.feature,description:website.feature_page_pricing
 msgid "Designed to drive conversion"
-msgstr "変換を促すために設計されている"
+msgstr "成約率の最大化を目指した価格設計"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.new_page_template_landing_s_text_cover
@@ -7491,7 +7841,7 @@ msgstr ""
 #. module: website
 #: model:website.configurator.feature,description:website.feature_page_privacy_policy
 msgid "Explain how you protect privacy"
-msgstr "どうプライバシーを守るかを説明"
+msgstr "プライバシーポリシーに関する説明"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_alert
@@ -8378,7 +8728,7 @@ msgstr "GitHubアカウント"
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_forum
 msgid "Give visitors the information they need"
-msgstr "訪問者に必要な情報を提供"
+msgstr "必要な情報を訪問者と共有"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_menus_logos
@@ -9596,7 +9946,7 @@ msgstr "内側"
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
 msgid "Inner content"
-msgstr "内側コンテンツ"
+msgstr "内部コンテンツ"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel_intro
@@ -10700,7 +11050,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website.bs_debug_view
 #: model_terms:ir.ui.view,arch_db:website.color_combinations_debug_view
 msgid "Library"
-msgstr "ライブラリー"
+msgstr "図書館"
 
 #. module: website
 #. odoo-javascript
@@ -10838,7 +11188,7 @@ msgstr "小さなアイコン"
 #. module: website
 #: model:website.configurator.feature,name:website.feature_module_live_chat
 msgid "Live Chat"
-msgstr "Webチャット"
+msgstr "ライブチャット"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -10849,7 +11199,7 @@ msgstr "ライブチャット"
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/website_preview/new_content_systray_item.js:0
 msgid "Livechat Widget"
-msgstr "Webチャットウィジェット"
+msgstr "ライブチャットウィジェット"
 
 #. module: website
 #. odoo-javascript
@@ -11485,7 +11835,7 @@ msgstr "モジュール"
 #. module: website
 #: model:ir.model.fields,field_description:website.field_res_config_settings__module_website_livechat
 msgid "Module Website Livechat"
-msgstr "モジュールサイトWebチャット"
+msgstr "モジュールサイトライブチャット"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.res_config_settings_view_form
@@ -11500,10 +11850,10 @@ msgid ""
 "push notification. If they have completed one of your forms, you can send "
 "them an SMS, or call them right away while they are browsing your website."
 msgstr ""
-"Odooソーシャルアプリをお使いする訪問者はサイトを閲覧する際モニターします。Web"
-"チャットやプッシュ通知で、ワンクリックで訪問者と繋がれます。サイトのフォーム"
-"が記入された場合、まだサイトにいるうちにSMSを送信する、又は直接呼び出しましょ"
-"う。"
+"Odooソーシャルアプリをお使いする訪問者はサイトを閲覧する際モニターします。ラ"
+"イブチャットやプッシュ通知で、ワンクリックで訪問者と繋がれます。サイトのフォ"
+"ームが記入された場合、まだサイトにいるうちにSMSを送信する、又は直接呼び出しま"
+"しょう。"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_mega_menu_odoo_menu
@@ -11525,7 +11875,8 @@ msgstr ""
 #: model_terms:digest.tip,tip_description:website.digest_tip_website_4
 msgid ""
 "More than 90 shapes exist and their colors are picked to match your Theme."
-msgstr "あなたのテーマに合わせる90個以上の形状や色から選択します。"
+msgstr "90種類以上の図形が用意されており、それぞれの色はテーマに合わせて自動的に調整"
+"されます。"
 
 #. module: website
 #. odoo-javascript
@@ -13502,12 +13853,12 @@ msgstr "ウェブサイトコンテンツを公開"
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_career
 msgid "Publish job offers"
-msgstr ""
+msgstr "求人情報を公開"
 
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_event
 msgid "Publish on-site and online events"
-msgstr "現地、又はオンラインでのイベントを公開"
+msgstr "オンライン・現地イベントの発信"
 
 #. module: website
 #. odoo-javascript
@@ -14785,12 +15136,12 @@ msgstr "共有"
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_elearning
 msgid "Share knowledge publicly or for a fee"
-msgstr "無料、又は有料でナレッジを共有"
+msgstr "ナレッジシェア（無料・有料対応)"
 
 #. module: website
 #: model:website.configurator.feature,description:website.feature_module_success_stories
 msgid "Share your best case studies"
-msgstr "一番良い事例研究を共有"
+msgstr "成功事例を共有"
 
 #. module: website
 #: model:ir.model.fields,field_description:website.field_res_config_settings__shared_user_account
@@ -15419,7 +15770,7 @@ msgstr "ストレージ"
 #. module: website
 #: model:website.configurator.feature,name:website.feature_module_stores_locator
 msgid "Stores Locator"
-msgstr "店舗検索機能"
+msgstr "店舗検索"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.s_carousel
@@ -16494,7 +16845,7 @@ msgstr "タイムゾーン"
 #: model:digest.tip,name:website.digest_tip_website_4
 #: model_terms:digest.tip,tip_description:website.digest_tip_website_4
 msgid "Tip: Add shapes to energize your Website"
-msgstr "ヒント: 図形を追加してサイトに活力をつけましょう"
+msgstr "ヒント：図形を追加して、ウェブサイトに動きを加えましょう"
 
 #. module: website
 #: model:digest.tip,name:website.digest_tip_website_0
@@ -17369,7 +17720,7 @@ msgstr "ビュー継承モード"
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/configurator/configurator.xml:0
 msgid "View more themes"
-msgstr ""
+msgstr "さらにテーマを表示"
 
 #. module: website
 #. odoo-javascript
@@ -18569,7 +18920,7 @@ msgstr "ブログ投稿、製品などから結果を得ます"
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/configurator/configurator.xml:0
 msgid "You'll be able to create your pages later on."
-msgstr "後でページを作成できます。"
+msgstr "ページの作成は後から行えます。"
 
 #. module: website
 #. odoo-javascript
@@ -19747,7 +20098,7 @@ msgstr "行"
 #. odoo-javascript
 #: code:addons/website/static/src/client_actions/configurator/configurator.js:0
 msgid "schedule appointments"
-msgstr "予約をする"
+msgstr "予約を受け付ける"
 
 #. module: website
 #: model_terms:ir.ui.view,arch_db:website.snippets
