@@ -3,13 +3,14 @@
 # * mass_mailing_themes
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-26 08:56+0000\n"
-"PO-Revision-Date: 2025-09-17 06:25+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"PO-Revision-Date: 2025-09-29 19:47+0000\n"
+"Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/mass_mailing_themes/es_419/>\n"
 "Language: es_419\n"
@@ -128,6 +129,10 @@ msgid ""
 "<br/>\n"
 "                <span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font style=\"color: rgb(183, 191, 199);\">To unsubscribe, </font></span>"
 msgstr ""
+"<br/>\n"
+"                <span style=\"font-size: 12px;\" class=\""
+"o_default_snippet_text\"><font style=\"color: rgb(183, 191, 199);\">Para "
+"cancelar tu suscripción, </font></span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_magazine_template
@@ -401,6 +406,12 @@ msgid ""
 "                        </font>\n"
 "                    </span>"
 msgstr ""
+"<span style=\"font-size: 10px;\">\n"
+"                        <font style=\"color: rgb(112, 157, 225);\" class="
+"\"o_default_snippet_text\">Recibiste este correo porque te interesó alguno "
+"de nuestros eventos anteriores\n"
+"                        </font>\n"
+"                    </span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_coffeebreak_template
@@ -417,6 +428,8 @@ msgid ""
 "<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
 "style=\"color: rgb(183, 191, 199);\">.</font></span>"
 msgstr ""
+"<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
+"style=\"color: rgb(183, 191, 199);\">.</font></span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_newsletter_template
@@ -427,6 +440,15 @@ msgid ""
 "                <br/>\n"
 "                <span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font style=\"color: rgb(183, 191, 199);\">You received this email from </font></span>"
 msgstr ""
+"<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
+"style=\"color: rgb(183, 191, 199);\">250 Executive Park Blvd</font></span>\n"
+"                <br/>\n"
+"                <span style=\"font-size: 12px;\" class=\"\"><font style=\""
+"color: rgb(183, 191, 199);\">San Francisco, California 94134</font></span>\n"
+"                <br/>\n"
+"                <span style=\"font-size: 12px;\" class=\""
+"o_default_snippet_text\"><font style=\"color: rgb(183, 191, 199);\""
+">Recibiste este correo de </font></span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_newsletter_template
@@ -434,6 +456,8 @@ msgid ""
 "<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
 "style=\"color: rgb(183, 191, 199);\">click here</font></span>"
 msgstr ""
+"<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
+"style=\"color: rgb(183, 191, 199);\">clic aquí</font></span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_newsletter_template
@@ -442,6 +466,9 @@ msgid ""
 "style=\"color: rgb(183, 191, "
 "199);\">hello@musingsoftheweek.com</font></span>"
 msgstr ""
+"<span style=\"font-size: 12px;\" class=\"o_default_snippet_text\"><font "
+"style=\"color: rgb(183, 191, 199);\""
+">hola@reflexionesdelasemana.com</font></span>"
 
 #. module: mass_mailing_themes
 #: model_terms:ir.ui.view,arch_db:mass_mailing_themes.theme_promotion_template

@@ -198,6 +198,7 @@ class HrEmployee(models.Model):
         'hr.employee.category', 'employee_category_rel',
         'employee_id', 'category_id', groups="hr.group_hr_user",
         string='Tags')
+    tz = fields.Selection(tracking=True)
     # misc
     color = fields.Integer('Color Index', default=0)
     barcode = fields.Char(string="Badge ID", help="ID used for employee identification.", groups="hr.group_hr_user", copy=False)
@@ -683,9 +684,9 @@ class HrEmployee(models.Model):
         if self.ids:
             version_domain &= Domain('employee_id', 'in', self.ids)
         if date_start:
-            version_domain &= Domain('contract_date_end', '=', False) | Domain('contract_date_end', '>', date_start)
+            version_domain &= Domain('contract_date_end', '=', False) | Domain('contract_date_end', '>=', date_start)
         if date_end:
-            version_domain &= Domain('contract_date_start', '<', date_end)
+            version_domain &= Domain('contract_date_start', '<=', date_end)
         if domain:
             version_domain &= domain
         all_versions = self.env['hr.version']._read_group(

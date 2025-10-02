@@ -4,12 +4,13 @@
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
 # "Fernanda Alvarez (mfar)" <mfar@odoo.com>, 2025.
+# "Patricia Gutiérrez (pagc)" <pagc@odoo.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-10-25 07:49+0000\n"
-"PO-Revision-Date: 2025-09-18 19:00+0000\n"
+"PO-Revision-Date: 2025-09-29 19:48+0000\n"
 "Last-Translator: \"Fernanda Alvarez (mfar)\" <mfar@odoo.com>\n"
 "Language-Team: Spanish (Latin America) <https://translate.odoo.com/projects/"
 "odoo-19/html_editor/es_419/>\n"
@@ -79,19 +80,19 @@ msgstr "5 estrellas"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_plugin.js:0
 msgid "AI"
-msgstr ""
+msgstr "IA"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.xml:0
 msgid "AI Copywriter"
-msgstr ""
+msgstr "Redacción con IA"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_plugin.js:0
 msgid "AI Tools"
-msgstr ""
+msgstr "Herramientas de IA"
 
 #. module: html_editor
 #. odoo-javascript
@@ -362,7 +363,7 @@ msgstr "Cancelar"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_plugin.js:0
 msgid "ChatGPT"
-msgstr ""
+msgstr "ChatGPT"
 
 #. module: html_editor
 #. odoo-javascript
@@ -471,7 +472,7 @@ msgstr "Copie y pegue su URL o inserte su código aquí"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.js:0
 msgid "Correct"
-msgstr ""
+msgstr "Corregir"
 
 #. module: html_editor
 #. odoo-javascript
@@ -656,13 +657,13 @@ msgstr "Se subió el archivo"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.js:0
 msgid "Fill"
-msgstr ""
+msgstr "Relleno"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.js:0
 msgid "Fill + Rounded"
-msgstr ""
+msgstr "Relleno + Redondeo"
 
 #. module: html_editor
 #. odoo-javascript
@@ -698,25 +699,25 @@ msgstr "Amigable"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_prompt_dialog.xml:0
 msgid "Generate Text with AI"
-msgstr ""
+msgstr "Genera texto con IA"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_plugin.js:0
 msgid "Generate or transform content with AI"
-msgstr ""
+msgstr "Generar o transformar contenido con IA"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.xml:0
 msgid "Generating"
-msgstr ""
+msgstr "Generando"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.xml:0
 msgid "Generating an alternative..."
-msgstr ""
+msgstr "Generando una alternativa..."
 
 #. module: html_editor
 #. odoo-javascript
@@ -1032,7 +1033,7 @@ msgstr "Grande"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.js:0
 msgid "Lengthen"
-msgstr ""
+msgstr "Alargar"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1243,13 +1244,13 @@ msgstr "Archivo adjunto original (no optimizado, sin tamaño ajustado)"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.js:0
 msgid "Outline"
-msgstr ""
+msgstr "Contorno"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.js:0
 msgid "Outline + Rounded"
-msgstr ""
+msgstr "Contorno + Redondeado"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1273,7 +1274,7 @@ msgstr "Pegar como URL"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 msgid "Paste or type your URL"
-msgstr ""
+msgstr "Pega o escribe tu URL"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1298,7 +1299,7 @@ msgstr "Vista previa de la imagen"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.js:0
 msgid "Professional"
-msgstr ""
+msgstr "Profesional"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1377,7 +1378,7 @@ msgstr "Restablecer imagen"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/table/table_menu.js:0
 msgid "Reset Size"
-msgstr ""
+msgstr "Restablecer tamaño"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1545,7 +1546,7 @@ msgstr "Establecer forma: miniatura"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.js:0
 msgid "Shorten"
-msgstr ""
+msgstr "Acortar"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1911,7 +1912,7 @@ msgstr "Sí"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_prompt_dialog.js:0
 msgid "You"
-msgstr ""
+msgstr "Tú"
 
 #. module: html_editor
 #. odoo-javascript
@@ -1988,13 +1989,13 @@ msgstr "Reducir"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/file_selector.xml:0
 msgid "all"
-msgstr ""
+msgstr "todo"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/chatgpt/chatgpt_alternatives_dialog.xml:0
 msgid "alternatives..."
-msgstr ""
+msgstr "alternativas..."
 
 #. module: html_editor
 #. odoo-javascript
@@ -2006,7 +2007,7 @@ msgstr "y"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/file_selector.xml:0
 msgid "database"
-msgstr ""
+msgstr "base de datos"
 
 #. module: html_editor
 #. odoo-javascript
@@ -2024,7 +2025,7 @@ msgstr "archivo"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/media/media_dialog/file_selector.xml:0
 msgid "media-library"
-msgstr ""
+msgstr "biblioteca de medios"
 
 #. module: html_editor
 #. odoo-javascript
@@ -2042,16 +2043,16 @@ msgstr "videos"
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 msgid "{{state.urlDescription}}"
-msgstr ""
+msgstr "{{state.urlDescription}}"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 msgid "{{state.urlTitle}}"
-msgstr ""
+msgstr "{{state.urlTitle}}"
 
 #. module: html_editor
 #. odoo-javascript
 #: code:addons/html_editor/static/src/main/link/link_popover.xml:0
 msgid "{{state.url}}"
-msgstr ""
+msgstr "{{state.url}}"
