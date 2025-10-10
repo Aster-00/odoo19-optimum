@@ -83,7 +83,7 @@ class HrAttendance(models.Model):
     @api.depends("check_in", "employee_id")
     def _compute_date(self):
         for attendance in self:
-            if not attendance.employee_id:  # weird precompute edge cases. Never after creation
+            if not attendance.employee_id or not attendance.check_in:  # weird precompute edge cases. Never after creation
                 attendance.date = datetime.today()
                 continue
             tz = timezone(attendance.employee_id._get_tz())
@@ -331,7 +331,7 @@ class HrAttendance(models.Model):
             employee_dates[attendance.employee_id].extend(
                 {attendance.date, *Rule._get_period_keys(attendance.date).values()}
             )
-        version_map = self.env['hr.version']._get_versions_by_employee_and_date(employee_dates)
+        version_map = self.env['hr.version'].sudo()._get_versions_by_employee_and_date(employee_dates)
 
         # attendances on dates for which the employee did not exist do no not generate overtimes
         all_attendances = all_attendances.filtered(
@@ -656,9 +656,12 @@ class HrAttendance(models.Model):
         checked_in_employees = self.env['hr.attendance.overtime.line'].search([('date', '=', yesterday)]).employee_id
 
         technical_attendances_vals = []
-        absent_employees = self.env['hr.employee'].search([('id', 'not in', checked_in_employees.ids),
-                                                           ('company_id', 'in', companies.ids),
-                                                           ('resource_calendar_id.flexible_hours', '=', False)])
+        absent_employees = self.env['hr.employee'].search([
+            ('id', 'not in', checked_in_employees.ids),
+            ('company_id', 'in', companies.ids),
+            ('resource_calendar_id.flexible_hours', '=', False),
+            ('current_version_id.contract_date_start', '<=', fields.Date.today() - relativedelta(days=1))
+        ])
 
         for emp in absent_employees:
             local_day_start = pytz.utc.localize(yesterday).astimezone(pytz.timezone(emp._get_tz()))

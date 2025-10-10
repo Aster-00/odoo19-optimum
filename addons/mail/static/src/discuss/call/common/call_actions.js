@@ -1,9 +1,13 @@
 import { Action, ACTION_TAGS, UseActions } from "@mail/core/common/action";
 import { useComponent, useState } from "@odoo/owl";
-import { isBrowserSafari, isMobileOS } from "@web/core/browser/feature_detection";
+import { isMobileOS } from "@web/core/browser/feature_detection";
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
+import { QuickVoiceSettings } from "./quick_voice_settings";
+import { QuickVideoSettings } from "./quick_video_settings";
+import { attClassObjectToString } from "@mail/utils/common/format";
+import { CALL_PROMOTE_FULLSCREEN } from "./thread_model_patch";
 
 export const callActionsRegistry = registry.category("discuss.call/actions");
 
@@ -27,12 +31,20 @@ export function registerCallAction(id, definition) {
 }
 
 export const muteAction = {
+    badge: ({ store }) => store.rtc.microphonePermission !== "granted",
+    badgeIcon: "fa fa-exclamation",
     condition: ({ store, thread }) => thread?.eq(store.rtc?.channel),
     name: ({ store }) => (store.rtc.selfSession.isMute ? _t("Unmute") : _t("Mute")),
     isActive: ({ store }) =>
-        store.rtc.selfSession?.isMute && store.rtc.microphonePermission === "granted",
+        (store.rtc.selfSession?.isMute && store.rtc.microphonePermission === "granted") ||
+        store.rtc.selfSession?.is_deaf,
     isTracked: true,
-    icon: ({ action }) => (action.isActive ? "fa fa-microphone-slash" : "fa fa-microphone"),
+    icon: ({ action, store }) =>
+        action.isActive
+            ? store.rtc.selfSession?.is_deaf
+                ? "fa fa-deaf"
+                : "fa fa-microphone-slash"
+            : "fa fa-microphone",
     hotkey: "shift+m",
     onSelected: ({ store }) => store.rtc.toggleMicrophone(),
     sequence: 10,
@@ -49,19 +61,33 @@ export const muteAction = {
     },
 };
 registerCallAction("mute", muteAction);
-registerCallAction("deafen", {
+export const quickActionSettings = {
     condition: ({ store, thread }) => thread?.eq(store.rtc?.channel),
+    dropdown: true,
+    dropdownComponent: QuickVoiceSettings,
+    dropdownMenuClass: "p-2",
+    dropdownPosition: "top-end",
+    icon: "oi oi-chevron-up o-xsmaller",
+    name: _t("Voice Settings"),
+    sequence: 15,
+    sequenceGroup: 100,
+};
+registerCallAction("quick-voice-settings", quickActionSettings);
+registerCallAction("deafen", {
+    condition: false,
     name: ({ store }) => (store.rtc.selfSession.is_deaf ? _t("Undeafen") : _t("Deafen")),
     isActive: ({ store }) => store.rtc.selfSession?.is_deaf,
     isTracked: true,
     icon: ({ action }) => (action.isActive ? "fa fa-deaf" : "fa fa-headphones"),
     hotkey: "shift+d",
     onSelected: ({ store }) => store.rtc.toggleDeafen(),
-    sequence: 20,
-    sequenceGroup: 100,
+    sequence: 10,
+    sequenceGroup: 110,
     tags: ({ action }) => (action.isActive ? ACTION_TAGS.DANGER : undefined),
 });
 export const cameraOnAction = {
+    badge: ({ store }) => store.rtc.cameraPermission !== "granted",
+    badgeIcon: "fa fa-exclamation",
     condition: ({ store, thread }) => thread?.eq(store.rtc?.channel),
     disabledCondition: ({ store }) => store.rtc?.isRemote,
     name: ({ store }) =>
@@ -74,8 +100,8 @@ export const cameraOnAction = {
     isTracked: true,
     icon: "fa fa-video-camera",
     onSelected: ({ owner, store }) => store.rtc.toggleVideo("camera", { env: owner.env }),
-    sequence: 30,
-    sequenceGroup: 100,
+    sequence: 10,
+    sequenceGroup: 120,
     tags: ({ action, store }) => {
         const tags = [];
         if (action.isActive) {
@@ -88,6 +114,18 @@ export const cameraOnAction = {
     },
 };
 registerCallAction("camera-on", cameraOnAction);
+export const quickVideoSettings = {
+    condition: ({ store, thread }) => thread?.eq(store.rtc?.channel),
+    dropdown: true,
+    dropdownComponent: QuickVideoSettings,
+    dropdownMenuClass: "p-2",
+    dropdownPosition: "top-end",
+    icon: "oi oi-chevron-up o-xsmaller",
+    name: _t("Video Settings"),
+    sequence: 15,
+    sequenceGroup: 120,
+};
+registerCallAction("quick-video-settings", quickVideoSettings);
 export const switchCameraAction = {
     condition: ({ store, thread }) =>
         thread?.eq(store.rtc?.channel) && isMobileOS() && store.rtc.selfSession?.is_camera_on,
@@ -136,12 +174,9 @@ registerCallAction("auto-focus", {
     sequence: 50,
     sequenceGroup: 200,
 });
+/** @deprecated Blur background action is replaced by @see QuickVideoSettings menu item "Blur background" */
 export const blurBackgroundAction = {
-    condition: ({ store, thread }) =>
-        !isBrowserSafari() &&
-        thread?.eq(store.rtc?.channel) &&
-        store.rtc?.selfSession?.is_camera_on &&
-        store.rtc?.isHost,
+    condition: false,
     name: ({ store }) => (store.settings.useBlur ? _t("Remove Blur") : _t("Blur Background")),
     isActive: ({ store }) => store?.settings?.useBlur,
     icon: "fa fa-photo",
@@ -149,8 +184,13 @@ export const blurBackgroundAction = {
     sequence: 60,
     sequenceGroup: 200,
 };
-registerCallAction("blur-background", blurBackgroundAction);
 registerCallAction("fullscreen", {
+    btnClass: ({ owner, thread }) =>
+        attClassObjectToString({
+            "o-discuss-CallActionList-pulse": Boolean(
+                !owner.env.pipWindow && thread.promoteFullscreen === CALL_PROMOTE_FULLSCREEN.ACTIVE
+            ),
+        }),
     condition: ({ store, thread }) => thread?.eq(store.rtc?.channel),
     name: ({ store }) => (store.rtc.state.isFullscreen ? _t("Exit Fullscreen") : _t("Fullscreen")),
     isActive: ({ store }) => store.rtc.state.isFullscreen,
@@ -201,7 +241,11 @@ export const acceptWithCamera = {
 };
 registerCallAction("accept-with-camera", acceptWithCamera);
 registerCallAction("join-back", {
-    btnClass: "text-nowrap pe-2 rounded-pill",
+    btnClass: ({ owner }) =>
+        attClassObjectToString({
+            "text-nowrap pe-2 rounded-pill": true,
+            "mx-1": !owner.env.inCallInvitation,
+        }),
     condition: ({ store, thread }) =>
         !thread?.eq(store.rtc?.channel) && typeof thread?.useCameraByDefault === "boolean",
     disabledCondition: ({ store }) => store.rtc?.state.hasPendingRequest,
@@ -241,8 +285,11 @@ export const joinAction = {
 };
 registerCallAction("join", joinAction);
 export const rejectAction = {
-    btnClass: ({ thread }) =>
-        typeof thread?.useCameraByDefault === "boolean" ? "pe-2 rounded-pill" : undefined,
+    btnClass: ({ owner, thread }) =>
+        attClassObjectToString({
+            "pe-2 rounded-pill": typeof thread?.useCameraByDefault === "boolean",
+            "mx-1": !owner.env.inCallInvitation && typeof thread?.useCameraByDefault === "boolean",
+        }),
     condition: ({ thread }) => thread?.self_member_id?.rtc_inviting_session_id,
     disabledCondition: ({ store }) => store.rtc?.state.hasPendingRequest,
     icon: "oi oi-close",

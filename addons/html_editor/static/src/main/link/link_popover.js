@@ -192,7 +192,7 @@ export class LinkPopover extends Component {
                                 : ["solid", "custom"],
                         getUsedCustomColors: () => [],
                         colorPrefix: "",
-                        themeColorPrefix: "hb-cp-",
+                        cssVarColorPrefix: "hb-cp-",
                         applyColor: (colorValue) => {
                             this[colorStateRef].selectedColor = colorValue;
                             this[resetValueRef] = colorValue;
@@ -203,11 +203,11 @@ export class LinkPopover extends Component {
                         },
                         applyColorResetPreview: () => {
                             this[colorStateRef].selectedColor = this[resetValueRef];
+                            this.onChange();
                         },
                     },
                     {
                         env: this.__owl__.childEnv,
-                        onClose: this.onChange.bind(this),
                     }
                 );
             this.customTextColorPicker = createCustomColorPicker(
