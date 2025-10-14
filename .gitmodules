@@ -10,3 +10,6 @@
 [submodule "custom-addons/muk_web_colors"]
 	path = custom-addons/muk_web_colors
 	url = https://github.com/Aster-00/MuK-Colors-Odoo19.git
+[submodule "custom-addons/muk_web_appsbar"]
+	path = custom-addons/muk_web_appsbar
+	url = https://github.com/Aster-00/MuK-AppsBar-Odoo19.git
