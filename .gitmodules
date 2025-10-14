@@ -7,3 +7,6 @@
 [submodule "custom-addons/optimum_1"]
 	path = custom-addons/optimum_1
 	url = https://github.com/Aster-00/optimum_1.git
+[submodule "custom-addons/muk_web_colors"]
+	path = custom-addons/muk_web_colors
+	url = https://github.com/Aster-00/MuK-Colors-Odoo19.git
