@@ -669,6 +669,7 @@ class AccountMove(models.Model):
         ],
         string='Sent',
         compute='compute_move_sent_values',
+        search='_search_move_sent_values',
     )
     invoice_user_id = fields.Many2one(
         string='Salesperson',
@@ -813,6 +814,11 @@ class AccountMove(models.Model):
     def compute_move_sent_values(self):
         for move in self:
             move.move_sent_values = 'sent' if move.is_move_sent else 'not_sent'
+
+    def _search_move_sent_values(self, operator, value):
+        if operator != 'in' or value - {'sent', 'not_sent'}:
+            return NotImplemented
+        return [('is_move_sent', 'in', [elem == 'sent' for elem in value])]
 
     def _compute_payment_reference(self):
         for move in self.filtered(lambda m: (
@@ -1920,7 +1926,7 @@ class AccountMove(models.Model):
         for move in self.filtered(lambda move: move.is_invoice()):
             move.access_url = '/my/invoices/%s' % (move.id)
 
-    @api.depends('move_type', 'partner_id', 'company_id')
+    @api.depends('move_type', 'partner_id', 'partner_id.lang', 'company_id')
     def _compute_narration(self):
         use_invoice_terms = self.env['ir.config_parameter'].sudo().get_param('account.use_invoice_terms')
         invoice_to_update_terms = self.filtered(lambda m: use_invoice_terms and m.is_sale_document(include_receipts=True))
@@ -4487,7 +4493,7 @@ class AccountMove(models.Model):
         chains_to_hash = self._get_chains_to_hash(**kwargs)
         grant_secure_group_access = False
         for chain in chains_to_hash:
-            move_hashes = chain['moves']._calculate_hashes(chain['previous_hash'])
+            move_hashes = chain['moves'].sudo()._calculate_hashes(chain['previous_hash'])
             for move, move_hash in move_hashes.items():
                 move.inalterable_hash = move_hash
             # If any secured entries belong to journals without 'hash on post', the user should be granted access rights
@@ -5806,6 +5812,13 @@ class AccountMove(models.Model):
             'target': target,
         }
 
+    def action_move_download_all(self):
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/account/download_move_attachments/{",".join(str(move_id) for move_id in self.ids)}',
+            'target': 'download',
+        }
+
     def action_print_pdf(self):
         self.ensure_one()
         invoice_template = self.env['account.move.send']._get_default_pdf_report_id(self)
@@ -6430,7 +6443,7 @@ class AccountMove(models.Model):
             # No eligible method could be found; we can't generate the QR-code
             return None
 
-        unstruct_ref = self.ref if self.ref else self.name
+        unstruct_ref = self.payment_reference or self.name
         rslt = self.partner_bank_id.build_qr_code_base64(self.amount_residual, unstruct_ref, self.payment_reference, self.currency_id, self.partner_id, qr_code_method, silent_errors=silent_errors)
 
         # We only set qr_code_method after generating the url; otherwise, it
@@ -6679,9 +6692,14 @@ class AccountMove(models.Model):
     def _routing_check_route(self, message, message_dict, route, raise_exception=True):
         if route[0] == 'account.move' and len(message_dict['attachments']) < 1:
             # Don't create the move if no attachment.
+            company_id = route[2].get('company_id', self.env.company.id)
+            if not isinstance(company_id, int):
+                raise ValueError(_("Default value for 'company_id' for %(record)s is not an integer",
+                                  record=route[4]))
+            journal_alias_company = self.env['res.company'].search([['id', '=', company_id]])
             body = self.env['ir.qweb']._render('account.email_template_mail_gateway_failed', {
-                'company_email': self.env.company.email,
-                'company_name': self.env.company.name,
+                'company_email': journal_alias_company.email or self.env.company.email,
+                'company_name': journal_alias_company.name or self.env.company.name,
             })
             self._routing_create_bounce_email(
                 message_dict['from'], body, message,
@@ -6990,7 +7008,14 @@ class AccountMove(models.Model):
     def get_extra_print_items(self):
         """ Helper to dynamically add items in the 'Print' menu of list and form of account.move.
         """
-        # TO OVERRIDE
+        if posted_moves := self.filtered(lambda m: m.state == 'posted'):
+            return [
+                {
+                    'key': 'download_all',
+                    'description': _("Export ZIP"),
+                    **posted_moves.action_move_download_all(),
+                },
+            ]
         return []
 
     def _get_move_lines_to_report(self):

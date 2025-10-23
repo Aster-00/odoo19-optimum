@@ -7,6 +7,7 @@ import {
     onRpc,
     clickSave,
     patchWithCleanup,
+    contains,
 } from "@web/../tests/web_test_helpers";
 import { click, queryOne, waitFor } from "@odoo/hoot-dom";
 import { defineMailModels } from "@mail/../tests/mail_test_helpers";
@@ -32,6 +33,22 @@ class Mailing extends models.Model {
             id: 1,
             display_name: "Belgian Event promotion",
             mailing_model_id: 1,
+        },
+        {
+            id: 2,
+            display_name: "Sent Belgian Event promotion",
+            mailing_model_id: 1,
+            body_arch: `
+                <div data_name="Mailing" class="o_layout oe_unremovable oe_unmovable o_empty_theme">
+                    <div class="container o_mail_wrapper o_mail_regular oe_unremovable">
+                        <div class="row">
+                            <div class="col o_mail_no_options o_mail_wrapper_td bg-white oe_structure o_editable oe_empty" data-editor-message-default="true" data-editor-message="DRAG BUILDING BLOCKS HERE" contenteditable="true">
+                                This element <t t-out="'should be inline'"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
         },
     ];
 }
@@ -81,6 +98,19 @@ const mailViewArch = `
 </form>
 `;
 
+const readonlyMailViewArch = `
+<form>
+    <field name="mailing_model_name" invisible="1"/>
+    <field name="mailing_model_id" invisible="1"/>
+    <field name="body_html" invisible="1"/>
+    <field name="body_arch" class="o_mail_body_mailing" widget="mass_mailing_html"
+        options="{
+            'inline_field': 'body_html',
+            'dynamic_placeholder': true,
+        }" readonly="true"/>
+</form>
+`;
+
 describe.current.tags("desktop");
 describe("field HTML", () => {
     beforeEach(() => {
@@ -107,5 +137,58 @@ describe("field HTML", () => {
         expect(await waitFor(":iframe .o_layout", { timeout: 3000 })).toHaveClass("o_empty_theme");
         await clickSave();
         await expect.waitForSteps(["web_save mail body"]);
+    });
+    test("t-out field in uneditable mode inline", async () => {
+        await mountView({
+            type: "form",
+            resModel: "mailing.mailing",
+            resId: 2,
+            arch: readonlyMailViewArch,
+        });
+        await waitFor(".o_mass_mailing_iframe_wrapper iframe:not(.d-none)");
+        const tElement = await waitFor(":iframe t", { timeout: 3000 });
+
+        // assert that we are in readonly mode (sanity check)
+        expect(":iframe .o_mass_mailing_value.o_readonly").toHaveCount(1);
+
+        // assert that tElement style has inline attibute
+        expect(tElement).toHaveAttribute("data-oe-t-inline", "true");
+    });
+
+    test("builder in modal -- owl reconciliation iframe unload", async () => {
+        // Related to ad-hoc fix where in modal, some editor's popovers
+        // get to be spawned before the modal in the DOM and in OWL
+        // When those popovers are killed, OWL tries to reconcile its element List
+        // in OverlayContainer, displaces the node that contains the iframe
+        // and the editor subsequently crashes
+        class SomeModel extends models.Model {
+            _name = "some.model"
+            mailing_ids = fields.One2many({relation: "mailing.mailing"});
+
+            _records = [{
+                id: 1,
+                mailing_ids: [1],
+            }]
+        }
+
+        Mailing._views["form"] = mailViewArch;
+        defineModels([SomeModel]);
+        const arch = `<form><field name="mailing_ids"> <list><field name="display_name" /></list> </field></form>`
+        await mountView({
+            type: "form",
+            resModel: "some.model",
+            arch,
+            resId: 1,
+        });
+        await contains(".o_data_cell").click();
+        await waitFor(".o_dialog");
+        await contains(".o_dialog [data-name='event']").click();
+        await waitFor(".o_dialog .o_mass_mailing-builder_sidebar", { timeout: 1000 });
+        await contains(".o_dialog :iframe p", { timeout: 1000}).click();
+        await waitFor(".o_dialog .o_mass_mailing-builder_sidebar .options-container-header:contains(Text)");
+        const overlayOptionsSelect = ".o-main-components-container .o-overlay-container .o_overlay_options"
+        await waitFor(overlayOptionsSelect + ":has(button[title='Move up'])");
+        await contains(".o_dialog :iframe img").click();
+        await waitFor(overlayOptionsSelect + ":not(:has(button[title='Move up']))");
     });
 });

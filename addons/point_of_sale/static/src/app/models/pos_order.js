@@ -5,7 +5,7 @@ import { roundCurrency } from "@point_of_sale/app/models/utils/currency";
 import { computeComboItems } from "./utils/compute_combo_items";
 import { accountTaxHelpers } from "@account/helpers/account_tax";
 import { localization } from "@web/core/l10n/localization";
-import { formatDate, deserializeDate, serializeDateTime } from "@web/core/l10n/dates";
+import { formatDate, serializeDateTime } from "@web/core/l10n/dates";
 
 const { DateTime } = luxon;
 
@@ -140,6 +140,19 @@ export class PosOrder extends Base {
                 ? this.preset_time.toFormat(localization.timeFormat)
                 : this.preset_time.toFormat(`${localization.dateFormat} ${localization.timeFormat}`)
             : false;
+    }
+
+    get isCustomerRequired() {
+        if (this.partner_id) {
+            return false;
+        }
+        const splitPayment = this.payment_ids.some(
+            (payment) => payment.payment_method_id.split_transactions
+        );
+        const invalidPartnerPreset =
+            (this.preset_id?.needsName && !this.floating_order_name) ||
+            this.preset_id?.needsPartner;
+        return invalidPartnerPreset || this.isToInvoice() || Boolean(splitPayment);
     }
 
     get presetRequirementsFilled() {
@@ -331,7 +344,8 @@ export class PosOrder extends Base {
                 this.last_order_preparation_change.lines[line.preparationKey] = {
                     attribute_value_names: line.attribute_value_ids.map((a) => a.name),
                     uuid: line.uuid,
-                    isCombo: line.combo_item_id?.id,
+                    isCombo: Boolean(line?.combo_line_ids?.length),
+                    combo_parent_uuid: line?.combo_parent_id?.uuid,
                     product_id: line.getProduct().id,
                     name: line.getFullProductName(),
                     basic_name: line.getProduct().name,
@@ -414,14 +428,28 @@ export class PosOrder extends Base {
         const lines_to_recompute = this.getLinesToCompute();
 
         for (const line of lines_to_recompute) {
-            const newPrice = line.product_id.getPrice(
-                pricelist,
-                line.getQuantity(),
-                line.getPriceExtra(),
-                false,
-                line.product_id
-            );
-            line.setUnitPrice(newPrice);
+            if (line.isLotTracked()) {
+                const related_lines = [];
+                const price = line.product_id.product_tmpl_id.getPrice(
+                    pricelist,
+                    line.getQuantity(),
+                    line.getPriceExtra(),
+                    false,
+                    line.product_id,
+                    line,
+                    related_lines
+                );
+                related_lines.forEach((line) => line.setUnitPrice(price));
+            } else {
+                const newPrice = line.product_id.product_tmpl_id.getPrice(
+                    pricelist,
+                    line.getQuantity(),
+                    line.getPriceExtra(),
+                    false,
+                    line.product_id
+                );
+                line.setUnitPrice(newPrice);
+            }
         }
 
         const attributes_prices = {};
@@ -750,7 +778,6 @@ export class PosOrder extends Base {
         this.to_invoice = to_invoice;
     }
 
-    // FIXME remove this
     isToInvoice() {
         return this.to_invoice;
     }
@@ -848,11 +875,7 @@ export class PosOrder extends Base {
     /* ---- Ship later --- */
     //FIXME remove this
     setShippingDate(shippingDate) {
-        if (shippingDate) {
-            this.shipping_date = serializeDateTime(deserializeDate(shippingDate), { zone: "utc" });
-        } else {
-            this.shipping_date = shippingDate;
-        }
+        this.shipping_date = shippingDate;
     }
     //FIXME remove this
     getShippingDate() {
@@ -881,7 +904,7 @@ export class PosOrder extends Base {
     }
 
     canBeValidated() {
-        return this.isPaid() && this._isValidEmptyOrder();
+        return this.isPaid() && this._isValidEmptyOrder() && !this.isCustomerRequired;
     }
 
     // NOTE: Overrided in pos_loyalty to put loyalty rewards at this end of array.
