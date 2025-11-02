@@ -562,7 +562,7 @@ export class PosStore extends WithLazyGetterTrap {
         }
 
         if (ids.size > 0) {
-            await this.data.callRelated("pos.order", "action_pos_order_cancel", [Array.from(ids)]);
+            await this.data.call("pos.order", "action_pos_order_cancel", [Array.from(ids)]);
             return true;
         }
 
@@ -2648,8 +2648,12 @@ export class PosStore extends WithLazyGetterTrap {
 
     getProductsBySearchWord(searchWord, products) {
         const words = normalize(searchWord);
-        const matches = products.filter((p) =>
-            p.product_variant_ids.some((variant) => normalize(variant.searchString).includes(words))
+        const matches = products.filter(
+            (p) =>
+                normalize(p.searchString).includes(words) ||
+                p.product_variant_ids.some((variant) =>
+                    normalize(variant.searchString).includes(words)
+                )
         );
 
         return this.sortByWordIndex(matches, words);
