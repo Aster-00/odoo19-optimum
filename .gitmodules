@@ -13,3 +13,15 @@
 [submodule "custom-addons/muk_web_appsbar"]
 	path = custom-addons/muk_web_appsbar
 	url = https://github.com/Aster-00/MuK-AppsBar-Odoo19.git
+[submodule "custom-addons/optimum_insurance_base"]
+	path = custom-addons/optimum_insurance_base
+	url = https://github.com/Aster-00/optimum_insurance_base
+[submodule "custom-addons/optimum_insurance_vehicle"]
+	path = custom-addons/optimum_insurance_vehicle
+	url = https://github.com/Aster-00/optimum_insurance_vehicle
+[submodule "custom-addons/optimum_insurance_medical"]
+	path = custom-addons/optimum_insurance_medical
+	url = https://github.com/Aster-00/optimum_insurance_medical
+[submodule "custom-addons/optimum_insurance_shipment"]
+	path = custom-addons/optimum_insurance_shipment
+	url = https://github.com/Aster-00/optimum_insurance_shipment
