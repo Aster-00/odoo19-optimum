@@ -23,7 +23,7 @@ export function uuidv4() {
  * @returns {string}
  */
 export function deduceUrl(url) {
-    const { protocol } = window.location;
+    const protocol = odoo.use_lna ? "http:" : window.location.protocol;
     if (!url.includes("//")) {
         url = `${protocol}//${url}`;
     }
@@ -52,6 +52,13 @@ export function constructAttributeString(line) {
         }
 
         attributeString = attributeString.slice(0, -2);
+    } else if (
+        attributeString === "" &&
+        line?.product_id?.product_template_variant_value_ids?.length > 0
+    ) {
+        attributeString = line.product_id.product_template_variant_value_ids
+            ?.map((attr) => attr.name)
+            .join(", ");
     }
 
     return attributeString;

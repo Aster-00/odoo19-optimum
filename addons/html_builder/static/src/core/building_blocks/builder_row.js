@@ -24,8 +24,9 @@ export class BuilderRow extends Component {
         extraLabelClass: { type: String, optional: true },
         observeCollapseContent: { type: Boolean, optional: true },
         disabled: { type: Boolean, optional: true },
+        fullRowToggler: { type: Boolean, optional: true },
     };
-    static defaultProps = { expand: false, observeCollapseContent: false };
+    static defaultProps = { expand: false, observeCollapseContent: false, fullRowToggler: false };
 
     setup() {
         useBuilderComponent();
@@ -43,6 +44,7 @@ export class BuilderRow extends Component {
         }
 
         this.labelRef = useRef("label");
+        this.rootRef = useRef("root");
         this.collapseContentRef = useRef("collapse-content");
         let isMounted = false;
 
@@ -97,10 +99,18 @@ export class BuilderRow extends Component {
             () => [this.transition.stage]
         );
         this.tooltip = useService("tooltip");
+
+        useEffect(() => refreshSublevelLines(this.rootRef.el));
     }
 
     getLevelClass() {
         return this.props.level ? `hb-row-sublevel hb-row-sublevel-${this.props.level}` : "";
+    }
+
+    onRowContentClick() {
+        if (this.props.fullRowToggler) {
+            this.toggleCollapseContent();
+        }
     }
 
     toggleCollapseContent() {
@@ -134,3 +144,76 @@ export class BuilderRow extends Component {
         }
     }
 }
+
+function refreshSublevelLines(rowEl) {
+    const optionsContainerEl = rowEl?.closest(".options-container");
+    if (!optionsContainerEl) {
+        return;
+    }
+    alignSublevelLines(optionsContainerEl);
+}
+
+// Recompute the vertical connector line for nested rows:
+// - Clear any previous offset on all rows.
+// - Skip hidden rows to avoid zero-size measurements.
+// - When a row comes back to a shallower level after deeper rows, stretch its
+//   line up to the last visible sibling of the same level.
+function alignSublevelLines(optionsContainerEl) {
+    const rowEls = [...optionsContainerEl.querySelectorAll(".hb-row")];
+    if (!rowEls.length) {
+        return;
+    }
+    const visibleRowEls = [];
+    for (const rowEl of rowEls) {
+        const labelEl = rowEl.querySelector(":scope > .hb-row-label");
+        if (labelEl) {
+            labelEl.style.removeProperty("--o-hb-row-sublevel-top");
+        }
+        if (getComputedStyle(rowEl).display !== "none") {
+            visibleRowEls.push(rowEl);
+        }
+    }
+    for (let index = 0; index < visibleRowEls.length; index++) {
+        const rowEl = visibleRowEls[index];
+        const level = getRowLevel(rowEl);
+        if (!level) {
+            continue;
+        }
+        const previousRowEl = visibleRowEls[index - 1];
+        if (!previousRowEl || getRowLevel(previousRowEl) <= level) {
+            continue;
+        }
+        for (let previousIndex = index - 1; previousIndex >= 0; previousIndex--) {
+            if (getRowLevel(visibleRowEls[previousIndex]) === level) {
+                // Stretch the line up to the previous sibling of the same level.
+                applyLineOffset(rowEl, visibleRowEls[previousIndex]);
+                break;
+            }
+        }
+    }
+}
+
+function applyLineOffset(rowEl, previousRowEl) {
+    const labelEl = rowEl.querySelector(":scope > .hb-row-label");
+    const previousLabelEl = previousRowEl.querySelector(":scope > .hb-row-label");
+    if (!labelEl || !previousLabelEl) {
+        return;
+    }
+    const offset =
+        previousLabelEl.getBoundingClientRect().bottom - labelEl.getBoundingClientRect().top;
+    if (offset < 0) {
+        labelEl.style.setProperty("--o-hb-row-sublevel-top", `${offset}px`);
+    }
+}
+
+function getRowLevel(rowEl) {
+    const sublevelClass = [...rowEl.classList].find((className) =>
+        className.startsWith("hb-row-sublevel-")
+    );
+    if (!sublevelClass) {
+        return 0;
+    }
+    return parseInt(sublevelClass.replace("hb-row-sublevel-", ""), 10) || 0;
+}
+
+export { refreshSublevelLines };

@@ -12,14 +12,15 @@
 # Kimlong Mai, 2023
 # Larissa Manderfeld, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025.
+# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
 # Michael Hofer <michael.hofer@nordicdrinks.ch>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-30 16:04+0000\n"
+"POT-Creation-Date: 2026-01-22 18:35+0000\n"
+"PO-Revision-Date: 2026-01-23 09:26+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/"
 "website_sale/de/>\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -616,8 +617,8 @@ msgstr "<span placeholder=\"All products\">Alle Produkte</span>"
 #: model_terms:web_tour.tour,rainbow_man_message:website_sale.test_01_admin_shop_tour
 msgid "<span><b>Good job!</b> You went through all steps of this tour.</span>"
 msgstr ""
-"<span><b>Gut gemacht!</b> Sie haben alle Schritte dieser Tour "
-"absolviert.</span>"
+"<span><b>Gut gemacht!</b> Sie haben alle Schritte dieser Tour absolviert.</"
+"span>"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.confirmation
@@ -689,8 +690,8 @@ msgstr ""
 "href=\"/shop/cart/?id={{id}}&amp;access_token={{access_token}}"
 "&amp;revive_method=squash\">Klicken Sie hier,</a>\n"
 "                            </strong> wenn Sie Ihren vorherigen Warenkorb "
-"wiederherstellen müssen. Ihr aktueller Warenkorb wird durch Ihren vorherigen "
-"ersetzt."
+"wiederherstellen möchten. Ihr aktueller Warenkorb wird durch Ihren "
+"vorherigen ersetzt."
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product
@@ -1056,6 +1057,7 @@ msgstr "Hinzufügen"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/website_sale/static/src/js/product/product.xml:0
 #: code:addons/website_sale/static/src/website_builder/add_to_card_option.js:0
 #: code:addons/website_sale/static/src/website_builder/products_design_panel.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_products_item
@@ -1688,7 +1690,7 @@ msgstr "Diesen Standort auswählen"
 #: code:addons/website_sale/static/src/js/client_actions/configurator/productPageSelectionScreen.xml:0
 #: code:addons/website_sale/static/src/js/client_actions/configurator/shopPageSelectionScreen.xml:0
 msgid "Choose your favorite"
-msgstr "Wählen Sie Ihr gewünschtes"
+msgstr "Wählen Sie"
 
 #. module: website_sale
 #: model:product.pricelist,name:website_sale.list_christmas
@@ -1782,13 +1784,13 @@ msgstr "Abgeschlossen"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Collapse Category Recursive"
-msgstr "Unterkategorien ausblenden"
+msgstr "Kategorien einklappen"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Collapse sidebar sections"
-msgstr "Abschnitte der Seitenleiste einklappen"
+msgstr "Seitenleiste einklappen"
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_boxes_collapsible
@@ -2377,6 +2379,7 @@ msgstr "Anzeige"
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__display_name
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__display_name
 #: model:ir.model.fields,field_description:website_sale.field_ir_http__display_name
+#: model:ir.model.fields,field_description:website_sale.field_ir_module_module__display_name
 #: model:ir.model.fields,field_description:website_sale.field_payment_token__display_name
 #: model:ir.model.fields,field_description:website_sale.field_product_attribute__display_name
 #: model:ir.model.fields,field_description:website_sale.field_product_document__display_name
@@ -2792,7 +2795,7 @@ msgstr "Schwebend"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Floating sticky Toolbar"
-msgstr "Schwebende, fixierte Symbolleiste"
+msgstr "Schwebende, fixierte Leiste"
 
 #. module: website_sale
 #. odoo-python
@@ -3006,7 +3009,7 @@ msgstr "Verborgen"
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Hide"
-msgstr "Verbergen"
+msgstr "Ausblenden"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__prevent_zero_price_sale
@@ -3065,6 +3068,7 @@ msgstr "Ich akzeptiere die"
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__id
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__id
 #: model:ir.model.fields,field_description:website_sale.field_ir_http__id
+#: model:ir.model.fields,field_description:website_sale.field_ir_module_module__id
 #: model:ir.model.fields,field_description:website_sale.field_payment_token__id
 #: model:ir.model.fields,field_description:website_sale.field_product_attribute__id
 #: model:ir.model.fields,field_description:website_sale.field_product_document__id
@@ -3213,7 +3217,7 @@ msgstr "Bilder-Bereich"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Inherit desktop"
-msgstr "Desktop vererben"
+msgstr "Wie Desktop"
 
 #. module: website_sale
 #. odoo-javascript
@@ -3567,7 +3571,7 @@ msgstr "Medizinschränke"
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_roundness__medium
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_spacing__medium
 msgid "Medium"
-msgstr "Medium"
+msgstr "Mittel"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.s_mega_menu_menu_image_menu
@@ -3591,7 +3595,7 @@ msgstr "Nachrichten"
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Mobile"
-msgstr "Mobil"
+msgstr "Mobilgerät"
 
 #. module: website_sale
 #. odoo-javascript
@@ -3604,6 +3608,11 @@ msgstr "Verhältnis auf Mobilgeräten"
 #: code:addons/website_sale/const.py:0
 msgid "Modern Grid"
 msgstr "Modernes Raster"
+
+#. module: website_sale
+#: model:ir.model,name:website_sale.model_ir_module_module
+msgid "Module"
+msgstr "Modul"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.accordion_more_information
@@ -3815,7 +3824,7 @@ msgstr "Es wurde keine Versandmethode ausgewählt."
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_roundness__none
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_spacing__none
 msgid "None"
-msgstr "Keins"
+msgstr "Keine"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.product_pages_kanban_view
@@ -3855,7 +3864,7 @@ msgstr "Anzahl der Aktionen"
 #: model:ir.model.fields,field_description:website_sale.field_product_feed__message_has_error_counter
 #: model:ir.model.fields,field_description:website_sale.field_product_template__message_has_error_counter
 msgid "Number of errors"
-msgstr "# Fehler"
+msgstr "Anzahl Fehler"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__shop_ppr
@@ -3883,7 +3892,7 @@ msgstr "Anzahl der Produkte im Raster des Shops"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Off-screen Menu"
-msgstr "Menü außerhalb des Bildschirms"
+msgstr "Menü ausblenden"
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_desks_office
@@ -3943,7 +3952,7 @@ msgstr "Online-Verkaufsanalyse"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/client_actions/configurator/shopPageSelectionScreen.xml:0
 msgid "Online catalog"
-msgstr "Online-Katalog"
+msgstr "einen Online-Katalog"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_sale_order__only_services
@@ -4044,7 +4053,7 @@ msgstr "Auf der Website angezeigte Auftragspositionen"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart
 msgid "Order summary"
-msgstr "Bestellzusammenfassung"
+msgstr "Bestellübersicht"
 
 #. module: website_sale
 #: model:ir.actions.act_window,name:website_sale.action_orders_ecommerce
@@ -4146,7 +4155,7 @@ msgstr "Zahlungsanbieter"
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_payment_token
 msgid "Payment Token"
-msgstr "Zahlungs-Token"
+msgstr "Zahlungstoken"
 
 #. module: website_sale
 #: model:ir.ui.menu,name:website_sale.menu_ecommerce_payment_tokens
@@ -4187,7 +4196,7 @@ msgstr "Abholort"
 #: code:addons/website_sale/static/src/website_builder/product_attribute_option.xml:0
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Pills"
-msgstr "Viereck"
+msgstr "Pillen"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.view_product_image_form
@@ -4205,7 +4214,7 @@ msgstr "Bitte mit dem aktuellen Warenkorb fortfahren."
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_ratio__4_5
 #: model:ir.model.fields.selection,name:website_sale.selection__website__product_page_image_ratio_mobile__4_5
 msgid "Portrait (4/5)"
-msgstr "Portrait (4/5)"
+msgstr "Porträt (4/5)"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4334,7 +4343,7 @@ msgstr "Bearbeiten Sie den Auftrag, sobald die Zahlung eingegangen ist."
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/add_to_cart_option.xml:0
-#: code:addons/website_sale/static/src/website_builder/products_item_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/products_item_option.js:0
 #: model:ir.model,name:website_sale.model_product_template
 #: model:ir.model.fields,field_description:website_sale.field_website_track__product_id
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -4415,9 +4424,9 @@ msgstr "Produktnamen"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/client_actions/configurator/productPageSelectionScreen.xml:0
-#: code:addons/website_sale/static/src/website_builder/product_page_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/product_page_option.js:0
 msgid "Product Page"
-msgstr "Produktseite"
+msgstr "eine Produktseite"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_website__product_page_container
@@ -4579,11 +4588,11 @@ msgstr "Produkte"
 #: code:addons/website_sale/static/src/website_builder/products_design_panel.xml:0
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Products Design"
-msgstr "Design der Produkte"
+msgstr "Produktdesign"
 
 #. module: website_sale
 #. odoo-javascript
-#: code:addons/website_sale/static/src/website_builder/products_list_page_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/products_list_page_option.js:0
 msgid "Products Page"
 msgstr "Produktseite"
 
@@ -4650,13 +4659,13 @@ msgstr "Veröffentlicht"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Purchase Options"
-msgstr "Einkaufsoptionen"
+msgstr "Kaufsoptionen"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Purchase Style"
-msgstr "Einkaufsstil"
+msgstr "Stil Kaufoptionen"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4691,7 +4700,7 @@ msgstr "Menge"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.quick_reorder_sidebar
 msgid "Quick reorder"
-msgstr "Schnell erneut bestellen"
+msgstr "Schnell nochmal bestellen"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4829,15 +4838,13 @@ msgstr "Von kürzlich angesehen Liste entfernen"
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines_quantity
 #: model_terms:ir.ui.view,arch_db:website_sale.product_quantity
 msgid "Remove one"
-msgstr "Eins entfernen"
+msgstr "Entfernen"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Render a button to show the Off-screen Menu"
-msgstr ""
-"Zeigen Sie eine Schaltfläche, um das Menü außerhalb des Bildschirms "
-"anzuzeigen"
+msgstr "Zeigen Sie eine Schaltfläche an, um das Menü auszublenden."
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_services_repair_and_maintenance
@@ -4897,14 +4904,14 @@ msgid ""
 "Reverses the horizontal order of items on desktop and larger screens (mobile "
 "layout remains unchanged)"
 msgstr ""
-"Dreht die horizontale Reihenfolge der Elemente auf Desktop- und größeren "
+"Dreht die horizontale Anzeige der Elemente auf Desktop- und größeren "
 "Bildschirmen um (das mobile Layout bleibt unverändert)"
 
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Reviews"
-msgstr "Bewertungen"
+msgstr "Rezensionen"
 
 #. module: website_sale
 #. odoo-javascript
@@ -5187,7 +5194,7 @@ msgstr "Versandmethoden"
 #: model:website.menu,name:website_sale.menu_shop
 #: model_terms:ir.ui.view,arch_db:website_sale.cart_lines
 msgid "Shop"
-msgstr "Shop"
+msgstr "Einkaufen"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.checkout
@@ -5528,7 +5535,7 @@ msgstr "Vorgeschlagenes Zubehör im Warenkorb des E-Commerce"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Tabs"
-msgstr "Tabs"
+msgstr "Reiter"
 
 #. module: website_sale
 #. odoo-javascript
@@ -5588,7 +5595,7 @@ msgstr "Geschäftsbedingungen"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/product_page_option.xml:0
 msgid "Terms and Conditions"
-msgstr "Bedingungen und Konditionen"
+msgstr "Geschäftsbedingungen"
 
 #. module: website_sale
 #. odoo-javascript
@@ -5652,6 +5659,12 @@ msgstr ""
 "Das Unternehmen der Website, von der aus Sie zu verkaufen versuchen (%"
 "(website_company)s), ist ein anderes als das, welches Sie verwenden möchten "
 "(%(company)s)"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/sale_order.py:0
+msgid "The delivery method is not compatible with your delivery address."
+msgstr ""
 
 #. module: website_sale
 #. odoo-python
@@ -5827,7 +5840,7 @@ msgstr "Dieser Inhalt wird auf allen Produktseiteb angezeigt."
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.cart
 msgid "This is your current cart."
-msgstr "Dies ist Ihr aktueller Warenkorb."
+msgstr "Hier ist Ihr aktueller Warenkorb."
 
 #. module: website_sale
 #. odoo-python
@@ -5922,7 +5935,7 @@ msgstr "Heute"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "Toolbar"
-msgstr "Symbolleiste"
+msgstr "Leiste"
 
 #. module: website_sale
 #. odoo-javascript
@@ -6528,7 +6541,7 @@ msgstr "Herauszoomen leicht"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
 msgid "by"
-msgstr "von"
+msgstr "auf"
 
 #. module: website_sale
 #. odoo-javascript
@@ -6697,11 +6710,6 @@ msgstr ""
 "            o_wsale_products_opt_actions_inline"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.products
-msgid "placeholder"
-msgstr "Platzhalter"
-
-#. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
 msgid "publish_date desc"
@@ -6716,6 +6724,9 @@ msgstr "Geschäftsbedingungen"
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_products_item
 msgid "{{0}} image"
 msgstr "Bild {{0}}"
+
+#~ msgid "placeholder"
+#~ msgstr "Platzhalter"
 
 #~ msgid ""
 #~ "\"Optional\" allows guests to register from the order confirmation email "

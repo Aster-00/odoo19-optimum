@@ -50,17 +50,39 @@ class TestItEdiImport(TestItEdi):
         """ Test a sample e-invoice file from
         https://www.fatturapa.gov.it/export/documenti/fatturapa/v1.2/IT01234567890_FPR01.xml
         """
+
+        # Added to ensures that a 0.00 unit price from XML is preserved.
+        applied_xml = """
+            <xpath expr="//FatturaElettronicaBody/DatiBeniServizi/DettaglioLinee" position="after">
+                <DettaglioLinee>
+                    <NumeroLinea>2</NumeroLinea>
+                    <Descrizione>[TEST] Test Product</Descrizione>
+                    <Quantita>1.00</Quantita>
+                    <PrezzoUnitario>0.00</PrezzoUnitario>
+                    <PrezzoTotale>0.00</PrezzoTotale>
+                    <AliquotaIVA>22.00</AliquotaIVA>
+                </DettaglioLinee>
+            </xpath>
+        """
+
         self._assert_import_invoice('IT01234567890_FPR01.xml', [{
             'move_type': 'in_invoice',
             'invoice_date': fields.Date.from_string('2014-12-18'),
             'amount_untaxed': 5.0,
             'amount_tax': 1.1,
-            'invoice_line_ids': [{
-                'quantity': 5.0,
-                'price_unit': 1.0,
-                'debit': 5.0,
-            }],
-        }])
+            'invoice_line_ids': [
+                {
+                    'quantity': 5.0,
+                    'price_unit': 1.0,
+                    'debit': 5.0,
+                },
+                {
+                    'quantity': 1.0,
+                    'price_unit': 0.0,
+                    'debit': 0.0,
+                },
+            ],
+        }], applied_xml)
 
     def test_receive_vendor_bill_sconto_maggiorazione(self):
         """ Test a sample e-invoice file with
@@ -102,6 +124,54 @@ class TestItEdiImport(TestItEdi):
                 'quantity': 5.0,
                 'price_unit': -1.0,
                 'credit': 5.0,
+            }],
+        }])
+
+    def test_import_refund_with_linked_po(self):
+        if self.env['ir.module.module']._get('purchase').state != 'installed':
+            self.skipTest("purchase module is not installed")
+
+        product = self.env['product.product'].create({
+            'name': 'DESCRIZIONE DELLA FORNITURA',
+            'supplier_taxes_id': [Command.set(self.default_tax.ids)],
+        })
+        purchase = self.env['purchase.order'].with_company(self.company).with_context(tracking_disable=True).create(
+            {
+                'partner_id': self.italian_partner_a.id,
+                'partner_ref': 'PO-001',
+                'order_line': [
+                    Command.create({
+                        'product_qty': 10.0,
+                        'product_id': product.id,
+                        'price_unit': 1.0,
+                        'name': 'DESCRIZIONE DELLA FORNITURA',
+                    }),
+                ],
+            })
+        purchase.button_confirm()
+
+        self._assert_import_invoice('IT01234567890_FPR04.xml', [{
+            'move_type': 'in_refund',
+            'invoice_origin': purchase.name,
+            'invoice_date': fields.Date.from_string('2014-12-18'),
+            'amount_untaxed': 5.0,
+            'amount_tax': 1.1,
+            'is_purchase_matched': True,
+            'invoice_line_ids': [{
+                'display_type': 'line_section',
+                'quantity': 0.0,
+                'price_unit': 0.0,
+                'credit': 0.0,
+            }, {
+                'display_type': 'product',
+                'quantity': 5.0,
+                'price_unit': 1.0,
+                'credit': 5.0,
+            }, {
+                'display_type': 'line_section',
+                'quantity': 0.0,
+                'price_unit': 0.0,
+                'credit': 0.0,
             }],
         }])
 
@@ -306,8 +376,6 @@ class TestItEdiImport(TestItEdi):
             ('res_field', '=', 'l10n_it_edi_attachment_file'),
         ])
         self.assertEqual(len(attachments), 1)
-        invoices = self.env['account.move'].search([('payment_reference', '=', 'TWICE_TEST')])
-        self.assertEqual(len(invoices), 1)
 
     def test_receive_bill_with_global_discount(self):
         applied_xml = """
@@ -398,6 +466,35 @@ class TestItEdiImport(TestItEdi):
             }],
         },
     ])
+
+    def test_receive_bill_with_maggiorazione_discount(self):
+        """ Test a sample e-invoice file with a discount of type MG (Maggiorazione). """
+        applied_xml = """
+            <xpath expr="//FatturaElettronicaBody/DatiBeniServizi/DettaglioLinee[1]" position="inside">
+                <ScontoMaggiorazione>
+                    <Tipo>MG</Tipo>
+                    <Percentuale>10.00</Percentuale>
+                </ScontoMaggiorazione>
+            </xpath>
+
+            <xpath expr="//FatturaElettronicaBody/DatiBeniServizi/DettaglioLinee[1]/PrezzoTotale" position="replace">
+                <PrezzoTotale>5.50</PrezzoTotale>
+            </xpath>
+        """
+
+        self._assert_import_invoice('IT01234567890_FPR01.xml', [{
+            'invoice_date': fields.Date.from_string('2014-12-18'),
+            'amount_untaxed': 5.5,
+            'amount_tax': 1.21,
+            'invoice_line_ids': [
+                {
+                    'quantity': 5.0,
+                    'name': 'DESCRIZIONE DELLA FORNITURA',
+                    'price_unit': 1.0,
+                    'discount': -10.0,
+                },
+            ],
+        }], applied_xml)
 
     def test_invoice_user_can_compute_is_self_invoice(self):
         """Ensure that a user having only group_account_invoice can compute field l10n_it_edi_is_self_invoice"""

@@ -10,13 +10,15 @@
 # Andy Yiu, 2023
 # Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025.
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Junko Augias (juau)" <juau@odoo.com>, 2025.
+# "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Yoshi Tashiro <tashiro@quartile.co>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-21 08:01+0000\n"
+"POT-Creation-Date: 2026-01-22 18:35+0000\n"
+"PO-Revision-Date: 2026-01-23 07:37+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/"
 "website_sale/ja/>\n"
@@ -25,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -280,8 +282,8 @@ msgid ""
 ">\n"
 "                    <span class=\"o_label small ms-1\">Add to Cart</span>"
 msgstr ""
-"<i class=\"fa fa-fw fa-shopping-cart o_not-animable\" role=\"presentation\"/>"
-"\n"
+"<i class=\"fa fa-fw fa-shopping-cart o_not-animable\" role=\"presentation\"/"
+">\n"
 "                    <span class=\"o_label small ms-1\">カートに入れる</span>"
 
 #. module: website_sale
@@ -602,7 +604,7 @@ msgid ""
 "                    </span>"
 msgstr ""
 "<span name=\"use_delivery_as_billing_text\">\n"
-"                        配送先住所と同じ\n"
+"                        配送先と同じ\n"
 "                    </span>"
 
 #. module: website_sale
@@ -1045,6 +1047,7 @@ msgstr "一つを追加"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/website_sale/static/src/js/product/product.xml:0
 #: code:addons/website_sale/static/src/website_builder/add_to_card_option.js:0
 #: code:addons/website_sale/static/src/website_builder/products_design_panel.xml:0
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_products_item
@@ -1067,7 +1070,7 @@ msgstr "カートに入れる"
 #. module: website_sale
 #: model:website.checkout.step,name:website_sale.checkout_step_delivery
 msgid "Address"
-msgstr "アドレス"
+msgstr "住所"
 
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_res_config_settings__module_website_sale_autocomplete
@@ -1349,7 +1352,7 @@ msgstr "請求"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.billing_address_list
 msgid "Billing address"
-msgstr "請求先住所"
+msgstr "請求先"
 
 #. module: website_sale
 #. odoo-python
@@ -2219,7 +2222,7 @@ msgstr "配送方法"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.delivery_address_list
 msgid "Delivery address"
-msgstr "配送先住所"
+msgstr "配送先"
 
 #. module: website_sale
 #: model:product.public.category,name:website_sale.public_category_services_delivery_and_installation
@@ -2349,6 +2352,7 @@ msgstr "表示"
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__display_name
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__display_name
 #: model:ir.model.fields,field_description:website_sale.field_ir_http__display_name
+#: model:ir.model.fields,field_description:website_sale.field_ir_module_module__display_name
 #: model:ir.model.fields,field_description:website_sale.field_payment_token__display_name
 #: model:ir.model.fields,field_description:website_sale.field_product_attribute__display_name
 #: model:ir.model.fields,field_description:website_sale.field_product_document__display_name
@@ -2886,7 +2890,7 @@ msgstr "ゲーミングデスク"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_design_panel.xml:0
 msgid "Gap"
-msgstr "ギャップ"
+msgstr "間隔"
 
 #. module: website_sale
 #. odoo-javascript
@@ -3038,6 +3042,7 @@ msgstr "同意します:"
 #: model:ir.model.fields,field_description:website_sale.field_delivery_carrier__id
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__id
 #: model:ir.model.fields,field_description:website_sale.field_ir_http__id
+#: model:ir.model.fields,field_description:website_sale.field_ir_module_module__id
 #: model:ir.model.fields,field_description:website_sale.field_payment_token__id
 #: model:ir.model.fields,field_description:website_sale.field_product_attribute__id
 #: model:ir.model.fields,field_description:website_sale.field_product_document__id
@@ -3083,7 +3088,7 @@ msgstr "チェックした場合は、新しいメッセージに注意が必要
 #: model:ir.model.fields,help:website_sale.field_product_template__message_has_error
 #: model:ir.model.fields,help:website_sale.field_product_template__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "選択されている場合、一部のメッセージで配信エラーが発生しています。"
+msgstr "有効にすると、一部のメッセージに配信エラーが発生します。"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.res_config_settings_view_form
@@ -3459,7 +3464,7 @@ msgstr "リストビュー"
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/location_selector/location_selector_dialog/location_selector_dialog.js:0
 msgid "Loading..."
-msgstr "ロード中..."
+msgstr "読込中..."
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__website__ecommerce_access__logged_in
@@ -3569,6 +3574,11 @@ msgstr "モバイル比率"
 #: code:addons/website_sale/const.py:0
 msgid "Modern Grid"
 msgstr "モダングリッド"
+
+#. module: website_sale
+#: model:ir.model,name:website_sale.model_ir_module_module
+msgid "Module"
+msgstr "モジュール"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.accordion_more_information
@@ -3762,7 +3772,7 @@ msgid ""
 "No shipping method is available for your current order and shipping address. "
 "Please contact us for more information."
 msgstr ""
-"現在の注文と配送先住所には配送方法がありません。 詳細はお問い合わせください。"
+"現在の注文と配送先には配送方法がありません。 詳細はお問い合わせください。"
 
 #. module: website_sale
 #. odoo-python
@@ -4266,7 +4276,7 @@ msgstr "価格表"
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_product_pricelist_item
 msgid "Pricelist Rule"
-msgstr "価格リスト規則"
+msgstr "価格表ルール"
 
 #. module: website_sale
 #: model:ir.ui.menu,name:website_sale.menu_catalog_pricelists
@@ -4293,7 +4303,7 @@ msgstr "支払いをもらったら注文を処理します。"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/add_to_cart_option.xml:0
-#: code:addons/website_sale/static/src/website_builder/products_item_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/products_item_option.js:0
 #: model:ir.model,name:website_sale.model_product_template
 #: model:ir.model.fields,field_description:website_sale.field_website_track__product_id
 #: model_terms:ir.ui.view,arch_db:website_sale.products
@@ -4374,7 +4384,7 @@ msgstr "プロダクト名"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/js/client_actions/configurator/productPageSelectionScreen.xml:0
-#: code:addons/website_sale/static/src/website_builder/product_page_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/product_page_option.js:0
 msgid "Product Page"
 msgstr "製品ページ"
 
@@ -4515,7 +4525,7 @@ msgstr "製品は見つかりませんでした"
 #. module: website_sale
 #: model:ir.model,name:website_sale.model_product_ribbon
 msgid "Product ribbon"
-msgstr "製品リボン"
+msgstr "プロダクトリボン"
 
 #. module: website_sale
 #. odoo-javascript
@@ -4542,7 +4552,7 @@ msgstr "プロダクトデザイン"
 
 #. module: website_sale
 #. odoo-javascript
-#: code:addons/website_sale/static/src/website_builder/products_list_page_option_plugin.js:0
+#: code:addons/website_sale/static/src/website_builder/products_list_page_option.js:0
 msgid "Products Page"
 msgstr "製品ページ"
 
@@ -5419,7 +5429,7 @@ msgstr "スタンディングデスク"
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.sale_report_view_search_website
 msgid "Status"
-msgstr "状態"
+msgstr "ステータス"
 
 #. module: website_sale
 #: model:ir.model.fields.selection,name:website_sale.selection__website__add_to_cart_action__stay
@@ -5605,6 +5615,12 @@ msgid ""
 msgstr ""
 "ウェブサイトで販売する会社 (%(website_company)s)は使用したい会社 (%"
 "(company)s)と違っています"
+
+#. module: website_sale
+#. odoo-python
+#: code:addons/website_sale/models/sale_order.py:0
+msgid "The delivery method is not compatible with your delivery address."
+msgstr ""
 
 #. module: website_sale
 #. odoo-python
@@ -6327,7 +6343,7 @@ msgid ""
 msgstr ""
 "<b>配送先および請求先</b> 住所を\n"
 "                            同時に編集しようとしています!<br/>\n"
-"                            請求先住所のみ変更したい場合は、\n"
+"                            請求先のみ変更したい場合は、\n"
 "                            <a class=\"o_translate_inline\" href=\"/shop/"
 "address?address_type=billing\">新しい住所</a>を作成してください。"
 
@@ -6452,7 +6468,6 @@ msgstr "ズームアウト (ライト)"
 #. module: website_sale
 #. odoo-javascript
 #: code:addons/website_sale/static/src/website_builder/products_list_page_option.xml:0
-#, fuzzy
 msgid "by"
 msgstr "by"
 
@@ -6513,7 +6528,7 @@ msgstr "eコマースメディア"
 #. module: website_sale
 #: model:ir.model.fields,field_description:website_sale.field_digest_digest__kpi_website_sale_total
 msgid "eCommerce Sales"
-msgstr "Eコマース販売"
+msgstr "EC販売実績"
 
 #. module: website_sale
 #: model_terms:ir.ui.view,arch_db:website_sale.header_cart_link
@@ -6622,11 +6637,6 @@ msgstr ""
 "            o_wsale_products_opt_actions_inline"
 
 #. module: website_sale
-#: model_terms:ir.ui.view,arch_db:website_sale.products
-msgid "placeholder"
-msgstr "プレースホルダ"
-
-#. module: website_sale
 #. odoo-python
 #: code:addons/website_sale/models/website.py:0
 msgid "publish_date desc"
@@ -6641,6 +6651,9 @@ msgstr "利用規約"
 #: model_terms:ir.ui.view,arch_db:website_sale.dynamic_filter_template_product_product_products_item
 msgid "{{0}} image"
 msgstr "{{0}} 画像"
+
+#~ msgid "placeholder"
+#~ msgstr "プレースホルダ"
 
 #~ msgid ""
 #~ "\"Optional\" allows guests to register from the order confirmation email "

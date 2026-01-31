@@ -117,6 +117,7 @@ test("[text composer] can @user in restricted (group_public_id) channels", async
     });
     await start();
     await openDiscuss(channelId);
+    await contains(".o-discuss-ChannelMemberList"); // wait for auto-open of this panel
     await click("button[title='Invite People']");
     await contains(".o-discuss-ChannelInvitation-invitationBox", {
         text: 'Access restricted to group "Custom Channel Group"',
@@ -148,6 +149,7 @@ test("can @user in restricted (group_public_id) channels", async () => {
     const composerService = getService("mail.composer");
     composerService.setHtmlComposer();
     await openDiscuss(channelId);
+    await contains(".o-discuss-ChannelMemberList"); // wait for auto-open of this panel
     await click("button[title='Invite People']");
     await contains(".o-discuss-ChannelInvitation-invitationBox", {
         text: 'Access restricted to group "Custom Channel Group"',
@@ -587,8 +589,28 @@ test("mention a channel thread", async () => {
     await contains(".o-mail-Composer-suggestion:eq(1):has(i.fa-comments-o)", {
         text: "GeneralThreadOne",
     });
+    await click(".o-mail-Composer-suggestion:eq(0)");
+    await contains(
+        ".o-mail-Composer-html.odoo-editor-editable a.o_channel_redirect:has(i.fa-hashtag)",
+        { text: "General" }
+    );
+    await press("Enter");
+    await contains(".o-mail-Message a.o_channel_redirect", {
+        text: "General",
+    });
+    await contains(".o-mail-Composer-html.odoo-editor-editable", { text: "" });
+    await focus(".o-mail-Composer-html.odoo-editor-editable");
+    await htmlInsertText(editor, "#");
+    await contains(".o-mail-Composer-suggestion", { count: 2 });
+    await contains(".o-mail-Composer-suggestion:eq(0):has(i.fa-hashtag)", { text: "General" });
+    await contains(".o-mail-Composer-suggestion:eq(1):has(i.fa-comments-o)", {
+        text: "GeneralThreadOne",
+    });
     await click(".o-mail-Composer-suggestion:eq(1)");
-    await contains(".o-mail-Composer-html.odoo-editor-editable", { text: "#General > ThreadOne" });
+    await contains(
+        ".o-mail-Composer-html.odoo-editor-editable a.o_channel_redirect:has(i.fa-comments-o)",
+        { text: "General > ThreadOne" }
+    );
     await press("Enter");
     await contains(".o-mail-Message a.o_channel_redirect:has(i.fa-comments-o)", {
         text: "General > ThreadOne",

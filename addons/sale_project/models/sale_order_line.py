@@ -78,13 +78,16 @@ class SaleOrderLine(models.Model):
         milestones_lines.qty_delivered_method = 'milestones'
         super(SaleOrderLine, self - milestones_lines)._compute_qty_delivered_method()
 
-    @api.depends('qty_delivered_method', 'product_uom_qty', 'reached_milestones_ids.quantity_percentage')
+    @api.depends('product_uom_qty', 'reached_milestones_ids.quantity_percentage')
     def _compute_qty_delivered(self):
+        super()._compute_qty_delivered()
+
+    def _prepare_qty_delivered(self):
         lines_by_milestones = self.filtered(lambda sol: sol.qty_delivered_method == 'milestones')
-        super(SaleOrderLine, self - lines_by_milestones)._compute_qty_delivered()
+        delivered_qties = super(SaleOrderLine, self - lines_by_milestones)._prepare_qty_delivered()
 
         if not lines_by_milestones:
-            return
+            return delivered_qties
 
         project_milestone_read_group = self.env['project.milestone']._read_group(
             [('sale_line_id', 'in', lines_by_milestones.ids), ('is_reached', '=', True)],
@@ -94,7 +97,8 @@ class SaleOrderLine(models.Model):
         reached_milestones_per_sol = {sale_line.id: percentage_sum for sale_line, percentage_sum in project_milestone_read_group}
         for line in lines_by_milestones:
             sol_id = line.id or line._origin.id
-            line.qty_delivered = reached_milestones_per_sol.get(sol_id, 0.0) * line.product_uom_qty
+            delivered_qties[line] = reached_milestones_per_sol.get(sol_id, 0.0) * line.product_uom_qty
+        return delivered_qties
 
     @api.depends('order_id.partner_id', 'product_id', 'order_id.project_id')
     def _compute_analytic_distribution(self):
@@ -145,10 +149,15 @@ class SaleOrderLine(models.Model):
         return lines
 
     def write(self, vals):
+        sols_with_no_qty_ordered = self.env['sale.order.line']
+        if 'product_uom_qty' in vals and vals.get('product_uom_qty') > 0:
+            sols_with_no_qty_ordered = self.filtered(lambda sol: sol.product_uom_qty == 0)
         result = super().write(vals)
         # changing the ordered quantity should change the allocated hours on the
         # task, whatever the SO state. It will be blocked by the super in case
         # of a locked sale order.
+        if vals.get('product_uom_qty') and sols_with_no_qty_ordered:
+            sols_with_no_qty_ordered.filtered(lambda l: l.is_service and l.state == 'sale' and not l.is_expense)._timesheet_service_generation()
         if 'product_uom_qty' in vals and not self.env.context.get('no_update_allocated_hours', False):
             for line in self:
                 if line.task_id and line.product_id.type == 'service':
@@ -243,7 +252,7 @@ class SaleOrderLine(models.Model):
     def _timesheet_create_task_prepare_values(self, project):
         self.ensure_one()
         allocated_hours = 0.0
-        if self.product_id.service_type not in ['milestones', 'manual']:
+        if self.product_id.service_type != 'milestones':
             allocated_hours = self._convert_qty_company_hours(self.company_id)
         sale_line_name_parts = self.name.split('\n')
         products_inside_template_line_with_name = self.order_id.sale_order_template_id.sale_order_template_line_ids.filtered(
@@ -339,8 +348,14 @@ class SaleOrderLine(models.Model):
             new project/task. This explains the searches on 'sale_line_id' on project/task. This also
             implied if so line of generated task has been modified, we may regenerate it.
         """
-        so_line_task_global_project = self._get_so_lines_task_global_project()
-        so_line_new_project = self._get_so_lines_new_project()
+        sale_order_lines = self.filtered(
+            lambda sol:
+                sol.is_service
+                and sol.product_id.service_tracking in ['project_only', 'task_in_project', 'task_global_project']
+                and not (sol._is_line_optional() and sol.product_uom_qty == 0)
+        )
+        so_line_task_global_project = sale_order_lines._get_so_lines_task_global_project()
+        so_line_new_project = sale_order_lines._get_so_lines_new_project()
         task_templates = self.env['project.task']
 
         # search so lines from SO of current so lines having their project generated, in order to check if the current one can

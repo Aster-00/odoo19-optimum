@@ -4,13 +4,14 @@
 #
 # Translators:
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025.
+# "Anastasiia Koroleva (koan)" <koan@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-31 20:45+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2026-01-16 10:39+0000\n"
 "Last-Translator: \"Anastasiia Koroleva (koan)\" <koan@odoo.com>\n"
 "Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/calendar/"
 "ru/>\n"
@@ -18,10 +19,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || ("
-"n%100>=11 && n%100<=14)? 2 : 3);\n"
-"X-Generator: Weblate 5.12.2\n"
+"Plural-Forms: nplurals=4; plural="
+"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 "
+": n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_res_partner__meeting_count
@@ -255,6 +256,201 @@ msgid ""
 "</div>\n"
 "            "
 msgstr ""
+"<div style=\"font-size: 13px; color: #374151;\">\n"
+"\n"
+"    <t t-set=\"is_online\" t-value=\"'appointment_type_id' in "
+"object.event_id and object.event_id.appointment_type_id\"/>\n"
+"    <t t-set=\"customer\" t-value=\"object.event_id.find_partner_customer()\""
+"/>\n"
+"    <t t-set=\"target_responsible\" t-value="
+"\"object.partner_id == object.event_id.partner_id\"/>\n"
+"    <t t-set=\"target_customer\" t-value=\"object.partner_id == customer\"/>"
+"\n"
+"    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not ctx.get"
+"('calendar_template_ignore_recurrence')\"/>\n"
+"    <t t-set=\"organizer\" t-value=\"object.event_id.user_id\"/>\n"
+"\n"
+"    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; margin-"
+"bottom: 28px;\">\n"
+"        Дата обновлена\n"
+"        <img src=\"/calendar/static/src/img/sync.png\" style=\"border:0; "
+"width: 24px; height: 24px; margin-left: 10px; text-decoration:none; vertical-"
+"align: bottom;\"/>\n"
+"    </h1>\n"
+"    <p style=\"margin: 0;\">\n"
+"        <span style=\"display: block; margin-bottom: 8px;\">Здравствуйте, <t "
+"t-out=\"object.common_name or ''\">Ready Mat</t>!</span>\n"
+"        <t t-if=\"is_online and target_responsible\">\n"
+"            <t t-if=\"customer\">\n"
+"                Запись на встречу с <t t-out=\"customer.name or ''\">Джесси "
+"Брауном</t> была обновлена:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Ваша запись на встречу обновлена:\n"
+"            </t>\n"
+"            Встреча <strong t-out="
+"\"object.event_id.appointment_type_id.name or ''\">Запланировать "
+"демонстрацию</strong> теперь запланирована на\n"
+"            <t t-out="
+"\"object.event_id.get_display_time_tz(tz=object.partner_id.tz) or ''\">05/04/"
+"2021 в (11:00:00 - 11:30:00) (Europe/Brussels)</t>.\n"
+"        </t>\n"
+"        <t t-elif=\"is_online and target_customer\">\n"
+"            Ваша запись на встречу <strong t-out="
+"\"object.event_id.appointment_type_id.name or ''\"/> <t t-if=\"organizer\">с "
+"</t><t t-out=\"organizer.partner_id.name or ''\">Коллин Диаз</t>\n"
+"            теперь запланирована на <t t-out="
+"\"object.event_id.get_display_time_tz(tz=object.partner_id.tz) or ''\">05/04/"
+"2021 в (11:00:00 - 11:30:00) (Europe/Brussels)</t>.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Ваша встреча <strong t-out=\"object.event_id.name or ''\""
+">Обсуждение предложения по проекту</strong> <t t-if=\"organizer\">с </t><t "
+"t-out=\"organizer.partner_id.name or ''\">Коллин Диаз</t> была перенесена "
+"на\n"
+"            <t t-out="
+"\"object.event_id.get_display_time_tz(tz=object.partner_id.tz) or ''\">05/04/"
+"2021 в (11:00:00 - 11:30:00) (Europe/Brussels)</t>.\n"
+"        </t>\n"
+"    </p>\n"
+"    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/calendar/meeting/accept?token={{ "
+"object.access_token }}&amp;id={{ object.event_id.id }}\" t-attf-style=\""
+"display: inline-block; padding: 7px 14px; color: {{"
+"organizer.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: "
+"none; background-color: {{organizer.company_id.email_secondary_color or "
+"'#875A7B'}}; border-radius: 3px;\">\n"
+"            Принять</a>\n"
+"        <a t-attf-href=\"/calendar/meeting/decline?token={{ "
+"object.access_token }}&amp;id={{ object.event_id.id }}\" t-attf-style=\""
+"display: inline-block; margin-left: 6px; padding: 7px 14px; color: {{"
+"organizer.company_id.email_primary_color or '#FFFFFF'}}; text-decoration: "
+"none; background-color: {{organizer.company_id.email_secondary_color or "
+"'#875A7B'}}; border-radius: 3px;\">\n"
+"            Отклонить</a>\n"
+"        <a t-attf-href=\"/calendar/meeting/view?token={{ object.access_token "
+"}}&amp;id={{ object.event_id.id }}\" t-attf-style=\"display: inline-block; "
+"margin-left: 12px; padding: 7px 14px; color: #111827; text-decoration: none; "
+"background-color: #E7E9ED; border-radius: 3px;\">\n"
+"            Посмотреть</a>\n"
+"    </div>\n"
+"    <div style=\"margin: 16px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Подробности</h2>\n"
+"        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-"
+"size: 13px; color: #374151;\">\n"
+"\t\t    <tr>\n"
+"                <td style=\"width: 100px; color: #676F7B;\">Дата и время</td>"
+"\n"
+"                <td style=\"font-weight: bold;\">\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='EEEE', "
+"lang_code=object.env.lang) or ''\">Вторник</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='d', "
+"lang_code=object.env.lang) or ''\">4</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='MMMM "
+"y', lang_code=object.env.lang) or ''\">мая 2021</t>\n"
+"                    <t t-if=\"not object.event_id.allday\">\n"
+"                        <t t-out=\"format_time(time=object.event_id.start, "
+"tz=object.mail_tz, time_format='short', lang_code=object.env.lang) or ''\""
+">11:00</t>\n"
+"                        <t t-if=\"object.mail_tz\">\n"
+"                            <span style=\"font-size: 11px; font-weight: "
+"normal;\">\n"
+"                                "
+"(<t t-out=\"object.mail_tz or ''\">Europe/Brussels</t>)\n"
+"                            </span>\n"
+"                        </t>\n"
+"                    </t>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"recurrent\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Когда</td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"object.recurrence_id.get_recurrence_name() or ''\">Каждую неделю, 3 "
+"мероприятия</t></td>\n"
+"            </tr>\n"
+"            <tr t-if="
+"\"not object.event_id.allday and object.event_id.duration\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Длительность</td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"('%dH%02d' % (object.event_id.duration,round(object.event_id.duration*60)"
+"%60)) or ''\">0Ч30</t></td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.location\">\n"
+"                <td style="
+"\"width: 100px; padding-top: 6px; color: #676F7B; vertical-align: top;\""
+">Место проведения</td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <t t-out=\"object.event_id.location or ''\">Bruxelles</t>"
+"\n"
+"                    <a target=\"_blank\" t-if=\"not is_online or is_online "
+"and object.event_id.location != "
+"object.event_id.appointment_type_id.location_id.name\" t-attf-href="
+"\"http://maps.google.com/maps?oi=map&amp;q={{object.event_id.location}}\" "
+"style=\"margin-left: 12px; font-size: 12px; color: #008f8c; text-decoration: "
+"underline;\">Посмотреть карту</a>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.videocall_location\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">\n"
+"                    <t t-if=\"object.event_id.videocall_source == 'discuss'\""
+">Присоединиться через</t>\n"
+"                    <t t-else=\"\">Присоединиться к</t>\n"
+"                </td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <a t-attf-href=\"object.event_id.videocall_location\" "
+"target=\"_blank\" style=\"color: #008f8c;\">\n"
+"                        <t t-if="
+"\"object.event_id.videocall_source == 'discuss'\">модуль Обсуждения Odoo</t>"
+"\n"
+"                        <t t-else=\"\">видеоконференции</t>\n"
+"                    </a>\n"
+"                </td>\n"
+"            </tr>\n"
+"        </table>\n"
+"    </div>\n"
+"    <div style=\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Участники</h2>\n"
+"        <div t-foreach=\"object.event_id.attendee_ids\" t-as=\"attendee\" "
+"style=\"margin-bottom: 5px;\">\n"
+"            <img t-if=\"attendee.state\" t-attf-src="
+"\"/calendar/static/src/img/state_{{ attendee.state }}.png\" style="
+"\"border:0; width: 15px; height: 15px; vertical-align: text-bottom;\"/>\n"
+"            <t t-if=\"attendee != object\">\n"
+"                <span style=\"margin-left: 5px;\" t-out=\""
+"attendee.common_name or ''\">Митчелл Админ</span>\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                <span style=\"margin-left: 5px;\">Вы</span>\n"
+"            </t>\n"
+"        </div>\n"
+"    </div>\n"
+"    <div t-if=\"not is_html_empty(object.event_id.description)\" style="
+"\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Описание мероприятия</h2>\n"
+"        <t t-out=\"object.event_id.description\">Внутреннее совещание для "
+"обсуждения новых цен на продукцию и услуги.</t>\n"
+"    </div>\n"
+"    <p style=\"margin: 32px 0 0;\">\n"
+"        Спасибо,\n"
+"        <t t-if=\"organizer.signature\">\n"
+"            <span style=\"display: block; margin-top: 8px;\"><t t-out="
+"\"organizer.signature or ''\">Митчелл Админ</t></span>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
 
 #. module: calendar
 #: model:mail.template,body_html:calendar.calendar_template_meeting_invitation
@@ -435,6 +631,184 @@ msgid ""
 "</div>\n"
 "            "
 msgstr ""
+"<div style=\"font-size: 13px; color: #374151;\">\n"
+"    <t t-set=\"customer\" t-value="
+"\" object.event_id.find_partner_customer()\"/>\n"
+"    <t t-set=\"target_responsible\" t-value="
+"\"object.partner_id == object.event_id.partner_id\"/>\n"
+"    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not ctx.get"
+"('calendar_template_ignore_recurrence')\"/>\n"
+"    <t t-set=\"is_online\" t-value=\"'appointment_type_id' in "
+"object.event_id and object.event_id.appointment_type_id\"/>\n"
+"\n"
+"    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; margin-"
+"bottom: 28px;\">\n"
+"        Invitation\n"
+"    </h1>\n"
+"    <p style=\"margin: 0;\">\n"
+"        <span style=\"display: block; margin-bottom: 8px;\">Здравствуйте, <t "
+"t-out=\"object.common_name or ''\">Wood Corner</t>!</span>\n"
+"\n"
+"        <t t-if=\"not target_responsible\">\n"
+"            <t t-if=\"not object.event_id.user_id.active\">\n"
+"                Клиент пригласил вас на встречу <strong t-out="
+"\"object.event_id.name or ''\">Обсуждение предложения по проекту</strong>.\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Партнер <t t-out="
+"\"object.event_id.user_id.partner_id.name or ''\">Коллин Диаз</t> пригласил "
+"вас на встречу <strong t-out=\"object.event_id.name or ''\">Обсуждение "
+"предложения по проекту</strong>.\n"
+"            </t>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Ваша встреча <strong t-out=\"object.event_id.name or ''\""
+">Обсуждение предложения по проекту</strong> успешно забронирована.\n"
+"        </t>\n"
+"\n"
+"    </p>\n"
+"    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/calendar/meeting/"
+"accept?token={{object.access_token}}&amp;id={{object.event_id.id}}"
+"\" t-attf-style=\"display: inline-block; padding: 7px 14px; color: {{"
+"object.event_id.user_id.company_id.email_primary_color or '#FFFFFF'}}; text-"
+"decoration: none; background-color: {{"
+"object.event_id.user_id.company_id.email_secondary_color or '#875A7B'}}; "
+"border-radius: 3px;\">\n"
+"            Принять</a>\n"
+"        <a t-attf-href=\"/calendar/meeting/"
+"decline?token={{object.access_token}}&amp;id={{object.event_id.id}}"
+"\" t-attf-style=\"display: inline-block; margin-left: 6px; padding: 7px 14px;"
+" color: {{object.event_id.user_id.company_id.email_primary_color or "
+"'#FFFFFF'}}; text-decoration: none; background-color: {{"
+"object.event_id.user_id.company_id.email_secondary_color or '#875A7B'}}; "
+"border-radius: 3px;\">\n"
+"            Отклонить</a>\n"
+"        <a t-attf-href=\"/calendar/meeting/"
+"view?token={{object.access_token}}&amp;id={{object.event_id.id}}"
+"\" t-attf-style=\"display: inline-block; margin-left: 12px; padding: 7px "
+"14px; color: #111827; text-decoration: none; background-color: #E7E9ED; "
+"border-radius: 3px;\">\n"
+"            Посмотреть</a>\n"
+"    </div>\n"
+"    <div style=\"margin: 16px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Подробности</h2>\n"
+"        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-"
+"size: 13px; color: #374151;\">\n"
+"            <tr>\n"
+"                <td style=\"width: 100px; color: #676F7B;\">Дата и время</td>"
+"\n"
+"                <td style=\"font-weight: bold;\">\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='EEEE', "
+"lang_code=object.env.lang) or ''\">Вторник</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='d', "
+"lang_code=object.env.lang) or ''\">4</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='MMMM "
+"y', lang_code=object.env.lang) or ''\">мая 2021</t>\n"
+"                    <t t-if=\"not object.event_id.allday\">\n"
+"                        <t t-out=\"format_time(time=object.event_id.start, "
+"tz=object.mail_tz, time_format='short', lang_code=object.env.lang) or ''\""
+">11:00</t>\n"
+"                        <t t-if=\"object.mail_tz\">\n"
+"                            <span style=\"font-size: 11px; font-weight: "
+"normal;\">\n"
+"                                "
+"(<t t-out=\"object.mail_tz or ''\">Europe/Brussels</t>)\n"
+"                            </span>\n"
+"                        </t>\n"
+"                    </t>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"recurrent\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Когда</td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"object.recurrence_id.get_recurrence_name() or ''\">Каждую неделю, 3 "
+"мероприятия</t></td>\n"
+"            </tr>\n"
+"            <tr t-if="
+"\"not object.event_id.allday and object.event_id.duration\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Длительность</td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"('%dH%02d' % (object.event_id.duration,round(object.event_id.duration*60)"
+"%60)) or ''\">0ч30</t></td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.location\">\n"
+"                <td style="
+"\"width: 100px; padding-top: 6px; color: #676F7B; vertical-align: top;\""
+">Место проведения</td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <t t-out=\"object.event_id.location or ''\">Bruxelles</t>"
+"\n"
+"                    <a target=\"_blank\" t-if=\"not is_online or is_online "
+"and object.event_id.location != "
+"object.event_id.appointment_type_id.location_id.name\" t-attf-href="
+"\"http://maps.google.com/maps?oi=map&amp;q={{object.event_id.location}}\" "
+"style=\"margin-left: 12px; font-size: 12px; color: #008f8c; text-decoration: "
+"underline;\">Посмотреть карту</a>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.videocall_location\">\n"
+"                <td style=\"width: 100px; padding-top: 6px;color: #676F7B;\">"
+"\n"
+"                    <t t-if="
+"\"object.get_base_url() in object.event_id.videocall_location\""
+">Присоединиться через</t>\n"
+"                    <t t-else=\"\">Присоединиться к</t>\n"
+"                </td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <a t-attf-href=\"object.event_id.videocall_location\" "
+"target=\"_blank\" style=\"color: #008f8c;\">\n"
+"                        <t t-if="
+"\"object.get_base_url() in object.event_id.videocall_location\">модуль "
+"Обсуждения Odoo</t>\n"
+"                        <t t-else=\"\">видеоконференции</t>\n"
+"                    </a>\n"
+"                </td>\n"
+"            </tr>\n"
+"        </table>\n"
+"    </div>\n"
+"    <div style=\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Участники</h2>\n"
+"        <div t-foreach=\"object.event_id.attendee_ids\" t-as=\"attendee\" "
+"style=\"margin-bottom: 5px;\">\n"
+"            <img t-if=\"attendee.state\" t-attf-src="
+"\"/calendar/static/src/img/state_{{ attendee.state }}.png\" style="
+"\"border:0; width: 15px; height: 15px; vertical-align: text-bottom;\"/>\n"
+"            <t t-if=\"attendee != object\">\n"
+"                <span style=\"margin-left: 5px;\" t-out=\""
+"attendee.common_name or ''\">Митчелл Админ</span>\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                <span style=\"margin-left: 5px;\">Вы</span>\n"
+"            </t>\n"
+"        </div>\n"
+"    </div>\n"
+"    <div t-if=\"not is_html_empty(object.event_id.description)\" style="
+"\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Описание мероприятия</h2>\n"
+"        <t t-out=\"object.event_id.description\">Внутреннее совещание для "
+"обсуждения новых цен на продукцию и услуги.</t>\n"
+"    </div>\n"
+"    <p style=\"margin: 32px 0 0;\">\n"
+"        Спасибо,\n"
+"        <t t-if=\"object.event_id.user_id.signature\">\n"
+"            <span style=\"display: block; margin-top: 8px;\"><t t-out="
+"\"object.event_id.user_id.signature or ''\">Митчелл Админ</t></span>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
 
 #. module: calendar
 #: model:mail.template,body_html:calendar.calendar_template_meeting_update
@@ -571,8 +945,8 @@ msgstr ""
 "<div style=\"font-size: 13px; color: #374151;\">\n"
 "    <t t-set=\"is_online\" t-value="
 "\"'appointment_type_id' in object and object.appointment_type_id\"/>\n"
-"    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not "
-"ctx.get('calendar_template_ignore_recurrence')\"/>\n"
+"    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not ctx.get"
+"('calendar_template_ignore_recurrence')\"/>\n"
 "    <t t-set=\"mail_tz\" t-value="
 "\"object._get_mail_tz() or ctx.get('mail_tz')\"/>\n"
 "    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; margin-"
@@ -612,8 +986,8 @@ msgstr ""
 "                        <t t-if=\"mail_tz\">\n"
 "                            <span style=\"font-size: 11px; font-weight: "
 "normal;\">\n"
-"                                (<t t-out=\"mail_tz or ''\">Europe/"
-"Brussels</t>)\n"
+"                                "
+"(<t t-out=\"mail_tz or ''\">Europe/Brussels</t>)\n"
 "                            </span>\n"
 "                        </t>\n"
 "                    </t>\n"
@@ -629,8 +1003,9 @@ msgstr ""
 "            <tr t-if=\"not object.allday and object.duration\">\n"
 "                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
 ">Длительность</td>\n"
-"                <td style=\"padding-top: 6px;\"><t t-out=\"('%dH%02d' % "
-"(object.duration,round(object.duration*60)%60))\">0ч30</t></td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"('%dH%02d' % (object.duration,round(object.duration*60)%60))\">0ч30</t></td>"
+"\n"
 "            </tr>\n"
 "            <tr t-if=\"object.location\">\n"
 "                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
@@ -647,15 +1022,15 @@ msgstr ""
 "            <tr t-if=\"object.videocall_location\">\n"
 "                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
 ">\n"
-"                    <t t-if=\"object.videocall_source == 'discuss'\">Как "
-"присоединиться</t>\n"
+"                    <t t-if=\"object.videocall_source == 'discuss'\""
+">Присоединиться через</t>\n"
 "                    <t t-else=\"\">Присоединиться</t>\n"
 "                </td>\n"
 "                <td style=\"padding-top: 6px;\">\n"
 "                    <a t-attf-href=\"object.videocall_location\" target="
 "\"_blank\" style=\"color: #008f8c;\">\n"
 "                        <t t-if=\"object.videocall_source == 'discuss'\""
-">через модуль Обсуждения Odoo</t>\n"
+">модуль Обсуждения Odoo</t>\n"
 "                        <t t-else=\"\">к видеоконференции</t>\n"
 "                    </a>\n"
 "                </td>\n"
@@ -864,6 +1239,170 @@ msgid ""
 "</div>\n"
 "            "
 msgstr ""
+"<div style=\"font-size: 13px; color: #374151;\">\n"
+"    <t t-set=\"is_online\" t-value=\"'appointment_type_id' in "
+"object.event_id and object.event_id.appointment_type_id\"/>\n"
+"    <t t-set=\"recurrent\" t-value=\"object.recurrence_id and not ctx.get"
+"('calendar_template_ignore_recurrence')\"/>\n"
+"    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; margin-"
+"bottom: 28px;\">\n"
+"        Напоминание\n"
+"        <img src=\"/calendar/static/src/img/bell.png\" style=\"border:0; "
+"width: 21px; height: 24px; margin-left: 10px; text-decoration:none; vertical-"
+"align: bottom;\"/>\n"
+"    </h1>\n"
+"    <p style=\"margin: 0;\">\n"
+"        Здравствуйте, <t t-out=\"object.common_name or ''\">Gemini "
+"Furniture</t>!<br/>\n"
+"        <span style=\"display: block; margin-top: 8px;\">Это напоминание о "
+"предстоящей встрече.</span>\n"
+"    </p>\n"
+"    <div style=\"text-align: center; padding: 16px 0px 16px 0px;\">\n"
+"        <a t-attf-href=\"/calendar/{{ 'recurrence' if recurrent else "
+"'meeting' }}/accept?token={{ object.access_token }}&amp;id={{ "
+"object.event_id.id }}\" t-attf-style=\"display: inline-block; padding: 7px "
+"14px; color: {{object.event_id.user_id.company_id.email_primary_color or "
+"'#FFFFFF'}}; text-decoration: none; background-color: {{"
+"object.event_id.user_id.company_id.email_secondary_color or '#875A7B'}}; "
+"border-radius: 3px;\">\n"
+"            Принять</a>\n"
+"        <a t-attf-href=\"/calendar/{{ 'recurrence' if recurrent else "
+"'meeting' }}/decline?token={{ object.access_token }}&amp;id={{ "
+"object.event_id.id }}\" t-attf-style=\"display: inline-block; margin-left: "
+"6px; padding: 7px 14px; color: {{"
+"object.event_id.user_id.company_id.email_primary_color or '#FFFFFF'}}; text-"
+"decoration: none; background-color: {{"
+"object.event_id.user_id.company_id.email_secondary_color or '#875A7B'}}; "
+"border-radius: 3px;\">\n"
+"            Отклонить</a>\n"
+"        <a t-attf-href=\"/calendar/meeting/view?token={{ object.access_token "
+"}}&amp;id={{ object.event_id.id }}\" t-attf-style=\"display: inline-block; "
+"margin-left: 12px; padding: 7px 14px; color: #111827; text-decoration: none; "
+"background-color: #E7E9ED; border-radius: 3px;\">\n"
+"            Посмотреть</a>\n"
+"    </div>\n"
+"    <div style=\"margin: 16px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Подробности</h2>\n"
+"        <table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"font-"
+"size: 13px; color: #374151;\">\n"
+"            <tr>\n"
+"                <td style=\"width: 100px; color: #676F7B;\">Дата и время</td>"
+"\n"
+"                <td style=\"font-weight: bold;\">\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='EEEE', "
+"lang_code=object.env.lang) or ''\">Вторник</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='d', "
+"lang_code=object.env.lang) or ''\">4</t>\n"
+"                    <t t-out=\"format_datetime(dt=object.event_id.start, "
+"tz=object.mail_tz if not object.event_id.allday else None, dt_format='MMMM "
+"y', lang_code=object.env.lang) or ''\">мая 2021</t>\n"
+"                    <t t-if=\"not object.event_id.allday\">\n"
+"                        <t t-out=\"format_time(time=object.event_id.start, "
+"tz=object.mail_tz, time_format='short', lang_code=object.env.lang) or ''\""
+">11:00</t>\n"
+"                        <t t-if=\"object.mail_tz\">\n"
+"                            <span style=\"font-size: 11px; font-weight: "
+"normal;\">\n"
+"                                "
+"(<t t-out=\"object.mail_tz or ''\">Europe/Brussels</t>)\n"
+"                            </span>\n"
+"                        </t>\n"
+"                    </t>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"recurrent\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Когда</td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <t t-out="
+"\"object.recurrence_id.get_recurrence_name() or ''\">Каждую неделю, 3 "
+"мероприятия</t>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if="
+"\"not object.event_id.allday and object.event_id.duration\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">Длительность</td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <t t-out=\""
+"('%dH%02d' % (object.event_id.duration,round(object.event_id.duration*60)"
+"%60)) or ''\">0ч30</t>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.location\">\n"
+"                <td style="
+"\"width: 100px; padding-top: 6px; color: #676F7B; vertical-align: top;\""
+">Место проведения</td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <t t-out=\"object.event_id.location or ''\">Bruxelles</t>"
+"\n"
+"                    <a target=\"_blank\" t-if=\"not is_online or is_online "
+"and object.event_id.location != "
+"object.event_id.appointment_type_id.location_id.name\" t-attf-href="
+"\"http://maps.google.com/maps?oi=map&amp;q={{object.event_id.location}}\" "
+"style=\"margin-left: 12px; font-size: 12px; color: #008f8c; text-decoration: "
+"underline;\">Посмотреть карту</a>\n"
+"                </td>\n"
+"            </tr>\n"
+"            <tr t-if=\"object.event_id.videocall_location\">\n"
+"                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
+">\n"
+"                    <t t-if="
+"\"object.get_base_url() in object.event_id.videocall_location\""
+">Присоединиться через</t>\n"
+"                    <t t-else=\"\">Присоединиться к</t>\n"
+"                </td>\n"
+"                <td style=\"padding-top: 6px;\">\n"
+"                    <a t-attf-href=\"object.event_id.videocall_location\" "
+"target=\"_blank\" style=\"color: #008f8c;\">\n"
+"                        <t t-if="
+"\"object.get_base_url() in object.event_id.videocall_location\">модуль "
+"Обсуждения Odoo</t>\n"
+"                        <t t-else=\"\">видеоконференции</t>\n"
+"                    </a>\n"
+"                </td>\n"
+"            </tr>\n"
+"        </table>\n"
+"    </div>\n"
+"    <div style=\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Участники</h2>\n"
+"        <div t-foreach=\"object.event_id.attendee_ids\" t-as=\"attendee\" "
+"style=\"margin-bottom: 5px;\">\n"
+"            <img t-if=\"attendee.state\" t-attf-src="
+"\"/calendar/static/src/img/state_{{ attendee.state }}.png\" style="
+"\"border:0; width: 15px; height: 15px; vertical-align: text-bottom;\"/>\n"
+"            <t t-if=\"attendee != object\">\n"
+"                <span style=\"margin-left: 5px;\" t-out=\""
+"attendee.common_name or ''\">Митчелл Админ</span>\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                <span style=\"margin-left: 5px;\">Вы</span>\n"
+"            </t>\n"
+"        </div>\n"
+"    </div>\n"
+"    <div t-if=\"not is_html_empty(object.event_id.description)\" style="
+"\"margin: 32px 0 0;\">\n"
+"        <h2 t-attf-style=\"margin-bottom: 12px; font-size: 14px; font-weight:"
+" bold; color: {{user.company_id.email_secondary_color or '#875A7B'}};\""
+">Описание</h2>\n"
+"        <t t-out=\"object.event_id.description\">Внутреннее совещание для "
+"обсуждения новых цен на продукцию и услуги.</t>\n"
+"    </div>\n"
+"    <p style=\"margin: 32px 0 0;\">\n"
+"        Спасибо,\n"
+"        <t t-if=\"object.event_id.user_id.signature\">\n"
+"            <span style=\"display: block; margin-top: 8px;\"><t t-out="
+"\"object.event_id.user_id.signature or ''\">Митчелл Админ</t></span>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
 
 #. module: calendar
 #: model:mail.template,body_html:calendar.calendar_template_delete_event
@@ -952,7 +1491,7 @@ msgstr ""
 "    <t t-set=\"event_organizer\" t-value=\"object.user_id.name or ''\"/>\n"
 "    <h1 style=\"font-size: 18px; font-weight: bold; color: #374151; margin-"
 "bottom: 28px;\">\n"
-"        Отмена мероприятия\n"
+"        Отмена записи\n"
 "        <img src=\"/calendar/static/src/img/times-circle.png\" style=\"border"
 ":0; width: 24px; height: 24px; margin-left: 10px; text-decoration:none; "
 "vertical-align: bottom;\"/>\n"
@@ -960,10 +1499,10 @@ msgstr ""
 "    <p style=\"margin: 0;\">\n"
 "        Здравствуйте!<br/>\n"
 "        <span style=\"display: block; margin-top: 8px;\">\n"
-"            Сообщаем, что мероприятие <strong t-out=\"event_name or ''\""
+"            Сообщаем, что встреча <strong t-out=\"event_name or ''\""
 ">Обсуждение предложения по проекту</strong>, <t t-if=\"event_organizer\""
-">организованное </t><t t-out=\"event_organizer or ''\">Коллин Диаз</t> было "
-"отменено и удалено из вашего календаря.\n"
+">организованная </t><t t-out=\"event_organizer or ''\">Коллин Диаз</t>, была "
+"отменена и удалена из вашего календаря.\n"
 "        </span>\n"
 "    </p>\n"
 "    <div style=\"margin: 32px 0 0;\">\n"
@@ -991,8 +1530,8 @@ msgstr ""
 "                        <t t-if=\"mail_tz\">\n"
 "                            <span style=\"font-size: 11px; font-weight: "
 "normal;\">\n"
-"                                (<t t-out=\"mail_tz or ''\">Europe/"
-"Brussels</t>)\n"
+"                                "
+"(<t t-out=\"mail_tz or ''\">Europe/Brussels</t>)\n"
 "                            </span>\n"
 "                        </t>\n"
 "                    </t>\n"
@@ -1001,8 +1540,9 @@ msgstr ""
 "            <tr t-if=\"not object.allday and object.duration\">\n"
 "                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
 ">Длительность</td>\n"
-"                <td style=\"padding-top: 6px;\"><t t-out=\"('%dH%02d' % "
-"(object.duration,round(object.duration*60)%60))\">0ч30</t></td>\n"
+"                <td style=\"padding-top: 6px;\"><t t-out=\""
+"('%dH%02d' % (object.duration,round(object.duration*60)%60))\">0ч30</t></td>"
+"\n"
 "            </tr>\n"
 "            <tr t-if=\"object.location\">\n"
 "                <td style=\"width: 100px; padding-top: 6px; color: #676F7B;\""
@@ -1028,8 +1568,8 @@ msgid ""
 "<i class=\"fa fa-9x fa-calendar p-3\" title=\"Calendar\" aria-"
 "hidden=\"true\"/>"
 msgstr ""
-"<i class=\"fa fa-9x fa-calendar p-3\" title=\"Календарь\" aria-hidden="
-"\"true\"/>"
+"<i class=\"fa fa-9x fa-calendar p-3\" title=\"Календарь\" aria-"
+"hidden=\"true\"/>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
@@ -1049,7 +1589,7 @@ msgstr "<i class=\"fa fa-map text-600\" title=\"Место проведения\
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "<i class=\"fa fa-remove\" title=\"Remove\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-remove\" title=\"Удалить\"/>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
@@ -1075,7 +1615,7 @@ msgstr ""
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "<span class=\"fa fa-plus me-1\"/>Video"
-msgstr ""
+msgstr "<span class=\"fa fa-plus me-1\"/>Видео"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
@@ -1111,12 +1651,12 @@ msgstr "<span invisible=\"allday\" style=\"white-space: pre;\"> или </span>"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "<span invisible=\"not recurrency\" class=\"mx-1\">Repeat:</span>"
-msgstr ""
+msgstr "<span invisible=\"not recurrency\" class=\"mx-1\">Повтор:</span>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "<span title=\"Clear meeting\" class=\"fa fa-times\"/>"
-msgstr ""
+msgstr "<span title=\"Удалить встречу\" class=\"fa fa-times\"/>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
@@ -1126,7 +1666,7 @@ msgstr "<span title=\"Присоединиться к видеозвонку\" c
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "<span> guests</span>"
-msgstr ""
+msgstr "<span> участники</span>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
@@ -1136,7 +1676,7 @@ msgstr "<span> часы</span>"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "<span>All day</span>"
-msgstr ""
+msgstr "<span>Весь день</span>"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_event_delete_wizard_form
@@ -1220,7 +1760,7 @@ msgstr "План-график деятельности Мастер"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "Add Title"
-msgstr ""
+msgstr "Добавить заголовок"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
@@ -1230,7 +1770,7 @@ msgstr "Добавить описание"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Add notes about this meeting..."
-msgstr ""
+msgstr "Добавить заметки об этой встрече..."
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_alarm__body
@@ -1312,7 +1852,7 @@ msgstr "Доступно/занято"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Awaiting"
-msgstr ""
+msgstr "В ожидании"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__awaiting_count
@@ -1418,7 +1958,7 @@ msgstr "Настройки Календаря"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Calendar description"
-msgstr ""
+msgstr "Описание календаря"
 
 #. module: calendar
 #: model:mail.template,name:calendar.calendar_template_meeting_changedate
@@ -1428,7 +1968,7 @@ msgstr "Календарь: Дата обновления"
 #. module: calendar
 #: model:mail.template,name:calendar.calendar_template_delete_event
 msgid "Calendar: Event Deleted"
-msgstr ""
+msgstr "Календарь: Мероприятие удалено"
 
 #. module: calendar
 #: model:ir.actions.server,name:calendar.ir_cron_scheduler_alarm_ir_actions_server
@@ -1453,7 +1993,7 @@ msgstr "Календарь: Напоминание"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__can_edit_body
 msgid "Can Edit Body"
-msgstr ""
+msgstr "Можно редактировать содержимое"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.calendar_popover_delete_view
@@ -1550,12 +2090,12 @@ msgstr "Контактные лица"
 #. odoo-python
 #: code:addons/calendar/models/calendar_event.py:0
 msgid "Contact Details"
-msgstr ""
+msgstr "Контактная информация"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__body
 msgid "Contents"
-msgstr ""
+msgstr "Содержание"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_recurrence__count
@@ -1565,7 +2105,7 @@ msgstr "Количество"
 #. module: calendar
 #: model:ir.model,website_form_label:calendar.model_res_partner
 msgid "Create a Customer"
-msgstr ""
+msgstr "Создать клиента"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_alarm__create_uid
@@ -1623,7 +2163,7 @@ msgstr "Дата месяца"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "Dates"
-msgstr ""
+msgstr "Даты"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_recurrence__day
@@ -1704,7 +2244,7 @@ msgstr "Удалить событие"
 #. module: calendar
 #: model:mail.template,subject:calendar.calendar_template_delete_event
 msgid "Deleted event: {{ object.name }}"
-msgstr ""
+msgstr "Удаленное мероприятие: {{ object.name }}"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__description
@@ -1721,7 +2261,7 @@ msgstr "Детали"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_event_delete_wizard_form
 msgid "Discard"
-msgstr ""
+msgstr "Отменить"
 
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__calendar_event__videocall_source__discuss
@@ -1736,7 +2276,7 @@ msgstr "Общение канал"
 #. module: calendar
 #: model:ir.model,name:calendar.model_discuss_channel
 msgid "Discussion Channel"
-msgstr ""
+msgstr "Дискуссионный канал"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__display_description
@@ -1815,7 +2355,7 @@ msgstr "Редактирование повторяющихся событий"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__effective_privacy
 msgid "Effective Privacy"
-msgstr ""
+msgstr "Эффективная конфиденциальность"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_attendee__email
@@ -1873,7 +2413,7 @@ msgstr "Менеджер аварийных сигналов событий"
 #. module: calendar
 #: model:ir.actions.act_window,name:calendar.action_event_delete_wizard
 msgid "Event Cancel Wizard"
-msgstr ""
+msgstr "Мастер отмены мероприятия"
 
 #. module: calendar
 #: model:ir.model,name:calendar.model_calendar_event_type
@@ -1987,8 +2527,8 @@ msgstr "Каждые %(interval)s лет до %(until)s"
 #. module: calendar
 #. odoo-python
 #: code:addons/calendar/models/mail_activity.py:0
-msgid "Feedback: %(feedback)s"
-msgstr "Обратная связь: %(feedback)s"
+msgid "Feedback: %s"
+msgstr "Отзывы: %s"
 
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__calendar_event__byday__1
@@ -2049,7 +2589,7 @@ msgstr "Пятница"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Going?"
-msgstr ""
+msgstr "Собираетесь?"
 
 #. module: calendar
 #. odoo-javascript
@@ -2160,7 +2700,7 @@ msgstr ""
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__res_users__calendar_default_privacy__confidential
 msgid "Internal users only"
-msgstr ""
+msgstr "Только для внутренних пользователей"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_recurrence__interval
@@ -2211,7 +2751,7 @@ msgstr "Приглашения"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__is_mail_template_editor
 msgid "Is Editor"
-msgstr ""
+msgstr "Редактор"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__message_is_follower
@@ -2236,7 +2776,7 @@ msgstr "Присоединяйтесь к видеозвонку"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__lang
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__calendar_event__byday__-1
@@ -2284,7 +2824,7 @@ msgstr ""
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Linked to"
-msgstr ""
+msgstr "Связано с"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__location
@@ -2301,7 +2841,7 @@ msgstr "Логотип"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__template_id
 msgid "Mail Template"
-msgstr ""
+msgstr "Шаблон сообщения"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_attendee__mail_tz
@@ -2488,7 +3028,7 @@ msgstr "Нет, оставить"
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "Notes"
-msgstr ""
+msgstr "Заметки"
 
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__calendar_alarm__alarm_type__notification
@@ -2530,7 +3070,7 @@ msgstr "Уведомления, отправленные всем участни
 #: code:addons/calendar/models/calendar_alarm.py:0
 #: model:ir.model.fields,field_description:calendar.field_calendar_alarm__notify_responsible
 msgid "Notify Responsible"
-msgstr ""
+msgstr "Уведомить ответственного"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__message_needaction_counter
@@ -2601,19 +3141,19 @@ msgid ""
 msgstr ""
 "Опциональный язык перевода (код ISO), выбираемый при отправке e-mail. Если "
 "не установлен, будет использоваться язык основного партнера. Обычно это "
-"выражение-заполнитель, предоставляющее нужный язык, напр. {{ "
-"object.partner_id.lang }}."
+"выражение-заполнитель, предоставляющее нужный язык, напр. "
+"{{ object.partner_id.lang }}."
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Options"
-msgstr ""
+msgstr "Опции"
 
 #. module: calendar
 #. odoo-python
 #: code:addons/calendar/models/calendar_event.py:0
 msgid "Organized by"
-msgstr ""
+msgstr "Организовано"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__user_id
@@ -2656,7 +3196,7 @@ msgstr "Участник"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "Participants"
-msgstr ""
+msgstr "Участники"
 
 #. module: calendar
 #: model:ir.model.fields,help:calendar.field_calendar_event__partner_id
@@ -2691,7 +3231,7 @@ msgstr "Частный"
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__res_users__calendar_default_privacy__private
 msgid "Private by default"
-msgstr ""
+msgstr "Приватный по умолчанию"
 
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__calendar_event__effective_privacy__public
@@ -2704,12 +3244,12 @@ msgstr "Публичный"
 #. module: calendar
 #: model:ir.model.fields.selection,name:calendar.selection__res_users__calendar_default_privacy__public
 msgid "Public by default"
-msgstr ""
+msgstr "Общий по умолчанию"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__recipient_ids
 msgid "Recipients"
-msgstr ""
+msgstr "Получатели"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__rrule_type
@@ -2758,7 +3298,7 @@ msgstr "Напоминания"
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_popover_delete_wizard__render_model
 msgid "Rendering Model"
-msgstr ""
+msgstr "Модель рендеринга"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__rrule_type_ui
@@ -2827,7 +3367,7 @@ msgstr "Суббота"
 #: model_terms:ir.ui.view,arch_db:calendar.mail_activity_schedule_view_form
 #: model_terms:ir.ui.view,arch_db:calendar.mail_activity_view_form_popup
 msgid "Schedule"
-msgstr ""
+msgstr "Запланировать встречу"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.mail_activity_schedule_view_form
@@ -2884,12 +3424,12 @@ msgstr "Отправить письмо"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_event_delete_wizard_form
 msgid "Send and delete"
-msgstr ""
+msgstr "Отправить и удалить"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Send email"
-msgstr ""
+msgstr "Отправка e-mail писем"
 
 #. module: calendar
 #: model:mail.template,description:calendar.calendar_template_meeting_reminder
@@ -3189,7 +3729,7 @@ msgstr "Невозможно сохранить рекурсию с \"Этим �
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__unavailable_partner_ids
 msgid "Unavailable Attendees"
-msgstr ""
+msgstr "Недоступные участники"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
@@ -3211,7 +3751,7 @@ msgstr "Окончание"
 #: model:mail.template,description:calendar.calendar_template_delete_event
 #: model:mail.template,description:calendar.calendar_template_meeting_update
 msgid "Used to manually notify attendees"
-msgstr ""
+msgstr "Используется для ручного уведомления участников"
 
 #. module: calendar
 #: model:ir.model,name:calendar.model_res_users
@@ -3231,12 +3771,12 @@ msgstr "Настройки пользователя"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "User default"
-msgstr ""
+msgstr "Пользовательские настройки по умолчанию"
 
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form
 msgid "Video Link"
-msgstr ""
+msgstr "Ссылка на видео"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__videocall_source
@@ -3246,7 +3786,7 @@ msgstr "Источник видеозвонка"
 #. module: calendar
 #: model_terms:ir.ui.view,arch_db:calendar.view_calendar_event_form_quick_create
 msgid "Visibility"
-msgstr ""
+msgstr "Видимость"
 
 #. module: calendar
 #: model:ir.model.fields,field_description:calendar.field_calendar_event__wed
@@ -3398,7 +3938,7 @@ msgstr "props.placeholder"
 #. odoo-javascript
 #: code:addons/calendar/static/src/views/fields/attendee_tags_list.xml:0
 msgid "unavailable"
-msgstr ""
+msgstr "недоступно"
 
 #. module: calendar
 #. odoo-javascript
@@ -3420,6 +3960,9 @@ msgstr "{{ object.event_id.name }}: Дата обновления"
 #: model:mail.template,subject:calendar.calendar_template_meeting_update
 msgid "{{object.name}}: Event update"
 msgstr "{{object.name}}: Обновление события"
+
+#~ msgid "Feedback: %(feedback)s"
+#~ msgstr "Обратная связь: %(feedback)s"
 
 #~ msgid ""
 #~ "<div>\n"

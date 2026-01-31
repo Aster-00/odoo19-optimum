@@ -1,6 +1,10 @@
 import { BaseOptionComponent, useDomState } from "@html_builder/core/utils";
 import { isImageSupportedForStyle } from "@html_builder/plugins/image/replace_media_option";
 
+/**
+ * @typedef {((el: HTMLElement) => Promise<boolean>)[]} hover_effect_allowed_predicates
+ */
+
 export class AnimateOption extends BaseOptionComponent {
     static template = "website.AnimateOption";
     static dependencies = ["animateOption"];
@@ -8,6 +12,7 @@ export class AnimateOption extends BaseOptionComponent {
     static exclude =
         "[data-oe-xpath], .o_not-animable, .s_col_no_resize.row > div, .s_col_no_resize";
     static props = {
+        dropdownClass: { type: String, optional: true, default: "o-hb-select-dropdown" },
         requireAnimation: { type: Boolean, optional: true },
         slots: { type: Object, optional: true },
     };

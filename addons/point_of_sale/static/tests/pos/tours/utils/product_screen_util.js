@@ -209,9 +209,9 @@ export function clickPartnerButton() {
         },
     ];
 }
-export function clickCustomer(name) {
+export function clickCustomer(name, pressEnter = false) {
     return [
-        ...PartnerList.searchCustomerValue(name),
+        ...PartnerList.searchCustomerValue(name, pressEnter),
         PartnerList.clickPartner(name),
         { ...back(), isActive: ["mobile"] },
     ];
@@ -574,6 +574,37 @@ export function enterLotNumbers(numbers) {
     return steps;
 }
 
+export function enterExistingLotNumbers(numbers) {
+    const steps = [
+        {
+            trigger: ".o-autocomplete input",
+            run: "click",
+        },
+    ];
+    for (const lot of numbers) {
+        steps.push(
+            {
+                content: "enter lot number",
+                trigger: ".o-autocomplete input",
+                run: "edit " + lot,
+            },
+            {
+                trigger: ".o-autocomplete input",
+                run: "press Enter",
+            },
+            {
+                content: "check entered lot number",
+                trigger: `.lot-container .lot-item:eq(-1) span:contains(${lot})`,
+            },
+            {
+                trigger: ".o-autocomplete input:value()",
+            }
+        );
+    }
+    steps.push(Dialog.confirm());
+    return steps;
+}
+
 export function isShown() {
     return [
         {
@@ -647,6 +678,9 @@ export function searchProduct(string) {
             run: `edit ${string}`,
         },
     ];
+}
+export function subtotalAmountIs(amount) {
+    return inLeftSide(...Order.hasSubtotal(amount));
 }
 export function totalAmountIs(amount) {
     return inLeftSide(...Order.hasTotal(amount));
@@ -906,6 +940,13 @@ function productInputSteps(name, barcode, list_price) {
             run: `edit ${list_price}`,
         },
     ];
+}
+
+export function ensureTaxesInputIsReadonly() {
+    return {
+        content: "Taxes field should be readonly.",
+        trigger: 'div[name="taxes_id"].o_readonly_modifier',
+    };
 }
 
 export function createProductFromFrontend(name, barcode, list_price, category) {

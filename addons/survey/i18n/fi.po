@@ -30,13 +30,14 @@
 # Konsta Aavaranta, 2023
 # Ossi Mantylahti <ossi.mantylahti@obs-solutions.fi>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-09-16 15:30+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2026-01-23 13:46+0000\n"
+"Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/survey/"
 "fi/>\n"
 "Language: fi\n"
@@ -44,7 +45,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: survey
 #: model:ir.model.fields,field_description:survey.field_survey_survey__question_count
@@ -244,7 +245,7 @@ msgstr ""
 #. module: survey
 #: model_terms:ir.ui.view,arch_db:survey.certification_report_view_general
 msgid "<br/> <span>by</span>"
-msgstr "<br/> <span>tekijä</span>"
+msgstr "<br/> <span>ja sen on myöntänyt</span>"
 
 #. module: survey
 #: model:mail.template,body_html:survey.mail_template_certification
@@ -743,7 +744,7 @@ msgid ""
 "<span>This certificate is presented to</span>\n"
 "                                <br/>"
 msgstr ""
-"<span>Tämä todistus on myönnetty</span>\n"
+"<span>Tämän todistuksen on ansainnut</span>\n"
 "                                <br/>"
 
 #. module: survey
@@ -2005,6 +2006,12 @@ msgid "Food Preferences"
 msgstr "Ruokamieltymykset"
 
 #. module: survey
+#. odoo-python
+#: code:addons/survey/models/survey_question.py:0
+msgid "For this question, you can only select one answer."
+msgstr ""
+
+#. module: survey
 #: model:ir.model.fields.selection,name:survey.selection__survey_user_input_line__answer_type__text_box
 msgid "Free Text"
 msgstr "Vapaamuotoinen teksti"
@@ -2363,7 +2370,7 @@ msgstr "Kuvan tiedostonimi"
 #. odoo-javascript
 #: code:addons/survey/static/src/interactions/survey_image_zoomer_templates.xml:0
 msgid "Image Zoom Dialog"
-msgstr "Kuvan zoomausvalintaikkuna"
+msgstr "Kuvan Suurennusikkuna"
 
 #. module: survey
 #: model:survey.question.answer,value:survey.survey_demo_burger_quiz_p3_q2_sug1
@@ -4553,8 +4560,8 @@ msgid ""
 "use this to give the purpose and guidelines to your candidates before they "
 "start it."
 msgstr ""
-"Kuvaus näytetään kyselyn aloitussivulla. Voit käyttää sitä antaaksesi "
-"ehdokkaille tavoitteen ja ohjeet ennen kuin he aloittavat kyselyn."
+"Kuvaus näytetään kyselyn aloitussivulla. Voit käyttää sitä kertoaksesi "
+"ehdokkaille kyselyn tavoitteet ja ohjeet ennen aloittamista."
 
 #. module: survey
 #. odoo-python
@@ -4975,7 +4982,7 @@ msgstr "Käytä mallipohjaa"
 #. odoo-javascript
 #: code:addons/survey/static/src/js/tours/survey_tour.js:0
 msgid "Use the breadcrumbs to quickly go back to the dashboard."
-msgstr "Käytä linkkipolkua palataksesi nopeasti takaisin koontinäytölle."
+msgstr "Käytä linkkipolkua palataksesi nopeasti koontinäytölle."
 
 #. module: survey
 #: model:ir.model.fields,help:survey.field_survey_question__description
@@ -5385,7 +5392,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/survey/static/src/interactions/survey_image_zoomer_templates.xml:0
 msgid "Zoom in"
-msgstr "Lähennä"
+msgstr "Suurenna"
 
 #. module: survey
 #. odoo-javascript

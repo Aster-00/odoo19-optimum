@@ -7,13 +7,15 @@
 # Tony Ng, 2025
 #
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Ho Pak Wai <wai@users.noreply.translate.odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server saas~18.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-09-16 08:12+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
+"POT-Creation-Date: 2026-01-09 18:37+0000\n"
+"PO-Revision-Date: 2026-01-23 07:37+0000\n"
+"Last-Translator: Ho Pak Wai <wai@users.noreply.translate.odoo.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://translate.odoo.com/"
 "projects/odoo-19/website_event/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -21,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_website_visitor__event_registration_count
@@ -51,7 +53,7 @@ msgstr " "
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.registration_template
 msgid "<b>Cancelled</b>"
-msgstr ""
+msgstr "<b>已取消</b>"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.registration_complete
@@ -392,13 +394,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_card
 #: model_terms:ir.ui.view,arch_db:website_event.s_dynamic_snippet_events_single_card_preview_data
 msgid "<strong>Date</strong>"
-msgstr ""
+msgstr "<strong>日期</strong>"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_card
 #: model_terms:ir.ui.view,arch_db:website_event.s_dynamic_snippet_events_single_card_preview_data
 msgid "<strong>Location</strong>"
-msgstr ""
+msgstr "<strong>位置</strong>"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.s_event_upcoming_snippet_card_preview_data
@@ -471,7 +473,7 @@ msgstr ""
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_about_1_answer_2
 msgid "A friend"
-msgstr ""
+msgstr "一個朋友"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.index_sidebar_photos
@@ -546,7 +548,7 @@ msgstr "所有國家"
 #. module: website_event
 #: model:event.question,title:website_event.event_question_allergies
 msgid "Allergies"
-msgstr ""
+msgstr "過敏"
 
 #. module: website_event
 #: model:ir.model.fields,help:website_event.field_event_event__website_menu
@@ -599,7 +601,7 @@ msgstr "返回 {{0}}"
 #: model:event.question.answer,name:website_event.event_question_about_0_answer_1
 #: model:event.question.answer,name:website_event.event_question_about_2_answer_1
 msgid "Blog Post"
-msgstr ""
+msgstr "網誌文章"
 
 #. module: website_event
 #. odoo-python
@@ -629,7 +631,7 @@ msgstr "取消"
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.events_list
 msgid "Cancelled"
-msgstr ""
+msgstr "已取消"
 
 #. module: website_event
 #. odoo-javascript
@@ -649,7 +651,7 @@ msgstr "關閉"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_about_1_answer_1
 msgid "Commercials"
-msgstr ""
+msgstr "廣告"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.event_event_view_form
@@ -678,7 +680,7 @@ msgstr "建築師會議"
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.s_event_upcoming_snippet_card_preview_data
 msgid "Conference for Architects"
-msgstr ""
+msgstr "建築師會議"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.registration_configure_tickets_button
@@ -693,7 +695,7 @@ msgstr "確認登記"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_working_field_answer_0
 msgid "Consumers"
-msgstr ""
+msgstr "消費者"
 
 #. module: website_event
 #. odoo-javascript
@@ -771,6 +773,7 @@ msgstr "說明"
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_event_event__display_name
 #: model:ir.model.fields,field_description:website_event.field_event_registration__display_name
+#: model:ir.model.fields,field_description:website_event.field_event_slot__display_name
 #: model:ir.model.fields,field_description:website_event.field_event_tag__display_name
 #: model:ir.model.fields,field_description:website_event.field_event_tag_category__display_name
 #: model:ir.model.fields,field_description:website_event.field_event_type__display_name
@@ -812,7 +815,7 @@ msgstr "下載門票"
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.s_event_upcoming_snippet_card_preview_data
 msgid "Enhance your architectural business and improve professional skills."
-msgstr ""
+msgstr "增強您的建築業務並提高專業技能。"
 
 #. module: website_event
 #: model:ir.model,name:website_event.model_event_event
@@ -877,6 +880,11 @@ msgstr "活動登記連結"
 #: model:ir.model.fields,field_description:website_event.field_website_visitor__event_registration_ids
 msgid "Event Registrations"
 msgstr "活動報名"
+
+#. module: website_event
+#: model:ir.model,name:website_event.model_event_slot
+msgid "Event Slot"
+msgstr ""
 
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_event_event__subtitle
@@ -1077,18 +1085,19 @@ msgstr ""
 #. module: website_event
 #: model:event.question,title:website_event.event_question_about_us
 msgid "How did you hear about us?"
-msgstr ""
+msgstr "你是如何認識我們的？"
 
 #. module: website_event
 #: model:event.question,title:website_event.event_question_about_0
 #: model:event.question,title:website_event.event_question_about_1
 #: model:event.question,title:website_event.event_question_about_2
 msgid "How did you learn about this event?"
-msgstr ""
+msgstr "您是如何得知本次活動的？"
 
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_event_event__id
 #: model:ir.model.fields,field_description:website_event.field_event_registration__id
+#: model:ir.model.fields,field_description:website_event.field_event_slot__id
 #: model:ir.model.fields,field_description:website_event.field_event_tag__id
 #: model:ir.model.fields,field_description:website_event.field_event_tag_category__id
 #: model:ir.model.fields,field_description:website_event.field_event_type__id
@@ -1226,7 +1235,7 @@ msgstr "看起來超棒！現在讓我們<b>發佈</b>此頁面，使其在您�
 #. module: website_event
 #: model:event.question,title:website_event.event_question_meal_type
 msgid "Meal Type"
-msgstr ""
+msgstr "餐食類型"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.s_dynamic_snippet_events_single_entry_preview_data
@@ -1254,7 +1263,7 @@ msgstr "功能表"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_meal_type_answer_0
 msgid "Mixed"
-msgstr ""
+msgstr "混合的"
 
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_event_event__address_name
@@ -1353,7 +1362,7 @@ msgstr "我們的培訓"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_about_1_answer_0
 msgid "Our website"
-msgstr ""
+msgstr "我們的網站"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.event_calendar_links
@@ -1370,7 +1379,7 @@ msgstr "歷史活動"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_meal_type_answer_2
 msgid "Pastafarian"
-msgstr ""
+msgstr "麵食"
 
 #. module: website_event
 #. odoo-javascript
@@ -1412,7 +1421,7 @@ msgstr "引述"
 #: model:event.question.answer,name:website_event.event_question_about_0_answer_2
 #: model:event.question.answer,name:website_event.event_question_about_2_answer_2
 msgid "Radio Ad"
-msgstr ""
+msgstr "電台廣告"
 
 #. module: website_event
 #. odoo-javascript
@@ -1444,7 +1453,7 @@ msgstr "報名選單"
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_entry
 #: model_terms:ir.ui.view,arch_db:website_event.s_dynamic_snippet_events_single_entry_preview_data
 msgid "Register Now"
-msgstr ""
+msgstr "現在註冊"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_aside
@@ -1533,7 +1542,7 @@ msgstr "活動開始前剩餘時間（分鐘）"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_working_field_answer_2
 msgid "Research"
-msgstr ""
+msgstr "研究"
 
 #. module: website_event
 #: model:ir.model.fields,help:website_event.field_event_event__website_id
@@ -1557,7 +1566,7 @@ msgstr "SEO 已最佳化"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_working_field_answer_1
 msgid "Sales"
-msgstr ""
+msgstr "銷售"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.modal_ticket_registration
@@ -1593,6 +1602,8 @@ msgid "Search an event.."
 msgstr "搜尋事件⋯"
 
 #. module: website_event
+#. odoo-javascript
+#: code:addons/website_event/static/src/interactions/website_event_slot_details.js:0
 #: model_terms:ir.ui.view,arch_db:website_event.modal_slot_registration
 msgid "Select a Date:"
 msgstr "選擇日期："
@@ -1602,6 +1613,12 @@ msgstr "選擇日期："
 #: model_terms:ir.ui.view,arch_db:website_event.event_registration_view_tree
 msgid "Selected Answers"
 msgstr "已選取答案"
+
+#. module: website_event
+#. odoo-javascript
+#: code:addons/website_event/static/src/interactions/website_event_slot_details.js:0
+msgid "Selected Date:"
+msgstr ""
 
 #. module: website_event
 #: model:ir.model.fields,field_description:website_event.field_event_event__seo_name
@@ -1662,7 +1679,7 @@ msgstr "時段"
 #: model:event.question.answer,name:website_event.event_question_about_0_answer_0
 #: model:event.question.answer,name:website_event.event_question_about_2_answer_0
 msgid "Social Media"
-msgstr ""
+msgstr "社交媒體"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.event_description_dates
@@ -1750,7 +1767,7 @@ msgstr "門票"
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_offset
 #: model_terms:ir.ui.view,arch_db:website_event.s_dynamic_snippet_events_single_offset_preview_data
 msgid "Time"
-msgstr ""
+msgstr "時間"
 
 #. module: website_event
 #. odoo-python
@@ -1805,7 +1822,7 @@ msgstr "在不是基於 url 的選單時使用"
 #. module: website_event
 #: model:event.question.answer,name:website_event.event_question_meal_type_answer_1
 msgid "Vegetarian"
-msgstr ""
+msgstr "素食"
 
 #. module: website_event
 #: model:ir.model.fields.selection,name:website_event.selection__event_event__website_visibility__link
@@ -1953,7 +1970,7 @@ msgstr "網站 opengraph 圖片"
 #. module: website_event
 #: model:event.question,title:website_event.event_question_hockey_level
 msgid "What's your Hockey level?"
-msgstr ""
+msgstr "你的曲棍球水平如何？"
 
 #. module: website_event
 #: model:ir.model.fields,help:website_event.field_event_event__is_ongoing
@@ -1982,7 +1999,7 @@ msgstr "使用“編輯”按鈕，您可以<b>自訂</b>訪問者在報名時�
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_aside
 #: model_terms:ir.ui.view,arch_db:website_event.dynamic_filter_template_event_event_single_entry
 msgid "at"
-msgstr ""
+msgstr "在"
 
 #. module: website_event
 #: model_terms:ir.ui.view,arch_db:website_event.modal_ticket_registration

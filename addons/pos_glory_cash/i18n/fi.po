@@ -2,13 +2,14 @@
 # This file contains the translation of the following modules:
 # * pos_glory_cash
 #
-# Saara Hakanen <sahak@odoo.com>, 2025.
+# Saara Hakanen <sahak@odoo.com>, 2025, 2026.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:38+0000\n"
-"PO-Revision-Date: 2025-10-30 08:46+0000\n"
+"POT-Creation-Date: 2025-12-30 18:37+0000\n"
+"PO-Revision-Date: 2026-01-13 15:36+0000\n"
 "Last-Translator: Saara Hakanen <sahak@odoo.com>\n"
 "Language-Team: Finnish <https://translate.odoo.com/projects/odoo-19/"
 "pos_glory_cash/fi/>\n"
@@ -17,7 +18,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Are you sure you want to reset the cash machine?"
+msgstr "Haluatko varmasti nollata pankkiautomaatin?"
 
 #. module: pos_glory_cash
 #. odoo-javascript
@@ -60,6 +67,12 @@ msgstr "Kassan käyttäjänimi"
 
 #. module: pos_glory_cash
 #. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Cash deposited: %s"
+msgstr "Talletettu käteinen: %s"
+
+#. module: pos_glory_cash
+#. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/screens/payment_screen/payment_lines/payment_lines.xml:0
 msgid "Cash inserted:"
 msgstr "Käteistä lisätty:"
@@ -78,9 +91,21 @@ msgstr "Kassan status:"
 
 #. module: pos_glory_cash
 #. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Change given: %s"
+msgstr "Annettu vaihtoraha: %s"
+
+#. module: pos_glory_cash
+#. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/app/components/cancel_dialog.xml:0
 msgid "Close"
 msgstr "Sulje"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/utils/constants.js:0
+msgid "Collection in progress"
+msgstr "Keräys käynnissä"
 
 #. module: pos_glory_cash
 #. odoo-javascript
@@ -96,6 +121,18 @@ msgstr ""
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Counting"
 msgstr "Laskenta"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/utils/constants.js:0
+msgid "Counting replenished cash"
+msgstr "Täydennetyn käteisen laskeminen"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Discard"
+msgstr "Hylkää"
 
 #. module: pos_glory_cash
 #. odoo-javascript
@@ -116,6 +153,12 @@ msgstr "Näyttönimi"
 
 #. module: pos_glory_cash
 #. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Download logs"
+msgstr "Lataa lokit"
+
+#. module: pos_glory_cash
+#. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Error"
 msgstr "Virhe"
@@ -125,6 +168,38 @@ msgstr "Virhe"
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Failed to authenticate"
 msgstr "Todennus epäonnistui"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid ""
+"Failed to connect to Glory cash machine, please ensure it is switched on and "
+"connected to the network."
+msgstr ""
+"Yhteyden muodostaminen Glory-pankkiautomaattiin epäonnistui. Varmista, että "
+"laite on kytketty päälle ja yhdistetty verkkoon."
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid ""
+"Failed to login to Glory cash machine, please check the configured username "
+"and password."
+msgstr ""
+"Kirjautuminen Glory-käteisautomaattiin epäonnistui. Tarkista määritetty "
+"käyttäjätunnus ja salasana."
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "GLORY TRANSACTION CANCELLED"
+msgstr "GLORY-MAKSUTAPAHTUMA PERUTTU"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "GLORY TRANSACTION SUCCESSFUL"
+msgstr "GLORY-MAKSUTAPAHTUMA ONNISTUI"
 
 #. module: pos_glory_cash
 #: model_terms:ir.ui.view,arch_db:pos_glory_cash.pos_payment_method_view_form_inherit_pos_glory_cash
@@ -161,6 +236,19 @@ msgstr "Kassajärjestelmän maksutavat"
 
 #. module: pos_glory_cash
 #. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Reset"
+msgstr "Palauta"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+#: code:addons/pos_glory_cash/static/src/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Reset cash machine"
+msgstr "Nollaa pankkiautomaatti"
+
+#. module: pos_glory_cash
+#. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Resetting"
 msgstr "Nollataan"
@@ -170,6 +258,16 @@ msgstr "Nollataan"
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Starting payment"
 msgstr "Aloitetaan maksua"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid ""
+"The cash machine contents could not be verified as it is busy with another "
+"operation."
+msgstr ""
+"Pankkiautomaatin sisältöä ei voitu vahvistaa, koska se suorittaa toista "
+"toimintoa."
 
 #. module: pos_glory_cash
 #. odoo-javascript
@@ -189,6 +287,16 @@ msgstr "Kassasta on loppunut seuraavat kolikot/setelit:"
 msgid ""
 "The cash machine is busy with another operation. Do you want to cancel it?"
 msgstr "Kassa suorittaa toista toimintoa. Haluatko perua sen?"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid ""
+"The cash machine is currently in collection/replenishment mode, please "
+"finish this process on the machine before making a payment."
+msgstr ""
+"Pankkiautomaatti on tällä hetkellä keräys-/täydennystilassa. Suorita tämä "
+"prosessi loppuun ennen maksun suorittamista."
 
 #. module: pos_glory_cash
 #. odoo-javascript
@@ -218,6 +326,16 @@ msgstr "Kassa täytyy tyhjentää, seuraavat kolikot/setelit ovat täynnä:"
 #. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/glory.js:0
 msgid ""
+"The cash machine requires verification of its contents, a collection process "
+"will now start. Please refer to the cash machine display."
+msgstr ""
+"Pankkiautomaatin sisältö on vahvistettava, keräysprosessi käynnistyy nyt. "
+"Katso pankkiautomaatin näyttö."
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid ""
 "The payment failed due to an unrecoverable error - see the cash machine "
 "screen for details."
 msgstr ""
@@ -242,6 +360,12 @@ msgstr ""
 
 #. module: pos_glory_cash
 #. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/glory.js:0
+msgid "Transaction ID: %s"
+msgstr "Tapahtuman tunnus: %s"
+
+#. module: pos_glory_cash
+#. odoo-javascript
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Waiting for cancellation"
 msgstr "Odottaa perumista"
@@ -251,6 +375,18 @@ msgstr "Odottaa perumista"
 #: code:addons/pos_glory_cash/static/src/utils/constants.js:0
 msgid "Waiting for cash to be removed"
 msgstr "Odottaa käteisen poistamista"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/utils/constants.js:0
+msgid "Waiting for cash to be replenished"
+msgstr "Odottaa käteisen täydennystä"
+
+#. module: pos_glory_cash
+#. odoo-javascript
+#: code:addons/pos_glory_cash/static/src/utils/constants.js:0
+msgid "Waiting for coin overflow removal"
+msgstr "Odotettaa liikakolikoiden poistamista"
 
 #. module: pos_glory_cash
 #. odoo-javascript

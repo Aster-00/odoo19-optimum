@@ -147,6 +147,9 @@ class AccountChartTemplate(models.AbstractModel):
         :param install_demo: whether or not we should load demo data right after loading the
             chart template.
         :type install_demo: bool
+        :param force_create: Determines the loading behavior. If True, forces the creation of new entries;
+            if False, prevents new creations and performs updates on existing data where applicable.
+        :type force_create: bool
         """
         if not company:
             return
@@ -296,7 +299,7 @@ class AccountChartTemplate(models.AbstractModel):
                 if journal:
                     del data['account.journal'][xmlid]
                     self.env['ir.model.data']._update_xmlids([{
-                        'xml_id': f"account.{company.id}_{xmlid}",
+                        'xml_id': self.company_xmlid(xmlid, company),
                         'record': journal,
                         'noupdate': True,
                     }])
@@ -340,7 +343,6 @@ class AccountChartTemplate(models.AbstractModel):
                 or len(template_line_ids) not in (0, len(tax.repartition_line_ids))
             )
 
-        existing_current_year_earnings_account = self.env['account.account'].search([('company_ids', '=', company.id),('account_type', '=', 'equity_unaffected')], limit=1)
         obsolete_xmlid = set()
         skip_update = set()
         for model_name, records in data.items():
@@ -424,9 +426,6 @@ class AccountChartTemplate(models.AbstractModel):
                                         repartition_line_values.clear()
                                         repartition_line_values['tag_ids'] = tags or [Command.clear()]
                 elif model_name == 'account.account':
-                    if  existing_current_year_earnings_account and values['account_type'] == 'equity_unaffected':
-                        skip_update.add((model_name, xmlid))
-                        continue
                     # Point or create xmlid to existing record to avoid duplicate code
                     account = self.ref(xmlid, raise_if_not_found=False)
                     normalized_code = f'{values["code"]:<0{int(template_data.get("code_digits", 6))}}'
@@ -438,7 +437,7 @@ class AccountChartTemplate(models.AbstractModel):
                         existing_account = accounts.sorted(key=lambda x: x.code != normalized_code)[0] if accounts else None
                         if existing_account:
                             self.env['ir.model.data']._update_xmlids([{
-                                'xml_id': f"account.{company.id}_{xmlid}",
+                                'xml_id': self.company_xmlid(xmlid, company),
                                 'record': existing_account,
                                 'noupdate': True,
                             }])
@@ -528,13 +527,20 @@ class AccountChartTemplate(models.AbstractModel):
             if model in data:
                 data[model] = data.pop(model)
 
-        if data.get('res.company', {}).get(company.id):
-            # Filter out default values that we don't want to ignore if the field is not present, in any case.
-            company_data_to_filter = {'account_production_wip_account_id', 'account_production_wip_overhead_account_id'}
-            # Remove data of unknown fields present in the company template
-            for fname in list(data['res.company'][company.id]):
-                if fname not in company._fields and (not self.env.context.get('l10n_check_fields_complete') or fname in company_data_to_filter):
-                    del data['res.company'][company.id][fname]
+        # Exclude data of unknown fields present in the template
+        if not self.env.context.get('l10n_check_fields_complete'):
+            for model_name, records in data.items():
+                for record in records.values():
+                    keys_to_delete = []
+                    for key in record:
+                        if key == '__translation_module__':
+                            continue
+
+                        fname = key.split('@')[0] if '@' in key else key
+                        if fname not in self.env[model_name]._fields:
+                            keys_to_delete.append(key)
+                    for key in keys_to_delete:
+                        del record[key]
 
         # Translate the untranslatable fields we want to translate anyway
         untranslatable_model_fields = self._get_untranslatable_fields_to_translate()
@@ -674,11 +680,14 @@ class AccountChartTemplate(models.AbstractModel):
                         del record_vals[key]
 
                 # Manage ids given as database id or xml_id
+                if isinstance(xml_id, str) and (record := self.ref(xml_id, raise_if_not_found=False)):
+                    xml_id = record.id
+
                 if isinstance(xml_id, int):
                     record_vals['id'] = xml_id
                     xml_id = False
                 else:
-                    xml_id = f"{('account.' + str(self.env.company.id) + '_') if '.' not in xml_id else ''}{xml_id}"
+                    xml_id = self.company_xmlid(xml_id)
 
                 all_records_vals.append({
                     'xml_id': xml_id,
@@ -787,6 +796,15 @@ class AccountChartTemplate(models.AbstractModel):
             'property_stock_journal': 'product.category',
         }
 
+    def _get_chart_template_model_data(self, template_code, model):
+        """Lightweight version of `_get_chart_template_data` targeting only one model."""
+        data = defaultdict(dict)
+        for code in [None] + self._get_parent_template(template_code):
+            for func in self._template_register[code].get(model, []):
+                for xmlid, values in func(self, template_code).items():
+                    data[xmlid].update(values)
+        return dict(data)
+
     def _get_chart_template_data(self, template_code):
         template_data = defaultdict(lambda: defaultdict(dict))
         template_data['res.company']  # ensure it's the first property when iterating
@@ -880,7 +898,7 @@ class AccountChartTemplate(models.AbstractModel):
         else:
             accounts = self.env['account.account']._load_records([
                 {
-                    'xml_id': f"account.{company.id}_{xml_id}",
+                    'xml_id': self.company_xmlid(xml_id, company),
                     'values': values,
                     'noupdate': True,
                 }
@@ -912,7 +930,7 @@ class AccountChartTemplate(models.AbstractModel):
         }
         self.env['account.account']._load_records([
             {
-                'xml_id': f"account.{company.id}_{xml_id}",
+                'xml_id': self.company_xmlid(xml_id, company),
                 'values': values,
                 'noupdate': True,
             }
@@ -1192,12 +1210,16 @@ class AccountChartTemplate(models.AbstractModel):
     # Tooling
     # --------------------------------------------------------------------------------
 
-    def ref(self, xmlid, raise_if_not_found=True):
+    def company_xmlid(self, xmlid, company=None):
         if '.' in xmlid:
-            return self.env.ref(xmlid, raise_if_not_found)
+            return xmlid
+        company = company or self.env.company
+        return f"account.{company.id}_{xmlid}"
+
+    def ref(self, xmlid, raise_if_not_found=True):
         return (
-            self.env.ref(f"account.{self.env.company.id}_{xmlid}", raise_if_not_found=False)
-            or self.env.ref(f"account.{self.env.company.parent_ids[0].id}_{xmlid}", raise_if_not_found)
+            self.env.ref(self.company_xmlid(xmlid), raise_if_not_found=False)
+            or self.env.ref(self.company_xmlid(xmlid, self.env.company.parent_ids[0]), raise_if_not_found)
         )
 
     def _get_parent_template(self, code):
@@ -1443,10 +1465,11 @@ class AccountChartTemplate(models.AbstractModel):
         translation_importer = TranslationImporter(self.env.cr, verbose=False)
 
         # Gather translations for records that are created from the chart_template data
-        for chart_template, chart_companies in groupby(companies, lambda c: c.chart_template):
+        for company in companies:
             chart_template_data = template_data or self.env['account.chart.template'] \
                 .with_context(ignore_missing_tags=True) \
-                ._get_chart_template_data(chart_template)
+                .with_company(company) \
+                ._get_chart_template_data(company.chart_template)
             chart_template_data.pop('template_data', None)
             for mname, data in chart_template_data.items():
                 for _xml_id, record in data.items():
@@ -1458,9 +1481,8 @@ class AccountChartTemplate(models.AbstractModel):
                                 continue
                             field_translation = self._get_field_translation(record, fname, lang)
                             if field_translation:
-                                for company in chart_companies:
-                                    xml_id = _xml_id if '.' in _xml_id else f"account.{company.id}_{_xml_id}"
-                                    translation_importer.model_translations[mname][fname][xml_id][lang] = field_translation
+                                xml_id = _xml_id if '.' in _xml_id else self.company_xmlid(_xml_id, company)
+                                translation_importer.model_translations[mname][fname][xml_id][lang] = field_translation
 
         # Gather translations for the TEMPLATE_MODELS records that are not created from the chart_template data
         translation_langs = [lang for lang in langs if lang != 'en_US']  # there are no code translations for 'en_US' (original language)

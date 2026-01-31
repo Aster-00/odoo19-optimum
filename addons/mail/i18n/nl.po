@@ -6,24 +6,25 @@
 # Yenthe Van Ginneken <yenthespam@gmail.com>, 2022
 # Martin Trigaux, 2023
 # Jolien De Paepe, 2023
-# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2025.
+# Erwin van der Ploeg <erwin@odooexperts.nl>, 2023, 2025, 2026.
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# Bren Driesen <brdri@odoo.com>, 2025.
+# Bren Driesen <brdri@odoo.com>, 2025, 2026.
 # "Malaz Siddig Elsayed Abuidris (msea)" <msea@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-29 13:34+0000\n"
-"Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
+"POT-Creation-Date: 2026-01-22 18:35+0000\n"
+"PO-Revision-Date: 2026-01-16 10:39+0000\n"
+"Last-Translator: Erwin van der Ploeg <erwin@odooexperts.nl>\n"
 "Language-Team: Dutch <https://translate.odoo.com/projects/odoo-19/mail/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_ir_actions_server__followers_type
@@ -303,15 +304,15 @@ msgstr "%(user)s heeft de naam van de thread veranderd naar %(name)s"
 
 #. module: mail
 #. odoo-javascript
-#: code:addons/mail/static/src/discuss/core/web/discuss_core_web_service.js:0
-msgid "%(user)s connected. This is their first connection. Wish them luck."
-msgstr "%(user)s verbonden. Dit is hun eerste verbinding. Wens ze succes."
-
-#. module: mail
-#. odoo-javascript
 #: code:addons/mail/static/src/core/common/message_model.js:0
 msgid "%(user)s deleted the thread \"%(thread_name)s\""
 msgstr "%(user)s heeft de Thread \"%(thread_name)s\" verwijderd"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/web/discuss_core_web_service.js:0
+msgid "%(user)s just connected for the first time. Wish them luck!"
+msgstr ""
 
 #. module: mail
 #. odoo-python
@@ -339,8 +340,8 @@ msgid ""
 "%(user_name)s has invited you to the %(strong_start)s%(channel_name)s%"
 "(strong_end)s channel."
 msgstr ""
-"%(user_name)s heeft je uitgenodigd voor het kanaal "
-"%(strong_start)s%(channel_name)s%(strong_end)s."
+"%(user_name)s heeft je uitgenodigd voor het kanaal %(strong_start)s%"
+"(channel_name)s%(strong_end)s."
 
 #. module: mail
 #. odoo-python
@@ -651,8 +652,8 @@ msgid ""
 "<span class=\"o_form_label fw-bold\" invisible=\"not "
 "has_external_mail_server\">Outgoing Mail Server</span>"
 msgstr ""
-"<span class=\"o_form_label fw-bold\" invisible="
-"\"not has_external_mail_server\">Uitgaande-e-mailserver</span>"
+"<span class=\"o_form_label fw-bold\" invisible=\"not "
+"has_external_mail_server\">Uitgaande-e-mailserver</span>"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_form_popup
@@ -984,8 +985,9 @@ msgid ""
 "Actions may trigger specific behavior like opening calendar view or "
 "automatically mark as done when a document is uploaded"
 msgstr ""
-"Acties kunnen specifiek gedrag doen afgaan zoals het openen van de kalender "
-"weergave of automatisch als gereed markeren wanneer een bestand geüpload is"
+"Acties kunnen specifiek gedrag triggeren, zoals het openen van de "
+"kalenderweergave of automatisch als gereed markeren wanneer een bestand "
+"geüpload is"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
@@ -2185,8 +2187,8 @@ msgstr "Browser"
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/device_select.xml:0
-msgid "Browser default"
-msgstr "Browser standaard"
+msgid "Browser Default"
+msgstr "Browser Standaard"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_push_device__endpoint
@@ -2715,7 +2717,7 @@ msgstr "Klik om de bijlagen te zien"
 #: code:addons/mail/static/src/views/web/fields/scheduled_date_field/scheduled_date_dialog.xml:0
 #: model_terms:ir.ui.view,arch_db:mail.mail_template_preview_view_form
 msgid "Close"
-msgstr "Afsluiten"
+msgstr "Sluiten"
 
 #. module: mail
 #. odoo-javascript
@@ -3118,7 +3120,7 @@ msgstr "%(activity_name)s . maken"
 #. odoo-javascript
 #: code:addons/mail/static/src/core/web/recipients_input.js:0
 msgid "Create %s"
-msgstr "%s . maken"
+msgstr "%s maken"
 
 #. module: mail
 #: model:ir.model.fields.selection,name:mail.selection__ir_actions_server__state__next_activity
@@ -3766,8 +3768,8 @@ msgstr "Verbinding verbreken"
 #. module: mail
 #. odoo-javascript
 #: code:addons/mail/static/src/discuss/call/common/rtc_service.js:0
-msgid "Disconnected from the RTC call by the server"
-msgstr "Verbinding verbroken met de RTC-oproep door de server"
+msgid "Disconnected from the call by the server"
+msgstr "Verbinding met de oproep verbroken door de server"
 
 #. module: mail
 #: model:ir.actions.client,name:mail.action_discuss
@@ -4497,7 +4499,7 @@ msgstr "Fout"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template_preview__error_msg
 msgid "Error Message"
-msgstr "Foutbericht"
+msgstr "Foutmelding"
 
 #. module: mail
 #. odoo-python
@@ -4666,7 +4668,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mail.field_mail_mail__failure_type
 #: model:ir.model.fields,field_description:mail.field_mail_notification__failure_type
 msgid "Failure type"
-msgstr "Soort mislukking"
+msgstr "Fouttype"
 
 #. module: mail
 #. odoo-javascript
@@ -4998,7 +5000,7 @@ msgstr "Geformatteerde e-mail"
 #: model:ir.model.fields.selection,name:mail.selection__mail_compose_message__composition_comment_option__forward
 #: model:ir.model.fields.selection,name:mail.selection__mail_scheduled_message__composition_comment_option__forward
 msgid "Forward"
-msgstr "Vooruit"
+msgstr "Doorsturen"
 
 #. module: mail
 #. odoo-javascript
@@ -5178,6 +5180,8 @@ msgid ""
 "Hardware acceleration is disabled. Blur effect impacts performance "
 "significantly."
 msgstr ""
+"Hardwareversnelling is uitgeschakeld. Het vervagingseffect beïnvloedt de "
+"prestaties aanzienlijk."
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_template_preview__has_attachments
@@ -6012,6 +6016,18 @@ msgid "Invitation already sent to this address"
 msgstr "Uitnodiging al verzonden naar dit adres"
 
 #. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_invitation.js:0
+msgid "Invitation link copied!"
+msgstr "Uitnodigingslink gekopieerd!"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_invitation.js:0
+msgid "Invitation link copy failed (Permission denied?)!"
+msgstr "Uitnodigingslink kopiëren mislukt (Toestemming geweigerd?)"
+
+#. module: mail
 #. odoo-python
 #: code:addons/mail/wizard/mail_followers_edit.py:0
 msgid "Invitation to follow %(document_model)s."
@@ -6053,6 +6069,12 @@ msgstr "Nodig een gebruiker uit"
 #: code:addons/mail/static/src/discuss/core/public_web/discuss_command_palette.xml:0
 msgid "Invite people"
 msgstr "Mensen uitnodigen"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_invitation.js:0
+msgid "Invite people or email"
+msgstr "Mensen uitnodigen of e-mailen"
 
 #. module: mail
 #. odoo-javascript
@@ -6532,7 +6554,7 @@ msgstr "Lancering plannen"
 #: model:ir.model.fields,field_description:mail.field_mail_mail__email_layout_xmlid
 #: model:ir.model.fields,field_description:mail.field_mail_message__email_layout_xmlid
 msgid "Layout"
-msgstr "Layout"
+msgstr "Lay-out"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.discuss_channel_view_kanban
@@ -6588,12 +6610,6 @@ msgid "Link between link previews and messages"
 msgstr "Koppeling tussen linkvoorbeelden en berichten"
 
 #. module: mail
-#. odoo-javascript
-#: code:addons/mail/static/src/discuss/core/common/channel_invitation.js:0
-msgid "Link copied!"
-msgstr "Link gekopieerd!"
-
-#. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_schedule_view_form
 msgid "Link to"
 msgstr "Link naar"
@@ -6607,7 +6623,7 @@ msgstr "Gekoppeld bericht"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_tree
 msgid "Linked to"
-msgstr "Gelinkt aan"
+msgstr "Gekoppeld aan"
 
 #. module: mail
 #. odoo-javascript
@@ -6746,7 +6762,7 @@ msgstr "Hand neerlaten"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_link_preview__og_mimetype
 msgid "MIME type"
-msgstr "MIME type"
+msgstr "MIME-type"
 
 #. module: mail
 #. odoo-javascript
@@ -8688,12 +8704,12 @@ msgstr "Eigenaar"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_mail_server__owner_limit_count
 msgid "Owner Limit Count"
-msgstr ""
+msgstr "Eigenaar Limiet Aantal"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_ir_mail_server__owner_limit_time
 msgid "Owner Limit Time"
-msgstr ""
+msgstr "Eigenaar Limiet Tijd"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_email_server_search
@@ -8853,6 +8869,12 @@ msgstr "Prestatiewaarschuwing:"
 #: code:addons/mail/static/src/discuss/core/common/delete_thread_dialog.xml:0
 msgid "Permanently delete this thread?"
 msgstr "Deze thread definitief verwijderen?"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/device_select.xml:0
+msgid "Permission Needed"
+msgstr "Toestemming vereist"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_res_partner__phone
@@ -9826,7 +9848,7 @@ msgstr "Opnieuw proberen"
 #. odoo-javascript
 #: code:addons/mail/static/src/core/common/message_actions.js:0
 msgid "Revert"
-msgstr "Keer terug"
+msgstr "Terugdraaien"
 
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
@@ -10287,6 +10309,14 @@ msgstr "Selecteer een taal"
 #: code:addons/mail/static/src/views/web/fields/assign_user_command_hook.js:0
 msgid "Select a user..."
 msgstr "Selecteer een gebruiker..."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_activity_schedule.py:0
+msgid "Selected user '%(user)s' cannot upload documents on model '%(model)s'"
+msgstr ""
+"De geselecteerde gebruiker '%(user)s' kan geen documenten uploaden op het "
+"model '%(model)s'"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_discuss_channel__self_member_id
@@ -11074,7 +11104,7 @@ msgstr "Systeemmelding"
 #. module: mail
 #: model_terms:ir.ui.view,arch_db:mail.view_ice_server_search
 msgid "TURN"
-msgstr ""
+msgstr "TURN"
 
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_message_translation__target_lang
@@ -11443,9 +11473,9 @@ msgid ""
 "email that does not reply to an existing record will cause the creation of a "
 "new record of this model (e.g. a Project Task)"
 msgstr ""
-"Het model waar deze alias bijhoort. Iedere inkomende e-mail dat niet bij een "
-"bestaande regel hoort zal leiden tot het aanmaken van een nieuwe regel in "
-"dit model (Bijv. een projecttaak)."
+"Het model (soort Odoo-Document) waar deze alias bijhoort. Iedere inkomende e-"
+"mail die niet bij een bestaande regel hoort zal leiden tot het aanmaken van "
+"een nieuwe regel in dit model (bv. een projecttaak)"
 
 #. module: mail
 #: model:ir.model.fields,help:mail.field_mail_alias__alias_name
@@ -12178,15 +12208,15 @@ msgstr ""
 "Type van serveractie. De volgende waarden zijn beschikbaar:\n"
 "\n"
 "- 'Werk een record bij': werk de waarden van een record bij\n"
-"- 'Maak activiteit aan': maak een activiteit (Discuss)\n"
-"- 'Stuur e-mail': plaats een bericht, een notitie of stuur een e-mail "
-"(Discuss)\n"
-"- 'Stuur SMS': stuur een SMS, log ze op documenten (SMS)\n"
+"- 'Activiteit aanmaken': maak een activiteit (Chat)\n"
+"- 'E-mail sturen': plaats een bericht, een notitie of stuur een e-mail "
+"(Chat)\n"
+"- 'Sms sturen': stuur een sms, log ze op documenten (sms)\n"
 "- 'Volgers toevoegen/verwijderen': voeg volgers toe of verwijder volgers van "
-"een record (Discuss)\n"
-"- 'Maak record aan': maak een nieuw record met nieuwe waarden\n"
-"- 'Voer code uit': een blok Python-code dat uitgevoerd zal worden\n"
-"- 'Stuur Webhook-melding': stuur een POST-verzoek naar een extern systeem, "
+"een record (Chat)\n"
+"- 'Record aanmaken': maak een nieuw record met nieuwe waarden\n"
+"- 'Code uitvoeren': een blok Python-code die uitgevoerd zal worden\n"
+"- 'Webhook-melding sturen': stuur een POST-verzoek naar een extern systeem, "
 "ook wel een Webhook genoemd\n"
 "- 'Meerdere acties': definieer een actie die verschillende andere "
 "serveracties triggert\n"
@@ -12350,11 +12380,19 @@ msgstr "Gesprek beëindigen"
 
 #. module: mail
 #. odoo-javascript
+#: code:addons/mail/static/src/core/common/follower_model.js:0
+#: code:addons/mail/static/src/core/common/message_model.js:0
 #: code:addons/mail/static/src/core/web/recipients_input.js:0
 #: code:addons/mail/static/src/core/web/recipients_popover.js:0
 #: code:addons/mail/static/src/views/web/fields/many2many_tags_email/many2many_tags_email.js:0
 msgid "Unnamed"
 msgstr "Naamloos"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_tracking_value.py:0
+msgid "Unnamed %(record_model_name)s (%(record_id)s)"
+msgstr "Naamloos %(record_model_name)s%(record_id)s"
 
 #. module: mail
 #. odoo-javascript
@@ -12513,7 +12551,7 @@ msgstr "Als standaard instellen"
 #. module: mail
 #: model:ir.model.fields,field_description:mail.field_mail_compose_message__use_exclusion_list
 msgid "Use Exclusion List"
-msgstr ""
+msgstr "Uitsluitingslijst gebruiken"
 
 #. module: mail
 #. odoo-javascript
@@ -13272,7 +13310,8 @@ msgstr "Je kunt de doelrecord van een gepland bericht niet wijzigen."
 #. odoo-python
 #: code:addons/mail/models/res_users.py:0
 msgid "You are not allowed to create a personal mail server."
-msgstr "Je bent niet gemachtigd om een persoonlijke e-mailserver in te stellen."
+msgstr ""
+"Je bent niet gemachtigd om een persoonlijke e-mailserver in te stellen."
 
 #. module: mail
 #. odoo-python
@@ -13864,7 +13903,7 @@ msgstr "heeft je zojuist de volgende activiteit toegewezen:"
 #. odoo-python
 #: code:addons/mail/wizard/mail_activity_schedule.py:0
 msgid "id"
-msgstr "ID"
+msgstr "id"
 
 #. module: mail
 #. odoo-javascript
@@ -14177,6 +14216,18 @@ msgstr "je alias"
 #: code:addons/mail/models/discuss/discuss_channel_member.py:0
 msgid "“%(member_name)s” in “%(channel_name)s”"
 msgstr "“%(member_name)s” in “%(channel_name)s”"
+
+#~ msgid "%(user)s connected. This is their first connection. Wish them luck."
+#~ msgstr "%(user)s verbonden. Dit is hun eerste verbinding. Wens ze succes."
+
+#~ msgid "Browser default"
+#~ msgstr "Browser standaard"
+
+#~ msgid "Disconnected from the RTC call by the server"
+#~ msgstr "Verbinding verbroken met de RTC-oproep door de server"
+
+#~ msgid "Link copied!"
+#~ msgstr "Link gekopieerd!"
 
 #~ msgid ""
 #~ "%(open_button)s%(icon)s%(open_em)sDiscard editing%(close_em)s%"

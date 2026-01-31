@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "@odoo/owl";
+import { useRef, useState } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
 import { KeepLast } from "@web/core/utils/concurrency";
@@ -18,14 +18,6 @@ export class AutoResizeImage extends Attachment {
         this.state = useState({
             loaded: false,
         });
-
-        useEffect(
-            () => {
-                this.image.el.addEventListener("load", () => this.onImageLoaded());
-                return this.image.el.removeEventListener("load", () => this.onImageLoaded());
-            },
-            () => []
-        );
     }
 
     async onImageLoaded() {
@@ -51,7 +43,7 @@ export class AutoResizeImage extends Attachment {
 const newLocal = "img-fluid";
 export class ImageSelector extends FileSelector {
     static mediaSpecificClasses = ["img", newLocal, "o_we_custom_image"];
-    static mediaSpecificStyles = [];
+    static mediaSpecificStyles = ["transform", "width"];
     static mediaExtraClasses = [
         "rounded-circle",
         "rounded",

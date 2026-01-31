@@ -2,6 +2,7 @@ import { Plugin } from "@html_editor/plugin";
 import { closestBlock, isBlock } from "@html_editor/utils/blocks";
 import {
     removeClass,
+    removeStyle,
     toggleClass,
     unwrapContents,
     wrapInlinesInBlocks,
@@ -35,7 +36,7 @@ import { compareListTypes, createList, insertListAfter, isListItem } from "./uti
 import { callbacksForCursorUpdate } from "@html_editor/utils/selection";
 import { withSequence } from "@html_editor/utils/resource";
 import { FONT_SIZE_CLASSES, getFontSizeOrClass, getHtmlStyle } from "@html_editor/utils/formatting";
-import { getTextColorOrClass } from "@html_editor/utils/color";
+import { getTextColorOrClass, TEXT_CLASSES_REGEX } from "@html_editor/utils/color";
 import { baseContainerGlobalSelector } from "@html_editor/utils/base_container";
 import { ListSelector } from "./list_selector";
 import { reactive } from "@odoo/owl";
@@ -80,6 +81,7 @@ export class ListPlugin extends Plugin {
         allowChecklist: true,
     };
     toolbarListSelectorKey = reactive({ value: 0 });
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: [
             {
@@ -189,6 +191,7 @@ export class ListPlugin extends Plugin {
         node_to_insert_processors: this.processNodeToInsert.bind(this),
         clipboard_content_processors: this.processContentForClipboard.bind(this),
         before_insert_within_pre_processors: this.insertListWithinPre.bind(this),
+        triple_click_overrides: this.handleTripleClick.bind(this),
 
         fully_selected_node_predicates: (node, selection, range) => {
             if (node.nodeName === "LI") {
@@ -454,7 +457,8 @@ export class ListPlugin extends Plugin {
         }
         const newTag = newMode === "CL" ? "UL" : newMode;
         const newList = this.dependencies.dom.setTagName(list, newTag);
-        // Clear list style (@todo @phoenix - why??)
+        // Remove any previously set list-style so that when changing the list
+        // type, the new list can show its correct default marker style.
         newList.style.removeProperty("list-style");
         for (const li of newList.children) {
             li.style.removeProperty("list-style");
@@ -1059,6 +1063,16 @@ export class ListPlugin extends Plugin {
         }
     }
 
+    handleTripleClick(ev) {
+        const node = ev.target;
+        const isChecklistItem =
+            node.tagName === "LI" && this.getListMode(node.parentElement) === "CL";
+        if (isChecklistItem && this.isPointerInsideCheckbox(node, ev.offsetX, ev.offsetY)) {
+            // If pointer is inside checkbox, prevent tripleclick selection.
+            return true;
+        }
+    }
+
     /**
      * @param {MouseEvent} ev
      * @param {HTMLLIElement} li - LI element inside a checklist.
@@ -1098,9 +1112,14 @@ export class ListPlugin extends Plugin {
                         (n) => isElement(n) && closestElement(n, "LI") === listItem
                     ),
                 ]) {
-                    removeClass(node, "o_default_color");
+                    // Remove any color-related classes.
+                    const classesToRemove = [...node.classList].filter(
+                        (cls) => cls === "o_default_color" || TEXT_CLASSES_REGEX.test(cls)
+                    );
+                    removeClass(node, ...classesToRemove);
+
                     if (node.style.color) {
-                        node.style.color = "";
+                        removeStyle(node, "color");
                     }
                 }
 
@@ -1111,7 +1130,11 @@ export class ListPlugin extends Plugin {
                         list.classList.add("o_default_color");
                     }
                 }
-            } else if (color === "" && listItem.style.color) {
+            } else if (
+                color === "" &&
+                (listItem.style.color ||
+                    [...listItem.classList].some((cls) => TEXT_CLASSES_REGEX.test(cls)))
+            ) {
                 const textNodes = targetedNodes.filter(
                     (n) => isVisibleTextNode(n) && closestElement(n, "li") === listItem
                 );
@@ -1227,7 +1250,7 @@ export class ListPlugin extends Plugin {
                 const markerWidth = parseFloat(this.window.getComputedStyle(li, "::marker").width);
                 return isNaN(markerWidth) ? 0 : markerWidth;
             })
-            .reduce(Math.max);
+            .reduce((accumulator, currentValue) => Math.max(accumulator, currentValue));
         // For `UL` with large font size the marker width is so big that more padding is needed.
         const largestMarkerPadding = Math.round(largestMarker) * (list.nodeName === "UL" ? 2 : 1);
 
@@ -1243,7 +1266,7 @@ export class ListPlugin extends Plugin {
 
     adjustListPaddingOnDelete() {
         const selection = this.document.getSelection();
-        if (!selection.isCollapsed) {
+        if (!selection.isCollapsed || !selection.anchorNode) {
             return;
         }
         const listItem = closestElement(selection.anchorNode);

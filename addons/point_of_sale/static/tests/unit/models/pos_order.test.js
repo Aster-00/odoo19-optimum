@@ -100,6 +100,7 @@ test("getTotalDiscount", async () => {
     const line2 = order.lines[1];
     line1.setDiscount(20);
     line2.setDiscount(50);
+
     expect(order.getTotalDiscount()).toBe(5.82);
     const taxTotalsWDiscount = order.prices.taxDetails;
     expect(taxTotalsWDiscount.base_amount).toBe(10.2);
@@ -269,4 +270,112 @@ test("[get prices] check prices and taxes", async () => {
     expect(line1DataWDiscount.no_discount_total_excluded).toBe(9.0);
     expect(line1DataWDiscount.no_discount_total_included).toBe(10.35);
     expect(line1DataWDiscount.no_discount_taxes_data[0].tax_amount).toBe(1.35);
+});
+
+test("showChange remains true when change line name is translated", async () => {
+    const store = await setupPosEnv();
+    const order = await getFilledOrder(store);
+    const cashPaymentMethod = store.models["pos.payment.method"].get(1);
+
+    const { data: paymentLine } = order.addPaymentline(cashPaymentMethod);
+    const overpaidAmount = order.totalDue + 5;
+    paymentLine.setAmount(overpaidAmount);
+
+    const changeAmount = paymentLine.getAmount() - order.totalDue;
+    const changeLine = order.models["pos.payment"].create({
+        pos_order_id: order,
+        payment_method_id: cashPaymentMethod,
+    });
+    changeLine.setAmount(-changeAmount);
+    changeLine.name = "Retour"; // Simulate translated "return"
+    changeLine.is_change = true;
+
+    order.state = "paid";
+
+    expect(order.change).toBe(-changeAmount);
+    expect(order.showChange).toBe(true);
+});
+
+test("priceDoesntChangeWhenChangingPreset", async () => {
+    const store = await setupPosEnv();
+    store.models["pos.preset"].get(1).pricelist_id = false;
+    const otherPreset = store.models["pos.preset"].get(2);
+    store.models["product.combo"].get(1).qty_free = 2;
+    const comboProduct1 = store.models["product.combo.item"].get(1);
+    const comboProductExtra = store.models["product.combo.item"].get(2);
+    const comboProduct2 = store.models["product.combo.item"].get(3);
+    const template = store.models["product.template"].get(7);
+    const order = store.addNewOrder();
+    const order2 = store.addNewOrder();
+    const order3 = store.addNewOrder();
+    const order4 = store.addNewOrder();
+
+    // Normal flow with extras
+    await store.addLineToOrder(
+        {
+            product_tmpl_id: template,
+            payload: [
+                [{ combo_item_id: comboProduct1, qty: 2 }],
+                [{ combo_item_id: comboProduct2, qty: 2 }],
+            ],
+            qty: 1,
+        },
+        order
+    );
+    order.setOrderPrices();
+    let total = order.amount_total;
+    order.setPreset(otherPreset);
+    order.setOrderPrices();
+    expect(order.amount_total).toBe(total);
+
+    // Normal flow
+    await store.addLineToOrder(
+        {
+            product_tmpl_id: template,
+            payload: [[{ combo_item_id: comboProduct1, qty: 2 }]],
+            qty: 1,
+        },
+        order2
+    );
+    order2.setOrderPrices();
+    total = order2.amount_total;
+    order2.setPreset(otherPreset);
+    order2.setOrderPrices();
+    expect(order2.amount_total).toBe(total);
+
+    // Flow with products with extra price
+    await store.addLineToOrder(
+        {
+            product_tmpl_id: template,
+            payload: [
+                [{ combo_item_id: comboProduct1, qty: 2 }],
+                [{ combo_item_id: comboProductExtra, qty: 2 }],
+            ],
+            qty: 1,
+        },
+        order3
+    );
+    order3.setOrderPrices();
+    total = order3.amount_total;
+    order3.setPreset(otherPreset);
+    order3.setOrderPrices();
+    expect(order3.amount_total).toBe(total);
+
+    // Flow with all the same product
+    await store.addLineToOrder(
+        {
+            product_tmpl_id: template,
+            payload: [
+                [{ combo_item_id: comboProduct1, qty: 2 }],
+                [{ combo_item_id: comboProduct1, qty: 2 }],
+            ],
+            qty: 1,
+        },
+        order4
+    );
+    order4.setOrderPrices();
+    total = order4.amount_total;
+    order4.setPreset(otherPreset);
+    order4.setOrderPrices();
+    expect(order4.amount_total).toBe(total);
 });

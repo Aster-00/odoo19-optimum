@@ -51,6 +51,7 @@ import { weakMemoize } from "@html_editor/utils/functions";
  * @property { boolean } documentSelectionIsInEditable
  * @property { boolean } documentSelectionIsProtected
  * @property { boolean } documentSelectionIsProtecting
+ * @property { boolean } currentSelectionIsInEditable
  */
 
 /**
@@ -58,6 +59,7 @@ import { weakMemoize } from "@html_editor/utils/functions";
  * @property {() => void} restore
  * @property {(callback: (cursor: Cursor) => void) => Cursors} update
  * @property {(node: Node, newNode: Node) => Cursors} remapNode
+ * @property {(callback: (cursor: Cursor) => void) => Cursors} setCursor
  * @property {(node: Node, newOffset: number) => Cursors} setOffset
  * @property {(node: Node, shiftOffset: number) => Cursors} shiftOffset
  */
@@ -179,6 +181,21 @@ function scrollToSelection(selection) {
  * @property { SelectionPlugin['selectAroundNonEditable'] } selectAroundNonEditable
  */
 
+/**
+ * @typedef {((selectionData: SelectionData) => void)[]} selectionchange_handlers
+ * @typedef {(() => void)[]} selection_leave_handlers
+ *
+ * @typedef {((ev: PointerEvent) => void | true)[]} double_click_overrides
+ * @typedef {((ev: PointerEvent) => void | true)[]} triple_click_overrides
+ * @typedef {((selection: EditorSelection) => boolean)[]} fix_selection_on_editable_root_overrides
+ *
+ * @typedef {((node: Node, selection: EditorSelection, range: Range) => boolean)[]} fully_selected_node_predicates
+ * @typedef {((ev: Event, char: string, lastSkipped: string) => boolean)[]} intangible_char_for_keyboard_navigation_predicates
+ * @typedef {((node: Node) => boolean)[]} is_node_editable_predicates
+ *
+ * @typedef {((targetedNodes: Node[]) => Node[])[]} targeted_nodes_processors
+ */
+
 export class SelectionPlugin extends Plugin {
     static id = "selection";
     static shared = [
@@ -201,6 +218,7 @@ export class SelectionPlugin extends Plugin {
         "isNodeEditable",
         "selectAroundNonEditable",
     ];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: { id: "selectAll", run: this.selectAll.bind(this) },
         shortcuts: [{ hotkey: "control+a", commandId: "selectAll" }],
@@ -261,6 +279,7 @@ export class SelectionPlugin extends Plugin {
             this.addDomListener(this.document, "pointerdown", focusEditable, { capture: true });
             this.addDomListener(document, "pointerdown", unFocusEditable, { capture: true });
         }
+        this.preservedCursors = [];
     }
 
     selectAll() {
@@ -269,6 +288,16 @@ export class SelectionPlugin extends Plugin {
         const container = selection && closestElement(selection.anchorNode, containerSelector);
         const [anchorNode, anchorOffset] = getDeepestPosition(container, 0);
         const [focusNode, focusOffset] = getDeepestPosition(container, nodeSize(container));
+        if (
+            this.delegateTo("select_all_overrides", {
+                anchorNode,
+                anchorOffset,
+                focusNode,
+                focusOffset,
+            })
+        ) {
+            return;
+        }
         this.setSelection({ anchorNode, anchorOffset, focusNode, focusOffset });
     }
 
@@ -471,9 +500,17 @@ export class SelectionPlugin extends Plugin {
                           : null,
                   })
                 : null;
+        // On Chrome, a specific sequence of actions could leave activeSelection
+        // having a connected anchorNode but with offset too high, pointing to
+        // an element that no longer exists. This is why the following condition
+        // is necessary (see commit message).
+        const isSelectionConnected =
+            this.activeSelection.anchorNode.isConnected &&
+            nodeSize(this.activeSelection.anchorNode) >= this.activeSelection.anchorOffset &&
+            nodeSize(this.activeSelection.focusNode) >= this.activeSelection.focusOffset;
         if (documentSelectionIsInEditable) {
             this.activeSelection = this.makeActiveSelection(selection);
-        } else if (!this.activeSelection.anchorNode.isConnected) {
+        } else if (!isSelectionConnected) {
             this.activeSelection = this.makeActiveSelection();
         }
         let { anchorNode, anchorOffset, focusNode, focusOffset, isCollapsed, direction } =
@@ -634,6 +671,8 @@ export class SelectionPlugin extends Plugin {
      * @returns {() => void}
      */
     preserveTextareaSelections() {
+        const focusedTextarea =
+            this.document.activeElement?.nodeName === "TEXTAREA" && this.document.activeElement;
         const selections = [...this.editable.querySelectorAll("textarea")].map((textarea) => ({
             textarea,
             start: textarea.selectionStart,
@@ -641,12 +680,9 @@ export class SelectionPlugin extends Plugin {
             direction: textarea.selectionDirection,
         }));
         return () => {
-            if (
-                this.activeSelection?.isCollapsed &&
-                this.activeSelection.anchorNode?.nodeName === "TEXTAREA"
-            ) {
+            if (focusedTextarea) {
                 // If a textarea is targeted, focus it so its selection is active.
-                this.activeSelection.anchorNode.focus();
+                focusedTextarea.focus();
             }
             for (const { textarea, start, end, direction } of selections) {
                 textarea.setSelectionRange(start, end, direction);
@@ -684,49 +720,71 @@ export class SelectionPlugin extends Plugin {
         const selection = selectionData.editableSelection;
         const anchor = { node: selection.anchorNode, offset: selection.anchorOffset };
         const focus = { node: selection.focusNode, offset: selection.focusOffset };
-
-        return {
+        const cursor = {
+            anchor,
+            focus,
             restore: () => {
+                const index = this.preservedCursors.findIndex((ref) => ref.deref() === cursor);
+                if (index !== -1) {
+                    this.preservedCursors.splice(index, 1);
+                }
                 if (!hadSelection) {
                     return;
                 }
                 this.setSelection(
                     {
-                        anchorNode: anchor.node,
-                        anchorOffset: anchor.offset,
-                        focusNode: focus.node,
-                        focusOffset: focus.offset,
+                        anchorNode: cursor.anchor.node,
+                        anchorOffset: cursor.anchor.offset,
+                        focusNode: cursor.focus.node,
+                        focusOffset: cursor.focus.offset,
                     },
                     { normalize: false }
                 );
             },
-            update(callback) {
-                callback(anchor);
-                callback(focus);
-                return this;
+            update: (callback) => {
+                this.preservedCursors.forEach((ref) => {
+                    const liveCursor = ref.deref();
+                    if (liveCursor) {
+                        callback(liveCursor.anchor);
+                        callback(liveCursor.focus);
+                    }
+                });
+                return cursor;
             },
             remapNode(node, newNode) {
-                return this.update((cursor) => {
+                return cursor.update((cursor) => {
                     if (cursor.node === node) {
                         cursor.node = newNode;
                     }
                 });
             },
             setOffset(node, newOffset) {
-                return this.update((cursor) => {
+                return cursor.update((cursor) => {
                     if (cursor.node === node) {
                         cursor.offset = newOffset;
                     }
                 });
             },
             shiftOffset(node, shiftOffset) {
-                return this.update((cursor) => {
+                return cursor.update((cursor) => {
                     if (cursor.node === node) {
                         cursor.offset += shiftOffset;
                     }
                 });
             },
+            setCursor: (callback) => {
+                this.preservedCursors.forEach((ref) => {
+                    const liveCursor = ref.deref();
+                    if (liveCursor) {
+                        callback(liveCursor);
+                    }
+                });
+                return cursor;
+            },
         };
+        this.preservedCursors = this.preservedCursors.filter((c) => c.deref()); // filter out dead cursors.
+        this.preservedCursors.push(new WeakRef(cursor));
+        return cursor;
     }
 
     areNodeContentsFullySelected(node) {
@@ -1038,12 +1096,11 @@ export class SelectionPlugin extends Plugin {
     }
 
     focusEditable() {
-        if (this.editable.contains(this.document.activeElement)) {
+        const { editableSelection, currentSelectionIsInEditable } = this.getSelectionData();
+        if (this.editable.contains(this.document.activeElement) && currentSelectionIsInEditable) {
             // Editor has focus — nothing to do.
             return;
         }
-
-        const { editableSelection, documentSelectionIsInEditable } = this.getSelectionData();
 
         const closestNonEditable = (node) => closestElement(node, (el) => !el.isContentEditable);
         // If selection includes a non-editable element, focusing editor will move cursor to different position.
@@ -1055,7 +1112,7 @@ export class SelectionPlugin extends Plugin {
             this.editable.focus({ preventScroll: true });
         }
 
-        if (!documentSelectionIsInEditable) {
+        if (!currentSelectionIsInEditable) {
             // Selection is outside the editor — restore it.
             const { anchorNode, anchorOffset, focusNode, focusOffset } = editableSelection;
             const selection = this.document.getSelection();

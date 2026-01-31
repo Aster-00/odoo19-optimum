@@ -32,6 +32,7 @@ export class FontFamilyPlugin extends Plugin {
     static id = "fontFamily";
     static dependencies = ["split", "selection", "dom", "format", "font"];
     fontFamily = reactive({ displayName: defaultFontFamily.nameShort });
+    /** @type {import("plugins").EditorResources} */
     resources = {
         toolbar_items: [
             withSequence(15, {
@@ -50,7 +51,8 @@ export class FontFamilyPlugin extends Plugin {
                         this.fontFamily.displayName = item.nameShort;
                     },
                 },
-                isAvailable: isHtmlContentSupported,
+                isAvailable: (selection) =>
+                    isHtmlContentSupported(selection) && (this.config.allowFontFamily ?? true),
             }),
         ],
         /** Handlers */

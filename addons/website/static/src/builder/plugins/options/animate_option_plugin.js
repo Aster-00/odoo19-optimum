@@ -12,10 +12,23 @@ import { childNodeIndex, DIRECTIONS, nodeSize } from "@html_editor/utils/positio
 import { BuilderAction } from "@html_builder/core/builder_action";
 import { EmphasizeAnimatedText } from "./emphasize_animated_text";
 
+/**
+ * @typedef { Object } AnimateOptionShared
+ * @property { AnimateOptionPlugin['forceAnimation'] } forceAnimation
+ * @property { AnimateOptionPlugin['getDirectionsItems'] } getDirectionsItems
+ * @property { AnimateOptionPlugin['getEffectsItems'] } getEffectsItems
+ */
+
+/**
+ * @typedef {((editingElement: HTMLElement) => Promise<void>)[]} remove_hover_effect_handlers
+ * @typedef {((editingElement: HTMLElement) => Promise<void>)[]} set_hover_effect_handlers
+ */
+
 export class AnimateOptionPlugin extends Plugin {
     static id = "animateOption";
     static dependencies = ["history", "selection", "split"];
     static shared = ["forceAnimation", "getDirectionsItems", "getEffectsItems"];
+    /** @type {import("plugins").WebsiteResources} */
     resources = {
         builder_options: [withSequence(ANIMATE, AnimateOption)],
         toolbar_items: [
@@ -34,6 +47,13 @@ export class AnimateOptionPlugin extends Plugin {
                 isAvailable: isHtmlContentSupported,
             },
         ],
+        toolbar_namespace_providers: [
+            withSequence(90, (targetedNodes, editableSelection) =>
+                closestElement(editableSelection.commonAncestorContainer, ".o_animated_text")
+                    ? "compact"
+                    : undefined
+            ),
+        ],
         system_classes: ["o_animating"],
         builder_actions: {
             SetAnimationModeAction,
@@ -44,11 +64,6 @@ export class AnimateOptionPlugin extends Plugin {
         normalize_handlers: this.normalize.bind(this),
         clean_for_save_handlers: this.cleanForSave.bind(this),
         unsplittable_node_predicates: (node) => node.classList?.contains("o_animated_text"),
-        collapsed_selection_toolbar_predicate: (selectionData) =>
-            !!closestElement(
-                selectionData.editableSelection.commonAncestorContainer,
-                ".o_animated_text"
-            ),
         lower_panel_entries: withSequence(10, { Component: EmphasizeAnimatedText }),
     };
 
@@ -283,11 +298,12 @@ export class AnimateOptionPlugin extends Plugin {
     getAnimatedText() {
         const selection = this.dependencies.selection.getSelectionData().editableSelection;
         const ancestor = closestElement(selection.commonAncestorContainer, ".o_animated_text");
-        if (
-            ancestor &&
-            (selection.isCollapsed || selection.textContent() === ancestor.textContent)
-        ) {
-            return ancestor;
+        if (ancestor) {
+            const selectionText = selection.textContent().replace(/\s+/g, " ").trim();
+            const ancestorText = ancestor.innerText.replace(/\s+/g, " ").trim();
+            if (selection.isCollapsed || selectionText === ancestorText) {
+                return ancestor;
+            }
         }
     }
     isAnimatedTextActive() {

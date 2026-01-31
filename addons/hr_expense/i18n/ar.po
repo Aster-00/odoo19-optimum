@@ -10,13 +10,15 @@
 # Martin Trigaux, 2023
 # Malaz Abuidris <msea@odoo.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# "Malaz Siddig Elsayed Abuidris (msea)" <msea@odoo.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-09-16 13:38+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2026-01-15 18:36+0000\n"
+"PO-Revision-Date: 2026-01-05 14:58+0000\n"
+"Last-Translator: \"Malaz Siddig Elsayed Abuidris (msea)\" <msea@odoo.com>\n"
 "Language-Team: Arabic <https://translate.odoo.com/projects/odoo-19/"
 "hr_expense/ar/>\n"
 "Language: ar\n"
@@ -25,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
 "&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: hr_expense
 #: model_terms:ir.ui.view,arch_db:hr_expense.report_expense
@@ -478,6 +480,8 @@ msgid ""
 "Create prepaid virtual and physical cards for both one-time and recurring "
 "expenses, integrated into Odoo through Stripe Issuing."
 msgstr ""
+"قم بإنشاء بطاقات افتراضية ومادية مسبقة الدفع للنفقات التي تأتي مرة واحدة "
+"والنفقات المتكررة، والتي ستكون مدمجة في نظام أودو من خلال Stripe Issuing."
 
 #. module: hr_expense
 #: model:ir.model.fields,field_description:hr_expense.field_hr_expense__create_uid
@@ -562,6 +566,7 @@ msgstr "قم برقمنة إيصالاتك باستخدام تقنية تميي�
 #: model:ir.model.fields,field_description:hr_expense.field_account_move__display_name
 #: model:ir.model.fields,field_description:hr_expense.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:hr_expense.field_account_payment__display_name
+#: model:ir.model.fields,field_description:hr_expense.field_account_payment_register__display_name
 #: model:ir.model.fields,field_description:hr_expense.field_account_tax__display_name
 #: model:ir.model.fields,field_description:hr_expense.field_hr_department__display_name
 #: model:ir.model.fields,field_description:hr_expense.field_hr_employee__display_name
@@ -963,6 +968,7 @@ msgstr "نطاق لقب البريد الإلكتروني لنفقات المو�
 #: model:ir.model.fields,field_description:hr_expense.field_account_move__id
 #: model:ir.model.fields,field_description:hr_expense.field_account_move_line__id
 #: model:ir.model.fields,field_description:hr_expense.field_account_payment__id
+#: model:ir.model.fields,field_description:hr_expense.field_account_payment_register__id
 #: model:ir.model.fields,field_description:hr_expense.field_account_tax__id
 #: model:ir.model.fields,field_description:hr_expense.field_hr_department__id
 #: model:ir.model.fields,field_description:hr_expense.field_hr_employee__id
@@ -1473,6 +1479,11 @@ msgid "Partner"
 msgstr "الشريك"
 
 #. module: hr_expense
+#: model:ir.model,name:hr_expense.model_account_payment_register
+msgid "Pay"
+msgstr ""
+
+#. module: hr_expense
 #: model:ir.model.fields,field_description:hr_expense.field_hr_expense__payment_method_line_id
 msgid "Payment Method"
 msgstr "طريقة الدفع"
@@ -1717,7 +1728,7 @@ msgstr "نفقات في إيصال واحد"
 #. module: hr_expense
 #: model_terms:ir.ui.view,arch_db:hr_expense.res_config_settings_view_form
 msgid "Save this page and come back here to set up the feature."
-msgstr ""
+msgstr "احفظ هذه الصفحة ثم عد لضبط الخاصية."
 
 #. module: hr_expense
 #. odoo-javascript
@@ -1960,6 +1971,15 @@ msgstr ""
 "هذا التقرير. يرجى التحقق من أن هذا التقرير لا يحتوي على بيانات مكررة."
 
 #. module: hr_expense
+#. odoo-python
+#: code:addons/hr_expense/models/hr_expense.py:0
+msgid ""
+"The following expenses payment method leads to several accounts payable and "
+"this isn't supported:\n"
+"%(expenses)s"
+msgstr ""
+
+#. module: hr_expense
 #: model:ir.model.fields,help:hr_expense.field_hr_expense_post_wizard__employee_journal_id
 msgid "The journal used when the expense is paid by employee."
 msgstr "دفتر اليومية المستخدم عندما يتم دفع النفقة من قِبَل الموظف."
@@ -2145,11 +2165,6 @@ msgstr "تصديق النفقات المكررة"
 #: model:ir.model.fields,field_description:hr_expense.field_hr_expense__vendor_id
 msgid "Vendor"
 msgstr "المورّد"
-
-#. module: hr_expense
-#: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_expenses_analysis_tree
-msgid "View Attachments"
-msgstr "عرض المرفقات"
 
 #. module: hr_expense
 #: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_template_register
@@ -2407,6 +2422,15 @@ msgstr "استخدم تمييز الرموز ضوئياً لملء البيان�
 #: model_terms:ir.ui.view,arch_db:hr_expense.hr_expense_view_form
 msgid "with the same receipt already exists."
 msgstr "مع نفس الإيصال موجود بالفعل."
+
+#~ msgid "View Attachments"
+#~ msgstr "عرض المرفقات"
+
+#~ msgid "Accounting Settings"
+#~ msgstr "إعدادات المحاسبة"
+
+#~ msgid "You should install a Fiscal Localization first."
+#~ msgstr "عليك تثبيت الأقلمة المالية أولا."
 
 #~ msgid ""
 #~ "'Expenses - %s - %s' % (object.employee_id.name, "

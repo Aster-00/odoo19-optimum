@@ -10,13 +10,13 @@
 # Larissa Manderfeld, 2023
 # Stefan Reisich <nafex@gmx.net>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025.
+# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-31 12:55+0000\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2026-01-23 09:26+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/purchase/"
 "de/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: purchase
 #: model:ir.actions.report,print_report_name:purchase.action_report_purchase_order
@@ -316,7 +316,7 @@ msgstr ""
 "        </t>\n"
 "        von <t t-out=\"object.company_id.name or ''\">IhrUnternehmen</t>.\n"
 "        <br/><br/>\n"
-"        Sollten Sie hierzu Fragen haben, kommen Sie gerne auf uns zu..\n"
+"        Bei Fragen stehen wir Ihnen gerne zur Verfügung.\n"
 "        <br/><br/>\n"
 "        Mit freundlichen Grüßen\n"
 "        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-"
@@ -647,7 +647,7 @@ msgstr "Abgegrenzte Kostenbuchung"
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Acknowledge"
-msgstr "Bestätigen"
+msgstr "Anerkannt"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order__acknowledged
@@ -672,7 +672,7 @@ msgstr "Aktivitäten von"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Aktivitätsausnahme-Dekoration"
+msgstr "Kennzeichnung von Aktivitätsausnahmen"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order__activity_state
@@ -816,6 +816,7 @@ msgstr "Buchungszeile"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_bill_union__amount
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__amount_to_invoice_at_date
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Amount"
 msgstr "Betrag"
@@ -974,6 +975,7 @@ msgid "Bill to Purchase Order"
 msgstr "Rechnung zur Bestellung"
 
 #. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__qty_invoiced_at_date
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_bill_line_match_tree
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Billed"
@@ -1466,12 +1468,12 @@ msgstr "Steuerposition"
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.portal_my_home_purchase
 msgid "Follow orders you have to fulfill"
-msgstr "Verfolgen Sie Aufträge, die Sie erfüllen müssen"
+msgstr "Aufträge, die erfüllt werden müssen, verfolgen"
 
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.portal_my_home_purchase
 msgid "Follow your Requests for Quotation"
-msgstr "Verfolgen Sie Ihre Angebotsvorlagen"
+msgstr "Angebotsvorlagen verfolgen"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order__message_follower_ids
@@ -1895,10 +1897,8 @@ msgid "Message for Purchase Order"
 msgstr "Nachricht für Bestellung"
 
 #. module: purchase
-#: model:ir.model.fields,field_description:purchase.field_account_move_line__purchase_line_warn_msg
 #: model:ir.model.fields,field_description:purchase.field_product_product__purchase_line_warn_msg
 #: model:ir.model.fields,field_description:purchase.field_product_template__purchase_line_warn_msg
-#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__purchase_line_warn_msg
 msgid "Message for Purchase Order Line"
 msgstr "Nachricht für Bestellzeile"
 
@@ -2131,7 +2131,7 @@ msgstr "Anzahl der Nachrichten, die eine Aktion erfordern"
 #. module: purchase
 #: model:ir.model.fields,help:purchase.field_purchase_order__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Anzahl der Nachrichten mit Zustellungsfehler."
+msgstr "Anzahl Nachrichten mit Zustellungsfehler"
 
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.portal_my_purchase_order
@@ -2459,6 +2459,12 @@ msgid "Purchase History for %s"
 msgstr "Einkaufshistorie für %s"
 
 #. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_account_move_line__purchase_line_warn_msg
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__purchase_line_warn_msg
+msgid "Purchase Line Warn Msg"
+msgstr "Warnmeldung für Einkaufszeile"
+
+#. module: purchase
 #: model:ir.model,name:purchase.model_purchase_bill_line_match
 msgid "Purchase Line and Vendor Bill line matching view"
 msgstr "Ansicht des Abgleichs der Einkaufszeile und Lieferantenrechnungszeile"
@@ -2769,6 +2775,7 @@ msgid "Receipt Reminder Email"
 msgstr "Eingangserinnerung per E-Mail"
 
 #. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__qty_received_at_date
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Received"
 msgstr "Erhalten"
@@ -3256,6 +3263,11 @@ msgstr ""
 "Sie können dieses Feld auch für eine Schnellsuche einsetzen."
 
 #. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order_line__price_unit_product_uom
+msgid "The Price of one unit of the product's Unit of Measure"
+msgstr "Der Preis einer Einheit der Maßeinheit des Produkts"
+
+#. module: purchase
 #: model_terms:ir.actions.act_window,help:purchase.act_res_partner_2_purchase_order
 msgid ""
 "The request for quotation is the first step of the purchases flow. Once\n"
@@ -3440,6 +3452,14 @@ msgstr ""
 "entsprechenden Lieferantenrechnungen stornieren."
 
 #. module: purchase
+#. odoo-python
+#: code:addons/purchase/models/purchase_order.py:0
+msgid "Unable to cancel purchase order(s): %s. You must first unlock them."
+msgstr ""
+"Bestellung(en) konnte(n) nicht storniert werden: %s. Sie müssen sie zuerst "
+"entsperren."
+
+#. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_bill_line_match__product_uom_id
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line__product_uom_id
 msgid "Unit"
@@ -3447,6 +3467,7 @@ msgstr "Einheit"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line__price_unit
+#: model_terms:ir.ui.view,arch_db:purchase.purchase_history_tree
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_portal_content
 msgid "Unit Price"
 msgstr "Einzelpreis"
@@ -3455,6 +3476,11 @@ msgstr "Einzelpreis"
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line__price_unit_discounted
 msgid "Unit Price (Discounted)"
 msgstr "Einheitspreis (Rabattiert)"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_line__price_unit_product_uom
+msgid "Unit Price Product UoM"
+msgstr "Produkt-Maßeinheit für Stückpreis"
 
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
@@ -3471,6 +3497,12 @@ msgstr "Einheiten & Verpackungen"
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Unlock"
 msgstr "Entsperren"
+
+#. module: purchase
+#. odoo-python
+#: code:addons/purchase/models/purchase_order.py:0
+msgid "Unsupported operator"
+msgstr "Nicht unterstützter Operator"
 
 #. module: purchase
 #: model_terms:ir.ui.view,arch_db:purchase.purchase_order_kpis_tree

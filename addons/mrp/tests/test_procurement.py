@@ -627,7 +627,7 @@ class TestProcurement(TestMrpCommon):
         create_run_procurement(product, 10, {
             'reference_ids': reference,
             'warehouse_id': self.warehouse_1,
-            'partner_id': vendor,
+            'partner_id': vendor.id,
         })
         customer_move = self.env['stock.move'].search([('reference_ids', 'in', reference.id), ('picking_type_id', '=', self.picking_type_out.id)])
         manufacturing_order = self.env['mrp.production'].search([('product_id', '=', product.id)])
@@ -640,7 +640,7 @@ class TestProcurement(TestMrpCommon):
         create_run_procurement(product, -5.00, {
             'reference_ids': reference,
             'warehouse_id': self.warehouse_1,
-            'partner_id': vendor,
+            'partner_id': vendor.id,
         })
         self.assertEqual(customer_move.product_uom_qty, 5, 'The demand on the initial move should have been decreased when merged with the procurement.')
         self.assertEqual(manufacturing_order.product_qty, 10, 'The demand on the manufacturing order should not have been decreased.')
@@ -1067,3 +1067,103 @@ class TestProcurement(TestMrpCommon):
         manufacturing_orders = self.env['mrp.production'].search([('product_id', '=', self.product_4.id)])
         self.assertEqual(len(manufacturing_orders), 2, 'Expected 2 manufacturing orders to be created.')
         self.assertEqual(manufacturing_orders.mapped('product_qty'), [200.0, 200.0], 'Each manufacturing order should have a quantity of 200.0, as defined by the BoM batch size.')
+
+    def test_update_mo_producing_qty_with_mtso_rule_and_some_available_stock(self):
+        """
+        We set up for 3 step manufacturing and have some component in stock in pre-prod location.
+        We set the pre-prod -> prod rule to MTSO.
+        When confirming a MO, we expect a procurement for the missing component from stock to pre-prod.
+        When updating the producing quantity on the MO, we expect the procurement to be updated to match the demand.
+        """
+        warehouse = self.env['stock.warehouse'].search([], limit=1)
+        # 3 steps Manufacture
+        warehouse.write({'manufacture_steps': 'pbm_sam'})
+        # Set the pre-prod -> prod rule to 'mts_else_mto'
+        pre_prod_to_prod_rule = warehouse.pbm_route_id.rule_ids.filtered(lambda r: 'Pre-Production' in r.location_src_id.name)
+        self.assertTrue(pre_prod_to_prod_rule)
+        pre_prod_to_prod_rule.procure_method = 'mts_else_mto'
+
+        bom = self.env['mrp.bom'].create({
+            'product_id': self.productA.id,
+            'product_tmpl_id': self.productA.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'type': 'normal',
+            'bom_line_ids': [
+                Command.create({'product_id': self.productB.id, 'product_qty': 1}),
+            ],
+        })
+        # Update component stock in pre-prod
+        self.env['stock.quant'].with_context(inventory_mode=True).create({
+            'product_id': self.productB.id,
+            'inventory_quantity': 2,
+            'location_id': warehouse.pbm_loc_id.id,
+        }).action_apply_inventory()
+
+        mo = self.env['mrp.production'].create({
+            'product_id': self.productA.id,
+            'bom_id': bom.id,
+            'product_qty': 5,
+            'location_src_id': warehouse.pbm_loc_id.id,
+        })
+        mo.action_confirm()
+        replenishment = self.env['stock.move'].search([('product_id', '=', self.productB.id), ('product_uom_qty', '=', 3), ('location_dest_id', '=', warehouse.pbm_loc_id.id)])
+        self.assertTrue(replenishment)
+
+        # Update producing quantity through the wizard
+        update_quantity_wizard = self.env['change.production.qty'].create({
+            'mo_id': mo.id,
+            'product_qty': 9,
+        })
+        update_quantity_wizard.change_prod_qty()
+        self.assertEqual(replenishment.product_uom_qty, 7)
+
+    def test_update_mo_producing_qty_mto_chain(self):
+        """
+        Test that an MTO child MO correctly handles UoM conversions between the component UoM and
+        the child MO UoM when the source MO's production quantity is updated.
+        """
+        self.productA.write({'uom_id': self.uom_dozen})
+
+        self.route_mto.write({'active': True})
+        self.productA.route_ids = [
+            Command.link(self.route_mto.id),
+            Command.link(self.route_manufacture.id),
+        ]
+
+        self.env['mrp.bom'].create({
+            'product_tmpl_id': self.productA.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'type': 'normal',
+            'product_uom_id': self.productA.uom_id.id,
+            'bom_line_ids': [
+                Command.create({'product_id': self.productB.id, 'product_qty': 1}),
+            ],
+        })
+        bomC = self.env['mrp.bom'].create({
+            'product_tmpl_id': self.productC.product_tmpl_id.id,
+            'product_qty': 1.0,
+            'type': 'normal',
+            'bom_line_ids': [
+                Command.create({'product_id': self.productA.id, 'product_qty': 6.0, 'product_uom_id': self.uom_unit.id}),
+            ],
+        })
+
+        mo = self.env['mrp.production'].create({
+            'product_id': self.productC.id,
+            'bom_id': bomC.id,
+            'product_qty': 1,
+        })
+        mo.action_confirm()
+        mo_child = mo._get_children()
+
+        self.assertEqual(mo.move_raw_ids.product_uom, self.uom_unit)
+        self.assertEqual(mo_child.product_uom_id, self.uom_dozen)
+        self.assertEqual(mo_child.product_qty, 0.5)
+
+        update_quantity_wizard = self.env['change.production.qty'].create({
+            'mo_id': mo.id,
+            'product_qty': 2,
+        })
+        update_quantity_wizard.change_prod_qty()
+
+        self.assertEqual(mo_child.product_qty, 1.0)

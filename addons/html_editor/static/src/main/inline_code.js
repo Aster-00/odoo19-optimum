@@ -4,12 +4,17 @@ import { splitTextNode, unwrapContents } from "@html_editor/utils/dom";
 import { isElement, isTextNode, isZwnbsp } from "@html_editor/utils/dom_info";
 import { closestElement, selectElements, findFurthest } from "@html_editor/utils/dom_traversal";
 import { DIRECTIONS, nodeSize } from "@html_editor/utils/position";
+
+/** @typedef {((codeElement: HTMLElement) => void)[]} to_inline_code_processors */
+
 export class InlineCodePlugin extends Plugin {
     static id = "inlineCode";
     static dependencies = ["selection", "history", "input", "split", "feff"];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         input_handlers: this.onInput.bind(this),
         selectionchange_handlers: this.handleSelectionChange.bind(this),
+        normalize_handlers: this.normalize.bind(this),
         feff_providers: (root, cursors) =>
             [...selectElements(root, ".o_inline_code")].flatMap((code) =>
                 this.dependencies.feff.surroundWithFeffs(code, cursors)
@@ -112,7 +117,7 @@ export class InlineCodePlugin extends Plugin {
         // one in the text.
         let textNode = selection.startContainer;
         const wholeText = textNode.wholeText;
-        const textHasTwoTicks = /`.*`/.test(wholeText);
+        const textHasTwoTicks = /`[^`]+`/.test(wholeText);
         // We don't apply the code tag if there is no content between the two `
         if (textHasTwoTicks && wholeText.replace(/`/g, "").length) {
             let offset = selection.startOffset;
@@ -193,6 +198,18 @@ export class InlineCodePlugin extends Plugin {
                     anchorNode: codeElement.firstChild,
                     anchorOffset: 0,
                 });
+            }
+        }
+    }
+
+    normalize(rootEl) {
+        for (const el of selectElements(rootEl, "code.o_inline_code")) {
+            if (
+                [...el.childNodes].every(
+                    (node) => node.nodeType === Node.TEXT_NODE && /^\uFEFF*$/.test(node.nodeValue)
+                )
+            ) {
+                el.remove();
             }
         }
     }

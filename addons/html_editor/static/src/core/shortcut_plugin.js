@@ -2,29 +2,44 @@ import { Plugin, isValidTargetForDomListener } from "../plugin";
 import { closestBlock } from "@html_editor/utils/blocks";
 import { fillEmpty } from "@html_editor/utils/dom";
 import { leftLeafOnlyNotBlockPath } from "@html_editor/utils/dom_state";
+import { closestElement } from "@html_editor/utils/dom_traversal";
 
 /**
  * @typedef {Object} Shortcut
  * @property {string} hotkey
  * @property {string} commandId
  * @property {Object} [commandParams]
+ * @property {boolean} [global]
+ *
+ * @typedef {Shortcut[]} shortcuts
  *
  * Example:
  *
  *     resources = {
+ *         // See UserCommand
  *         user_commands: [
  *             { id: "myCommands", run: myCommandFunction },
  *         ],
+ *         // See Shortcut
  *         shortcuts: [
  *             { hotkey: "control+shift+q", commandId: "myCommands" },
  *         ],
  *     }
  */
 
+/**
+ * @typedef {{
+ *     pattern: RegExp;
+ *     commandId: string;
+ *     commandParams?: object;
+ * }[]} shorthands
+ */
+
 export class ShortCutPlugin extends Plugin {
     static id = "shortcut";
     static dependencies = ["userCommand", "selection"];
 
+    /** @type {import("plugins").EditorResources} */
     resources = {
         input_handlers: this.onInput.bind(this),
     };
@@ -98,7 +113,7 @@ export class ShortCutPlugin extends Plugin {
                 this.dependencies.selection.extractContent(
                     this.dependencies.selection.getEditableSelection()
                 );
-                fillEmpty(blockEl);
+                fillEmpty(closestElement(selection.focusNode));
                 command.run(matchedShortcut.commandParams);
             }
         }

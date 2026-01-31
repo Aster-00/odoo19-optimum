@@ -268,7 +268,7 @@ class ResUsers(models.Model):
     def _default_view_group_hierarchy(self):
         return self.env['res.groups']._get_view_group_hierarchy()
 
-    view_group_hierarchy = fields.Json(string='Technical field for user group setting', store=False, default=_default_view_group_hierarchy)
+    view_group_hierarchy = fields.Json(string='Technical field for user group setting', store=False, copy=False, default=_default_view_group_hierarchy)
     role = fields.Selection([('group_user', 'User'), ('group_system', 'Administrator')], compute='_compute_role', readonly=False, string="Role")
 
     _login_key = models.Constraint("UNIQUE (login)",
@@ -647,6 +647,7 @@ class ResUsers(models.Model):
     @api.ondelete(at_uninstall=True)
     def _unlink_except_master_data(self):
         portal_user_template = self.env.ref('base.template_portal_user_id', False)
+        public_user = self.env.ref('base.public_user', False)
         if SUPERUSER_ID in self.ids:
             raise UserError(_('You can not remove the admin user as it is used internally for resources created by Odoo (updates, module installation, ...)'))
         user_admin = self.env.ref('base.user_admin', raise_if_not_found=False)
@@ -655,6 +656,8 @@ class ResUsers(models.Model):
         self.env.registry.clear_cache()
         if portal_user_template and portal_user_template in self:
             raise UserError(_('Deleting the template users is not allowed. Deleting this profile will compromise critical functionalities.'))
+        if public_user and public_user in self:
+            raise UserError(_("Deleting the public user is not allowed. Deleting this profile will compromise critical functionalities."))
 
     @api.model
     def name_search(self, name='', domain=None, operator='ilike', limit=100):
@@ -1356,9 +1359,10 @@ class UsersMultiCompany(models.Model):
             'base.group_multi_company', raise_if_not_found=False)
         if group_multi_company_id:
             for user in users:
-                if len(user.company_ids) <= 1 and group_multi_company_id in user.group_ids.ids:
+                company_count = len(user.sudo().company_ids)
+                if company_count <= 1 and group_multi_company_id in user.group_ids.ids:
                     user.write({'group_ids': [Command.unlink(group_multi_company_id)]})
-                elif len(user.company_ids) > 1 and group_multi_company_id not in user.group_ids.ids:
+                elif company_count > 1 and group_multi_company_id not in user.group_ids.ids:
                     user.write({'group_ids': [Command.link(group_multi_company_id)]})
         return users
 
@@ -1370,9 +1374,10 @@ class UsersMultiCompany(models.Model):
             'base.group_multi_company', raise_if_not_found=False)
         if group_multi_company_id:
             for user in self:
-                if len(user.company_ids) <= 1 and group_multi_company_id in user.group_ids.ids:
+                company_count = len(user.sudo().company_ids)
+                if company_count <= 1 and group_multi_company_id in user.group_ids.ids:
                     user.write({'group_ids': [Command.unlink(group_multi_company_id)]})
-                elif len(user.company_ids) > 1 and group_multi_company_id not in user.group_ids.ids:
+                elif company_count > 1 and group_multi_company_id not in user.group_ids.ids:
                     user.write({'group_ids': [Command.link(group_multi_company_id)]})
         return res
 
@@ -1384,9 +1389,10 @@ class UsersMultiCompany(models.Model):
         group_multi_company_id = self.env['ir.model.data']._xmlid_to_res_id(
             'base.group_multi_company', raise_if_not_found=False)
         if group_multi_company_id:
-            if len(user.company_ids) <= 1 and group_multi_company_id in user.group_ids.ids:
+            company_count = len(user.sudo().company_ids)
+            if company_count <= 1 and group_multi_company_id in user.group_ids.ids:
                 user.update({'group_ids': [Command.unlink(group_multi_company_id)]})
-            elif len(user.company_ids) > 1 and group_multi_company_id not in user.group_ids.ids:
+            elif company_count > 1 and group_multi_company_id not in user.group_ids.ids:
                 user.update({'group_ids': [Command.link(group_multi_company_id)]})
         return user
 

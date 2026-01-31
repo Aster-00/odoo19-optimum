@@ -8,6 +8,7 @@ from unittest.mock import patch
 from odoo import Command
 from odoo.exceptions import ValidationError
 from odoo.tests import tagged, RecordCapturer
+from odoo.tools.misc import mute_logger
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.addons.mail.tests.common import MailCommon
@@ -427,21 +428,25 @@ class TestAccountIncomingSupplierInvoice(AccountTestInvoicingCommon, TestAccount
         self.assertEqual(following_partners, self.env.user.partner_id)
 
     def test_einvoice_notification(self):
-        self.company_data['default_journal_purchase'].incoming_einvoice_notification_email = 'oops_another_bill@example.com'
+        purchase_journal = self.company_data['default_journal_purchase']
+        purchase_journal.incoming_einvoice_notification_email = 'oops_another_bill@example.com'
 
         with self.mock_mail_gateway():
             self.assert_attachment_import(
                 origin='mail_alias',
                 attachments_vals=[self.pdf1_vals],
                 expected_invoices={
-                    1: {'invoice1.pdf': {'on_invoice': True, 'on_message': True, 'is_decoded': True, 'is_new': True}},
+                    1: {
+                        'invoice1.pdf': {'on_message': True, 'on_invoice': True, 'is_decoded': True, 'is_new': True},
+                        'MAIL_invoice1.pdf': {'on_message': True},
+                    },
                 },
             )
 
         self.assertSentEmail(
             self.company_data['company'].email_formatted,
             ['oops_another_bill@example.com'],
-            subject='New Electronic Invoices Received',
+            subject=f"{self.company_data['company'].name} - New invoice in {purchase_journal.display_name} journal",
         )
 
     def test_01_decoder_called(self):
@@ -586,6 +591,18 @@ class TestAccountIncomingSupplierInvoice(AccountTestInvoicingCommon, TestAccount
                     'gif2.gif': {'on_message': True},
                 },
                 2: {'invoice2.pdf': {'on_invoice': True, 'on_message': True, 'is_decoded': True, 'is_new': True}},
+            },
+        )
+
+    def test_25_mail_alias_gifs(self):
+        self.assert_attachment_import(
+            origin='mail_alias',
+            attachments_vals=[self.gif1_vals, self.gif2_vals],
+            expected_invoices={
+                1: {
+                    'gif1.gif': {'on_message': True},
+                    'gif2.gif': {'on_message': True},
+                },
             },
         )
 
@@ -922,7 +939,7 @@ class TestAccountIncomingSupplierInvoice(AccountTestInvoicingCommon, TestAccount
                     'gif1.gif': {'on_message': True},
                     'gif2.gif': {'on_message': True},
                     'invoice1.pdf': {'on_invoice': True, 'on_message': True},
-                    'invoice1.xml': {'is_decoded': True, 'is_new': True, 'on_message': True}
+                    'invoice1.xml': {'is_decoded': True, 'is_new': True, 'on_message': True},
                 },
                 2: {
                     'invoice2.pdf': {'on_invoice': True, 'on_message': True},
@@ -937,3 +954,16 @@ class TestAccountIncomingSupplierInvoice(AccountTestInvoicingCommon, TestAccount
                 }
             },
         )
+
+    def test_import_with_traceback(self):
+        # Verify that even an Exception does not cause the import to fail, and that we log the attachment in the chatter
+        attachment = self.env['ir.attachment'].create(self.xml1_vals)
+
+        with (
+            self._patch_import_methods(),
+            patch('odoo.addons.account.models.partner.ResPartner.search', side_effect=ValueError('We want to test an unexpected error')),
+            mute_logger('odoo.addons.account.models.account_document_import_mixin'),
+        ):
+            move_id = self.journal.create_document_from_attachment(attachment.ids).get('res_id')
+
+        self.assertEqual(self.env['account.move'].browse(move_id).attachment_ids, attachment)

@@ -84,6 +84,7 @@ patch(OrderPaymentValidation.prototype, {
                         body: _t(
                             "There is a problem with the server. The order online payment status cannot be retrieved."
                         ),
+                        showReloadButton: true,
                     });
                     return false;
                 }
@@ -191,6 +192,7 @@ patch(OrderPaymentValidation.prototype, {
             this.pos.dialog.add(AlertDialog, {
                 title: _t("Server error"),
                 body: _t("The saved order could not be retrieved."),
+                showReloadButton: true,
             });
             return;
         }
@@ -207,6 +209,7 @@ patch(OrderPaymentValidation.prototype, {
             this.pos.dialog.add(AlertDialog, {
                 title: _t("Order saving issue"),
                 body: _t("The order has not been saved correctly on the server."),
+                showReloadButton: true,
             });
             return;
         }
@@ -218,7 +221,7 @@ patch(OrderPaymentValidation.prototype, {
             (this.order.isPaidWithCash() || this.order.change) &&
             this.pos.config.iface_cashdrawer
         ) {
-            this.hardwareProxy.printer.openCashbox();
+            this.pos.hardwareProxy.openCashbox();
         }
 
         if (isInvoiceRequested) {
@@ -226,9 +229,10 @@ patch(OrderPaymentValidation.prototype, {
                 this.pos.dialog.add(AlertDialog, {
                     title: _t("Invoice could not be generated"),
                     body: _t("The invoice could not be generated."),
+                    showReloadButton: true,
                 });
             } else {
-                await this.invoiceService.downloadPdf(orderJSON[0].account_move);
+                await this.pos.env.services.account_move.downloadPdf(orderJSON[0].account_move);
             }
         }
 

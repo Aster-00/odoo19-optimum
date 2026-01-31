@@ -138,6 +138,20 @@ describe("Custom button style", () => {
         expect(optionsvalues).toInclude("Button Secondary");
         expect(optionsvalues).not.toInclude("Custom");
     });
+    test("Editor allow button size style by default", async () => {
+        await setupEditor(
+            '<p><a href="https://test.com/" class="btn btn-primary">link[]Label</a></p>'
+        );
+        await waitFor(".o-we-linkpopover");
+        await click(".o_we_edit_link");
+        await animationFrame();
+        const optionsValues = [...queryOne('select[name="link_style_size"]').options].map(
+            (opt) => opt.label
+        );
+        expect(optionsValues).toInclude("Small");
+        expect(optionsValues).toInclude("Medium");
+        expect(optionsValues).toInclude("Large");
+    });
     test("Editor don't allow target blank style by default", async () => {
         await setupEditor('<p><a href="https://test.com/">link[]Label</a></p>');
         await waitFor(".o-we-linkpopover");
@@ -379,5 +393,35 @@ describe("button edit", () => {
         expect(cleanLinkArtifacts(getContent(el))).toBe(
             '<p>this is a <a href="http://test.test/" class="btn btn-fill-primary">X[]</a></p>'
         );
+    });
+
+    test("Should not remove invisible button", async () => {
+        const { el } = await setupEditor(
+            '<p><a href="http://test.test/" class="invisible btn btn-primary">a[]</a></p>',
+            {
+                styleContent: `
+                    .invisible {
+                        visibility: hidden;
+                    }
+                `,
+            }
+        );
+        await waitFor(".o-we-linkpopover");
+        await click(".o_we_edit_link");
+
+        await contains(".o-we-linkpopover input.o_we_label_link").fill("b");
+        await click(".o_we_apply_link");
+        expect(cleanLinkArtifacts(getContent(el))).toBe(
+            '<p><a href="http://test.test/" class="invisible btn btn-primary">ab[]</a></p>'
+        );
+    });
+});
+
+test("button should never contain selection placeholder", async () => {
+    await testEditor({
+        contentBefore:
+            '<button style="display: block" contenteditable="true"><div style="display: block" contenteditable="false">a</div></button>',
+        contentBeforeEdit:
+            '<button style="display: block" contenteditable="true"><div style="display: block" contenteditable="false">a</div></button>',
     });
 });

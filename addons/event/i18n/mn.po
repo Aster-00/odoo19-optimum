@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* event
+# * event
 #
 # Translators:
 # Munkhbilguun Altankhuyag <munkhbilguunaltankhuyag@gmail.com>, 2022
@@ -18,20 +18,23 @@
 # Батболд <batbold.ts@gmail.com>, 2022
 # Martin Trigaux, 2022
 # Baskhuu Lodoikhuu <baskhuujacara@gmail.com>, 2022
-#
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
+# Bayarkhuu Bataa <bbayarkhuu@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:38+0000\n"
-"PO-Revision-Date: 2022-09-22 05:45+0000\n"
-"Last-Translator: Baskhuu Lodoikhuu <baskhuujacara@gmail.com>, 2022\n"
-"Language-Team: Mongolian (https://app.transifex.com/odoo/teams/41243/mn/)\n"
+"POT-Creation-Date: 2025-12-30 18:36+0000\n"
+"PO-Revision-Date: 2025-11-24 12:08+0000\n"
+"Last-Translator: Bayarkhuu Bataa <bbayarkhuu@gmail.com>\n"
+"Language-Team: Mongolian <https://translate.odoo.com/projects/odoo-19/event/"
+"mn/>\n"
 "Language: mn\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.12.2\n"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question__event_count
@@ -1243,10 +1246,10 @@ msgid ""
 "out=\"object.sale_order_id.name\"/>\n"
 "                        and was placed on <t t-"
 "out=\"object.sale_order_id.date_order.date()\"/>\n"
-"                        <t t-if=\"object.sale_order_line_id.price_unit\"> "
+"                        <t t-if=\"object.sale_order_line_id.price_total\"> "
 "for an amount of\n"
 "                            <t t-"
-"out=\"object.sale_order_line_id.price_unit\" t-options=\"{'widget': "
+"out=\"object.sale_order_line_id.price_total\" t-options=\"{'widget': "
 "'monetary', 'display_currency': object.sale_order_line_id.currency_id}\"/>\n"
 "                        </t>.\n"
 "                    </div>\n"
@@ -1589,7 +1592,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields.selection,name:event.selection__event_event__badge_format__a6
 msgid "A6"
-msgstr ""
+msgstr "A6"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__message_needaction
@@ -1641,7 +1644,7 @@ msgstr "Ажилбарын төрлийн зураг"
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_search
 msgid "Activity type"
-msgstr ""
+msgstr "Ажилбарын төрөл"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.event_stage_view_form
@@ -1708,7 +1711,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.event_event_ticket_form_view
 #: model_terms:ir.ui.view,arch_db:event.view_event_mail_form
 msgid "All Events"
-msgstr ""
+msgstr "Бүх арга хэмжээнүүд"
 
 #. module: event
 #: model:ir.model.fields,help:event.field_event_event__lang
@@ -1755,7 +1758,7 @@ msgstr "Зарласан"
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question_answer__name
 msgid "Answer"
-msgstr ""
+msgstr "Хариулт"
 
 #. module: event
 #: model:ir.actions.act_window,name:event.action_event_registration_report
@@ -1773,7 +1776,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_question__answer_ids
 #: model_terms:ir.ui.view,arch_db:event.event_question_view_form
 msgid "Answers"
-msgstr ""
+msgstr "Хариултууд"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.event_question_view_search
@@ -1910,7 +1913,7 @@ msgstr "Байгаа суудлууд"
 #. module: event
 #: model:ir.actions.report,name:event.action_report_event_registration_badge
 msgid "Badge"
-msgstr ""
+msgstr "Медаль"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__badge_image
@@ -1931,7 +1934,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/event/controllers/main.py:0
 msgid "Badges"
-msgstr ""
+msgstr "Медаль"
 
 #. module: event
 #: model_terms:event.event,description:event.event_3
@@ -1949,12 +1952,12 @@ msgstr "Зураасан код"
 #. module: event
 #: model:ir.actions.client,name:event.event_barcode_action_main_view
 msgid "Barcode Interface"
-msgstr ""
+msgstr "Зураасан кодын интерфэйс"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.res_config_settings_view_form
 msgid "Barcode Nomenclature"
-msgstr ""
+msgstr "Зураасан кодын дүрэм"
 
 #. module: event
 #: model:ir.model.constraint,message:event.constraint_event_registration_barcode_event_uniq
@@ -2078,7 +2081,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_event_ticket__color
 #: model:ir.model.fields,field_description:event.field_event_slot__color
 msgid "Color"
-msgstr ""
+msgstr "Өнгө"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_tag__color
@@ -2130,7 +2133,7 @@ msgstr "Компани"
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_registration__company_name
 msgid "Company Name"
-msgstr ""
+msgstr "Компанийн нэр"
 
 #. module: event
 #. odoo-python
@@ -2179,7 +2182,7 @@ msgstr "Харилцах хаяг"
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_registration_summary_dialog.xml:0
 msgid "Continue"
-msgstr ""
+msgstr "Үргэлжлүүлэх"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__country_id
@@ -2382,7 +2385,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_registration_summary_dialog.xml:0
 msgid "Edit"
-msgstr ""
+msgstr "Засах"
 
 #. module: event
 #: model:event.question,title:event.event_question_email
@@ -2439,7 +2442,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields.selection,name:event.selection__event_mail__mail_state__error
 msgid "Error"
-msgstr ""
+msgstr "Алдаа"
 
 #. module: event
 #. odoo-javascript
@@ -2557,7 +2560,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/event/controllers/main.py:0
 msgid "Event Registrations"
-msgstr ""
+msgstr "Арга хэмжээний Бүртгэлүүд"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_registration__event_user_id
@@ -2860,7 +2863,7 @@ msgstr ""
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_slot_tree
 msgid "From"
-msgstr ""
+msgstr "Эхлэх"
 
 #. module: event
 #: model_terms:ir.actions.act_window,help:event.action_registration
@@ -2899,7 +2902,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__general_question_ids
 msgid "General Questions"
-msgstr ""
+msgstr "Ерөнхий асуултууд"
 
 #. module: event
 #: model:event.event,subtitle:event.event_0
@@ -2914,7 +2917,7 @@ msgstr ""
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.res_config_settings_view_form
 msgid "Google Maps"
-msgstr ""
+msgstr "Google Maps"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_res_config_settings__google_maps_static_api_key
@@ -2979,7 +2982,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_registration_summary_dialog.xml:0
 msgid "Home"
-msgstr ""
+msgstr "Нүүр хуудас"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_slot_form
@@ -3133,7 +3136,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_barcode.xml:0
 msgid "Install"
-msgstr ""
+msgstr "Суулгах"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_mail__interval_nbr
@@ -3263,12 +3266,12 @@ msgstr "Канбан Төлөв"
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.res_config_settings_view_form
 msgid "Key"
-msgstr ""
+msgstr "Түлхүүр"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__lang
 msgid "Language"
-msgstr ""
+msgstr "Хэл"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
@@ -3442,7 +3445,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question__is_mandatory_answer
 msgid "Mandatory Answer"
-msgstr ""
+msgstr "Шаардлагатай Хариулт"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.event_report_full_page_ticket_layout
@@ -3497,7 +3500,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_registration__utm_medium_id
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
 msgid "Medium"
-msgstr "Дундаж"
+msgstr "Хэрэгсэл"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__message_has_error
@@ -3531,7 +3534,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.view_event_search
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
 msgid "My Activities"
-msgstr ""
+msgstr "Миний ажилбарууд"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__my_activity_date_deadline
@@ -3570,7 +3573,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_event__activity_calendar_event_id
 #: model:ir.model.fields,field_description:event.field_event_registration__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "Календар дээрх дараагийн Үйл ажиллагаа"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__activity_date_deadline
@@ -3616,7 +3619,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields,field_description:event.field_res_config_settings__barcode_nomenclature_id
 msgid "Nomenclature"
-msgstr ""
+msgstr "Задлах дүрэм"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.event_question_view_search
@@ -3691,7 +3694,7 @@ msgstr "Алдааны тоо"
 #: model:ir.model.fields,help:event.field_event_event__message_needaction_counter
 #: model:ir.model.fields,help:event.field_event_registration__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Үйлдэл шаардсан зурвасын тоо"
 
 #. module: event
 #: model:ir.model.fields,help:event.field_event_event__message_has_error_counter
@@ -3837,7 +3840,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_barcode.js:0
 msgid "Please, Scan again!"
-msgstr ""
+msgstr "Дахин уншуулна уу!"
 
 #. module: event
 #: model_terms:event.event,description:event.event_2
@@ -3848,13 +3851,13 @@ msgstr "Борлуулалтын цэг (ПОС), Тайлан өөрийшүү�
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_registration_summary_dialog.xml:0
 msgid "Print"
-msgstr ""
+msgstr "Хэвлэх"
 
 #. module: event
 #: model_terms:event.event,description:event.event_0
 #: model_terms:event.event,description:event.event_2
 msgid "Program"
-msgstr ""
+msgstr "Програм"
 
 #. module: event
 #: model_terms:event.event,description:event.event_2
@@ -3865,7 +3868,7 @@ msgstr "Төслийн менежмент, Хүний нөөц, Гэрээний
 #: model:ir.model.fields,field_description:event.field_event_registration__registration_properties
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
 msgid "Properties"
-msgstr ""
+msgstr "Шинж чанар"
 
 #. module: event
 #: model_terms:event.event,description:event.event_2
@@ -3878,7 +3881,7 @@ msgstr "Худалдан авалт, Борлуулалт ба Худалдан 
 #: model_terms:ir.ui.view,arch_db:event.event_report_template_foldable_badge
 #: model_terms:ir.ui.view,arch_db:event.event_report_template_full_page_ticket
 msgid "QR Code"
-msgstr ""
+msgstr "QR код"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question_answer__question_id
@@ -3886,13 +3889,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.event_question_view_form
 #: model_terms:ir.ui.view,arch_db:event.view_event_form
 msgid "Question"
-msgstr ""
+msgstr "Асуулт"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question__question_type
 #: model:ir.model.fields,field_description:event.field_event_registration_answer__question_type
 msgid "Question Type"
-msgstr ""
+msgstr "Асуултын төрөл"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__question_ids
@@ -3901,7 +3904,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.view_event_registration_form
 #: model_terms:ir.ui.view,arch_db:event.view_event_type_form
 msgid "Questions"
-msgstr ""
+msgstr "Асуултууд"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_res_config_settings__module_website_event_track_quiz
@@ -3912,7 +3915,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_event__rating_ids
 #: model:ir.model.fields,field_description:event.field_event_registration__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Үнэлгээнүүд"
 
 #. module: event
 #: model:ir.model.fields.selection,name:event.selection__event_event__kanban_state__done
@@ -3931,7 +3934,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.view_event_registration_tree
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
 msgid "Registered"
-msgstr ""
+msgstr "Бүртгэгдсэн"
 
 #. module: event
 #. odoo-python
@@ -4154,7 +4157,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields.selection,name:event.selection__event_question__question_type__simple_choice
 msgid "Selection"
-msgstr ""
+msgstr "Сонголт"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.res_config_settings_view_form
@@ -4244,7 +4247,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:event.field_event_registration__event_slot_id
 #: model_terms:ir.ui.view,arch_db:event.view_registration_search
 msgid "Slot"
-msgstr ""
+msgstr "Нүд"
 
 #. module: event
 #: model:ir.model,name:event.model_event_mail_slot
@@ -4298,7 +4301,7 @@ msgstr "Эх үүсвэр"
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_event__specific_question_ids
 msgid "Specific Questions"
-msgstr ""
+msgstr "Тодорхой асуултууд"
 
 #. module: event
 #: model:event.tag,name:event.event_tag_category_2_tag_3
@@ -4367,7 +4370,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:event.event_question_view_list
 #: model_terms:ir.ui.view,arch_db:event.view_event_form
 msgid "Stats"
-msgstr ""
+msgstr "Статистик"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_registration__state
@@ -4398,7 +4401,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_registration_answer__value_answer_id
 msgid "Suggested answer"
-msgstr ""
+msgstr "Санал болгох хариулт"
 
 #. module: event
 #: model:ir.model.fields,help:event.field_event_tag__color
@@ -4442,7 +4445,7 @@ msgstr ""
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_registration_answer__value_text_box
 msgid "Text answer"
-msgstr ""
+msgstr "Текст хариу"
 
 #. module: event
 #: model:event.event,subtitle:event.event_1
@@ -4738,12 +4741,12 @@ msgstr "Цагийн бүс"
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_question__title
 msgid "Title"
-msgstr ""
+msgstr "Гарчиг"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_slot_tree
 msgid "To"
-msgstr ""
+msgstr "Дуусах"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_search
@@ -4845,7 +4848,7 @@ msgstr "Янз бүрийн модулиудыг ойлгох;"
 #. odoo-javascript
 #: code:addons/event/static/src/client_action/event_registration_summary_dialog.xml:0
 msgid "Undo"
-msgstr ""
+msgstr "Үйлдлийг буцаах"
 
 #. module: event
 #: model:ir.model.fields,field_description:event.field_event_mail__interval_unit
@@ -4856,7 +4859,7 @@ msgstr "Ширхэг"
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_slot_tree
 msgid "Until"
-msgstr ""
+msgstr "Хүртэл"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_search
@@ -5152,7 +5155,7 @@ msgstr ""
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.event_event_ticket_view_kanban_from_event
 msgid "reserved"
-msgstr ""
+msgstr "нөөцлөгдсөн"
 
 #. module: event
 #: model_terms:ir.ui.view,arch_db:event.view_event_form

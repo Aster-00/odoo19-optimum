@@ -23,6 +23,15 @@ import { isProtected, isProtecting } from "@html_editor/utils/dom_info";
  * @property { SplitPlugin['splitSelection'] } splitSelection
  */
 
+/**
+ * @typedef {(({element: HTMLElement, secondPart: HTMLElement}) => void)[]} after_split_element_handlers
+ * @typedef {(() => void)[]} before_split_block_handlers
+ *
+ * @typedef {((params: { targetNode: Node, targetOffset: number, blockToSplit: HTMLElement | null }) => void | true)[]} split_element_block_overrides
+ *
+ * @typedef {((node: Node) => boolean)[]} unsplittable_node_predicates
+ */
+
 export class SplitPlugin extends Plugin {
     static dependencies = ["baseContainer", "selection", "history", "input", "delete", "lineBreak"];
     static id = "split";
@@ -35,6 +44,7 @@ export class SplitPlugin extends Plugin {
         "splitSelection",
         "isUnsplittable",
     ];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         beforeinput_handlers: this.onBeforeInput.bind(this),
 
@@ -70,6 +80,11 @@ export class SplitPlugin extends Plugin {
             },
             (node) => node.nodeName === "SECTION",
         ],
+        selection_blocker_predicates: (blocker) => {
+            if (this.isUnsplittable(blocker)) {
+                return true;
+            }
+        },
     };
 
     // --------------------------------------------------------------------------
@@ -82,6 +97,8 @@ export class SplitPlugin extends Plugin {
             // @todo @phoenix collapseIfZWS is not tested
             // this.shared.collapseIfZWS();
             this.dependencies.delete.deleteSelection();
+            selection = this.dependencies.selection.getEditableSelection();
+        } else if (!closestElement(selection.anchorNode).isContentEditable) {
             selection = this.dependencies.selection.getEditableSelection();
         }
 

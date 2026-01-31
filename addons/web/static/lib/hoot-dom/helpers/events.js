@@ -793,8 +793,9 @@ function registerButton(eventInit, toggle) {
  * @param {Event} ev
  */
 function registerFileInput({ target }) {
-    if (getTag(target) === "input" && target.type === "file") {
-        runTime.fileInput = target;
+    const actualTarget = target.shadowRoot ? target.shadowRoot.activeElement : target;
+    if (getTag(actualTarget) === "input" && actualTarget.type === "file") {
+        runTime.fileInput = actualTarget;
     } else {
         runTime.fileInput = null;
     }
@@ -1171,7 +1172,8 @@ async function _fill(target, value, options) {
 
     if (getTag(target) === "input") {
         switch (target.type) {
-            case "color": {
+            case "color":
+            case "time": {
                 target.value = String(value);
                 await _dispatch(target, "input");
                 await _dispatch(target, "change");

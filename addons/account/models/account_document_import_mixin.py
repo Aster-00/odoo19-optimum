@@ -6,11 +6,10 @@ import itertools
 import logging
 from lxml import etree
 from markupsafe import Markup
-import psycopg2.errors
 from struct import error as StructError
 
 from odoo import api, models, modules
-from odoo.exceptions import UserError, ValidationError, AccessError, RedirectWarning
+from odoo.exceptions import RedirectWarning
 from odoo.tools import groupby
 from odoo.tools.mimetypes import guess_mimetype
 from odoo.tools.pdf import OdooPdfFileReader, PdfReadError
@@ -350,13 +349,7 @@ class AccountDocumentImportMixin(models.AbstractModel):
                     return
         except RedirectWarning:
             raise
-        except (
-            AccessError,
-            UserError,
-            ValidationError,
-            psycopg2.errors.IntegrityError,
-            psycopg2.errors.SerializationFailure,
-        ) as e:
+        except Exception as e:
             _logger.exception("Error importing attachment %s on record %s", file_data['name'], self)
 
             self.sudo().message_post(body=Markup("%s<br/><br/>%s<br/>%s") % (
@@ -395,7 +388,9 @@ class AccountDocumentImportMixin(models.AbstractModel):
         self.ensure_one()
         attachments_to_attach = attachments.filtered(self._should_attach_to_record)
         if attachments_to_attach:
-            attachments_to_attach.write({
+            # No need to write to attachments that have the same res_model and res_id
+            attachments_to_write = attachments_to_attach.filtered(lambda a: a.res_model != self._name or a.res_id != self.id)
+            attachments_to_write.write({
                 'res_model': self._name,
                 'res_id': self.id,
             })
@@ -408,7 +403,7 @@ class AccountDocumentImportMixin(models.AbstractModel):
 
     def _should_attach_to_record(self, attachment):
         """ Indicate whether a given attachment should be displayed in the record's attachments. """
-        return not attachment.res_field and attachment.mimetype in {
+        return attachment and not attachment.res_field and attachment.mimetype in {
             'text/csv',
             'application/pdf',
             'application/vnd.ms-excel',

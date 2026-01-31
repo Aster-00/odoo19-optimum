@@ -1,5 +1,5 @@
 import { stepUtils } from "@web_tour/tour_utils";
-import { clickOnSave, registerWebsitePreviewTour } from "@website/js/tours/tour_utils";
+import { clickOnSave, goToTheme, registerWebsitePreviewTour } from "@website/js/tours/tour_utils";
 
 registerWebsitePreviewTour(
     "hide_sidebar_header",
@@ -24,25 +24,28 @@ registerWebsitePreviewTour(
             run: "click",
         },
         {
+            content: "Check that the loading screen has appeared",
+            trigger: ":iframe .o_loading_screen",
+        },
+        {
+            content: "Wait for the builder to mount after iframe reload",
+            trigger: ":iframe body.editor_enable",
+        },
+        {
             content: "Check that the header changed to 'Sidebar'",
             trigger: ":iframe #wrapwrap>header.o_header_sidebar",
         },
-        stepUtils.waitIframeIsReady(),
-        {
-            content: "Go to the theme tab",
-            trigger: ".o-website-builder_sidebar .o-snippets-tabs button[data-name='theme']",
-            run: "click",
-        },
+        ...goToTheme(),
         {
             content: "Toggle 'Show Header' off",
             trigger: ".hb-row[data-label='Show Header'] input[type='checkbox']",
             run: "click",
         },
+        stepUtils.waitIframeIsReady(),
         {
             content: "Check that the header has been hidden",
             trigger: ":iframe #wrapwrap:not(:has(:scope > header))",
         },
-        stepUtils.waitIframeIsReady(),
         {
             content: "Check that there's no header padding on the #wrapwrap",
             trigger: ":iframe #wrapwrap",

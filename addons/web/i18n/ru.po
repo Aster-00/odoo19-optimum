@@ -4,22 +4,23 @@
 #
 # Translators:
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:39+0000\n"
-"PO-Revision-Date: 2025-10-22 11:28+0000\n"
-"Last-Translator: \"Dylan Kiss (dyki)\" <dyki@odoo.com>\n"
-"Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/web/ru/>"
-"\n"
+"POT-Creation-Date: 2026-01-09 18:38+0000\n"
+"PO-Revision-Date: 2025-11-08 21:57+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
+"Language-Team: Russian <https://translate.odoo.com/projects/odoo-19/web/ru/"
+">\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || ("
-"n%100>=11 && n%100<=14)? 2 : 3);\n"
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
 "X-Generator: Weblate 5.12.2\n"
 
 #. module: web
@@ -451,12 +452,12 @@ msgstr ""
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "<i class=\"fa fa-download\"/> (html)"
-msgstr ""
+msgstr "<i class=\"fa fa-download\"/> (HTML)"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "<i class=\"fa fa-download\"/> (json)"
-msgstr ""
+msgstr "<i class=\"fa fa-download\"/> (JSON)"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.view_base_document_layout
@@ -823,7 +824,7 @@ msgstr "Действия"
 #. odoo-javascript
 #: code:addons/web/static/src/search/cog_menu/cog_menu.xml:0
 msgid "Actions menu"
-msgstr ""
+msgstr "Меню действий"
 
 #. module: web
 #. odoo-javascript
@@ -881,7 +882,7 @@ msgstr "Добавить"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/x2many/x2many_field.js:0
 msgid "Add %s"
-msgstr ""
+msgstr "Добавить: %s"
 
 #. module: web
 #. odoo-javascript
@@ -994,12 +995,12 @@ msgstr "Африка"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Aggregate SQL"
-msgstr ""
+msgstr "Агрегировать SQL"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Aggregation mode"
-msgstr ""
+msgstr "Режим агрегации"
 
 #. module: web
 #. odoo-javascript
@@ -1746,7 +1747,7 @@ msgstr "Очистить всё"
 #. odoo-javascript
 #: code:addons/web/static/src/views/kanban/kanban_record.xml:0
 msgid "Click to select"
-msgstr ""
+msgstr "Нажмите, чтобы выбрать"
 
 #. module: web
 #. odoo-javascript
@@ -1930,7 +1931,7 @@ msgstr "Соединение восстановлено. Вы снова онл�
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Constant Time"
-msgstr ""
+msgstr "Константное время"
 
 #. module: web
 #: model:ir.model,name:web.model_res_partner
@@ -2086,7 +2087,7 @@ msgstr "Количество"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/domain/domain_field.js:0
 msgid "Count Limit"
-msgstr ""
+msgstr "Ограничение кол-ва"
 
 #. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__country_id
@@ -2117,7 +2118,7 @@ msgstr "Создать %s"
 #. module: web
 #: model:ir.model,website_form_label:web.model_res_partner
 msgid "Create a Customer"
-msgstr ""
+msgstr "Создать клиента"
 
 #. module: web
 #. odoo-javascript
@@ -2171,7 +2172,7 @@ msgstr "Валюта"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/properties/property_definition.xml:0
 msgid "Currency field"
-msgstr ""
+msgstr "Поле валюты"
 
 #. module: web
 #. odoo-javascript
@@ -2183,7 +2184,7 @@ msgstr "Поле текущего значения"
 #. odoo-javascript
 #: code:addons/web/static/src/core/color_picker/tabs/color_picker_custom_tab.js:0
 msgid "Custom"
-msgstr ""
+msgstr "Пользовательский"
 
 #. module: web
 #. odoo-javascript
@@ -2294,7 +2295,7 @@ msgstr "Дата и время"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
 msgid "Date Format"
-msgstr ""
+msgstr "Формат даты"
 
 #. module: web
 #. odoo-javascript
@@ -2574,7 +2575,7 @@ msgstr "Отображать в карточках"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Display presets"
-msgstr ""
+msgstr "Отобразить пресеты"
 
 #. module: web
 #. odoo-javascript
@@ -2811,7 +2812,7 @@ msgstr "Редактировать теги"
 #. odoo-javascript
 #: code:addons/web/static/src/search/search_bar_menu/search_bar_menu.xml:0
 msgid "Edit favorite"
-msgstr ""
+msgstr "Редактировать избранное"
 
 #. module: web
 #. odoo-javascript
@@ -2983,7 +2984,7 @@ msgstr "Внешний ID"
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_field.js:0
 msgid "Extra Rights"
-msgstr ""
+msgstr "Дополнительные права"
 
 #. module: web
 #. odoo-javascript
@@ -3014,7 +3015,7 @@ msgstr "Коэффициент"
 #. odoo-javascript
 #: code:addons/web/static/src/search/search_model.js:0
 msgid "Failed to evaluate the context: %(context)s."
-msgstr ""
+msgstr "Не удалось обработать контекст: %(context)s."
 
 #. module: web
 #. odoo-javascript
@@ -3062,7 +3063,7 @@ msgstr "Феррис"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/field_selector/field_selector_field.js:0
 msgid "Field Selector"
-msgstr ""
+msgstr "Выбор поля"
 
 #. module: web
 #. odoo-javascript
@@ -3235,12 +3236,12 @@ msgstr ""
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Frames"
-msgstr ""
+msgstr "Фреймы"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Frames + sql (Combined)"
-msgstr ""
+msgstr "Фреймы + SQL (Объединенные)"
 
 #. module: web
 #. odoo-javascript
@@ -3331,7 +3332,7 @@ msgstr "Зеленый"
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/res_user_group_ids_field/res_user_group_ids_popover.xml:0
 msgid "Group"
-msgstr ""
+msgstr "Группа"
 
 #. module: web
 #. odoo-javascript
@@ -3349,7 +3350,7 @@ msgstr "Группировать по"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/properties/property_definition.js:0
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #. module: web
 #: model:ir.model,name:web.model_ir_http
@@ -3386,7 +3387,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/user_menu/user_menu_items.js:0
 msgid "Help"
-msgstr ""
+msgstr "Поддержка"
 
 #. module: web
 #. odoo-javascript
@@ -3449,7 +3450,7 @@ msgstr "Главное меню"
 #. odoo-javascript
 #: code:addons/web/static/src/search/utils/dates.js:0
 msgid "Hour"
-msgstr ""
+msgstr "Час"
 
 #. module: web
 #. odoo-python
@@ -3473,7 +3474,7 @@ msgstr "Как получить приложение"
 #. odoo-javascript
 #: code:addons/web/static/src/core/color_picker/custom_color_picker/custom_color_picker.xml:0
 msgid "Hue"
-msgstr ""
+msgstr "Оттенок"
 
 #. module: web
 #. odoo-javascript
@@ -3549,6 +3550,14 @@ msgstr ""
 "Обратите внимание, что если также установлено поле цвета, редактирование "
 "тега будет иметь приоритет. Поэтому палитра цветов не будет отображаться при "
 "нажатии на тег."
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.js:0
+msgid ""
+"If checked, the checkboxes will be displayed in a column. Otherwise, they "
+"will be inlined."
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -3744,7 +3753,7 @@ msgstr "Недействительные адреса электронной п�
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/settings_form_view/widgets/res_config_invite_users.js:0
 msgid "Invalid email addresses: %(two_addresses)s"
-msgstr ""
+msgstr "Недействительные адреса электронной почты: %(two_addresses)s"
 
 #. module: web
 #. odoo-javascript
@@ -4132,13 +4141,13 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_components.js:0
 msgid "Last 30 days"
-msgstr ""
+msgstr "Последние 30 дней"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_components.js:0
 msgid "Last 7 days"
-msgstr ""
+msgstr "Последние 7 дней"
 
 #. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__write_uid
@@ -4156,7 +4165,7 @@ msgstr "Дата последнего обновления:"
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_components.js:0
 msgid "Last month"
-msgstr ""
+msgstr "Прошлый месяц"
 
 #. module: web
 #. odoo-javascript
@@ -4299,7 +4308,7 @@ msgstr "Выйти"
 #. odoo-python
 #: code:addons/web/controllers/home.py:0
 msgid "Login"
-msgstr ""
+msgstr "Войти"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.external_layout_bold
@@ -4719,7 +4728,7 @@ msgstr "Многострочный текст"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Multiple profile"
-msgstr ""
+msgstr "Множественный профиль"
 
 #. module: web
 #. odoo-javascript
@@ -4917,6 +4926,12 @@ msgid "No data to display"
 msgstr "Нет данных для отображения"
 
 #. module: web
+#. odoo-python
+#: code:addons/web/controllers/pivot.py:0
+msgid "No data to export"
+msgstr ""
+
+#. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/debug/debug_menu.js:0
 msgid "No debug command found"
@@ -4983,7 +4998,7 @@ msgstr "Результатов не найдено"
 #. odoo-javascript
 #: code:addons/web/static/src/core/select_menu/select_menu.xml:0
 msgid "No results"
-msgstr ""
+msgstr "Нет результатов"
 
 #. module: web
 #. odoo-javascript
@@ -5209,7 +5224,6 @@ msgstr "Ох!"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/confirmation_dialog/confirmation_dialog.js:0
-#: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/public/error_notifications.js:0
 #: code:addons/web/static/src/views/calendar/calendar_year/calendar_year_popover.xml:0
 #: code:addons/web/static/src/views/view_dialogs/form_view_dialog.xml:0
@@ -5276,6 +5290,8 @@ msgstr "Упс!"
 #: code:addons/web/static/src/views/fields/file_handler.js:0
 msgid "Oops! '%(fileName)s' didn’t upload since its format isn’t allowed."
 msgstr ""
+"Ой! Файл «%(fileName)s» не был загружен, так как его формат не "
+"поддерживается."
 
 #. module: web
 #. odoo-javascript
@@ -5300,7 +5316,7 @@ msgstr ""
 #: code:addons/web/static/src/views/fields/properties/property_definition.xml:0
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 #. module: web
 #. odoo-javascript
@@ -5676,7 +5692,7 @@ msgstr "Печать"
 #. odoo-javascript
 #: code:addons/web/static/src/search/cog_menu/cog_menu.js:0
 msgid "Print report: %s"
-msgstr ""
+msgstr "Печать отчета: %s"
 
 #. module: web
 #. odoo-javascript
@@ -6093,12 +6109,12 @@ msgstr "Кнопка SOS"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "SQL density"
-msgstr ""
+msgstr "Плотность SQL"
 
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "SQL no gap"
-msgstr ""
+msgstr "SQL без разрывов"
 
 #. module: web
 #. odoo-javascript
@@ -6255,7 +6271,7 @@ msgstr "Поиск меню..."
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/relational_utils.js:0
 msgid "Search more..."
-msgstr ""
+msgstr "Искать больше..."
 
 #. module: web
 #. odoo-javascript
@@ -6607,7 +6623,7 @@ msgstr "Смайлики и эмоции"
 #. odoo-javascript
 #: code:addons/web/static/src/core/color_picker/tabs/color_picker_solid_tab.js:0
 msgid "Solid"
-msgstr ""
+msgstr "Сплошная"
 
 #. module: web
 #. odoo-javascript
@@ -6646,10 +6662,11 @@ msgstr "Специальный:"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Speedscope"
-msgstr ""
+msgstr "Speedscope"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.js:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 msgid "Stacked"
 msgstr "С накоплением"
@@ -6751,7 +6768,7 @@ msgstr "Ошибка стиля"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/properties/property_definition.xml:0
 msgid "Suffix"
-msgstr ""
+msgstr "Суффикс"
 
 #. module: web
 #. odoo-javascript
@@ -6965,6 +6982,12 @@ msgid "The domain should not involve non-literals"
 msgstr "Домен не должен содержать нелитералы"
 
 #. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/utils/files.js:0
+msgid "The file is not an image, resizing is not possible"
+msgstr "Этот файл не является изображением, изменение размера невозможно"
+
+#. module: web
 #. odoo-python
 #: code:addons/web/models/res_users_settings_embedded_action.py:0
 msgid "The ids in %(field_name)s must not be duplicated: “%(action_ids)s”"
@@ -6988,6 +7011,12 @@ msgid ""
 msgstr ""
 "Операция была прервана. Обычно это означает, что текущая операция занимает "
 "слишком много времени."
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/utils/files.js:0
+msgid "The resizing of the image failed"
+msgstr "Ошибка при изменении размера изображения"
 
 #. module: web
 #. odoo-javascript
@@ -7065,7 +7094,7 @@ msgstr "Этот блок присутствует не всегда в зави
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
 msgid "This date is in the future"
-msgstr ""
+msgstr "Эта дата в будущем"
 
 #. module: web
 #. odoo-javascript
@@ -7357,7 +7386,7 @@ msgstr "Тип:"
 #: code:addons/web/static/src/views/fields/many2many_tags/many2many_tags_field.js:0
 #: code:addons/web/static/src/views/fields/many2one/many2one_field.js:0
 msgid "Typeahead search"
-msgstr ""
+msgstr "Автопоиск"
 
 #. module: web
 #. odoo-javascript
@@ -7491,7 +7520,7 @@ msgstr "Без названия"
 #. odoo-javascript
 #: code:addons/web/static/src/views/list/list_confirmation_dialog.xml:0
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #. module: web
 #. odoo-javascript
@@ -7578,7 +7607,7 @@ msgstr "Использовать другого пользователя"
 #. module: web
 #: model_terms:ir.ui.view,arch_db:web.config_speedscope_index
 msgid "Use execution context"
-msgstr ""
+msgstr "Использовать контекст выполнения"
 
 #. module: web
 #. odoo-javascript
@@ -7638,7 +7667,7 @@ msgstr "Интерфейс пользователя"
 #. module: web
 #: model:ir.model,name:web.model_res_users_settings
 msgid "User Settings"
-msgstr ""
+msgstr "Настройки пользователя"
 
 #. module: web
 #: model:ir.model,name:web.model_res_users_settings_embedded_action
@@ -7802,6 +7831,7 @@ msgstr "Туалет"
 #: code:addons/web/static/src/core/errors/error_dialogs.js:0
 #: code:addons/web/static/src/search/control_panel/control_panel.js:0
 #: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.xml:0
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -8207,7 +8237,7 @@ msgstr "эскулап"
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_operator_editor.js:0
 msgid "after"
-msgstr ""
+msgstr "после"
 
 #. module: web
 #. odoo-javascript
@@ -14643,7 +14673,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_operator_editor.js:0
 msgid "greater than"
-msgstr ""
+msgstr "больше чем"
 
 #. module: web
 #. odoo-javascript
@@ -25452,7 +25482,7 @@ msgstr "вирус"
 #. odoo-python
 #: code:addons/web/controllers/vcard.py:0
 msgid "vobject library is not installed"
-msgstr ""
+msgstr "библиотека vobject не установлена"
 
 #. module: web
 #. odoo-javascript

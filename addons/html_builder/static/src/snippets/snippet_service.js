@@ -24,6 +24,7 @@ export class SnippetModel extends Reactive {
             snippet_content: [],
             snippet_custom_content: [],
         };
+        this.originalSnippets = {};
     }
 
     get hasCustomGroup() {
@@ -182,6 +183,7 @@ export class SnippetModel extends Reactive {
     computeSnippetTemplates(snippetsDocument) {
         const snippetsBody = snippetsDocument.body;
         this.snippetsByCategory = {};
+        this.originalSnippets = {};
         for (const snippetCategory of snippetsBody.querySelectorAll("snippets")) {
             const snippets = [];
             for (const snippetEl of snippetCategory.children) {
@@ -226,6 +228,9 @@ export class SnippetModel extends Reactive {
                         snippet.groupName = "custom";
                         snippet.isCustom = true;
                         break;
+                }
+                if (["snippet_structure", "snippet_content"].includes(snippetCategory.id)) {
+                    this.originalSnippets[snippet.name] ??= snippet;
                 }
                 snippets.push(snippet);
             }
@@ -323,9 +328,7 @@ export class SnippetModel extends Reactive {
         if (!snippetKey) {
             return;
         }
-        return [...this.snippetStructures, ...this.snippetInnerContents].find(
-            (snippet) => snippet.name === snippetKey
-        );
+        return this.originalSnippets[snippetKey];
     }
 
     /**
@@ -442,7 +445,7 @@ export class SnippetModel extends Reactive {
     }
 }
 
-registry.category("services").add("html_builder.snippets", {
+export const snippetService = {
     dependencies: ["orm", "dialog"],
 
     start(env, { orm, dialog }) {
@@ -469,7 +472,9 @@ registry.category("services").add("html_builder.snippets", {
 
         return { getSnippetModel };
     },
-});
+};
+
+registry.category("services").add("html_builder.snippets", snippetService);
 
 export function useSnippets(snippetsName) {
     const snippetsService = useService("html_builder.snippets");

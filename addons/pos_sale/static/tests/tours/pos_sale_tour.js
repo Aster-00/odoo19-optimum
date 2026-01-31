@@ -132,6 +132,19 @@ registry.category("web_tour.tours").add("PosSettleOrderNotGroupable", {
         ].flat(),
 });
 
+registry.category("web_tour.tours").add("test_import_lot_groupable_and_non_groupable", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1, { loadSN: true }),
+            PosSale.selectedOrderLinesHasLots("Groupable Product", []),
+            ProductScreen.checkOrderlinesNumber(5),
+            ProductScreen.totalAmountIs(60),
+            ProductScreen.selectedOrderlineHas("Groupable Product", "1", "10"),
+        ].flat(),
+});
+
 registry.category("web_tour.tours").add("PosSettleOrderWithNote", {
     steps: () =>
         [
@@ -187,6 +200,10 @@ registry.category("web_tour.tours").add("PosSettleDraftOrder", {
             Dialog.confirm("Open Register"),
             PosSale.settleNthOrder(1),
             ProductScreen.selectedOrderlineHas("Test service product", "1", "50.00"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Bank"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.isShown(),
         ].flat(),
 });
 
@@ -211,6 +228,16 @@ registry.category("web_tour.tours").add("PoSSaleOrderWithDownpayment", {
             PosSale.settleNthOrder(1),
             ProductScreen.selectedOrderlineHas("Down Payment (POS)"),
             ProductScreen.totalAmountIs(980.0),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_so_with_non_pos_groupable_uom", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1),
+            ProductScreen.selectedOrderlineHas("Pomme de Terre", "0.5", "5.00"),
         ].flat(),
 });
 
@@ -563,6 +590,7 @@ registry.category("web_tour.tours").add("test_selected_partner_quotation_loading
             ProductScreen.selectedOrderlineHas("Product B", "2.00"),
         ].flat(),
 });
+
 registry.category("web_tour.tours").add("test_ecommerce_paid_order_is_hidden_in_pos", {
     steps: () =>
         [
@@ -573,6 +601,7 @@ registry.category("web_tour.tours").add("test_ecommerce_paid_order_is_hidden_in_
             PosSale.checkOrdersListEmpty(),
         ].flat(),
 });
+
 registry.category("web_tour.tours").add("test_ecommerce_unpaid_order_is_shown_in_pos", {
     steps: () =>
         [
@@ -581,5 +610,15 @@ registry.category("web_tour.tours").add("test_ecommerce_unpaid_order_is_shown_in
             ProductScreen.clickPartnerButton(),
             ProductScreen.clickCustomer("A Test Partner 1"),
             PosSale.checkOrdersListNotEmpty(),
+        ].flat(),
+});
+
+registry.category("web_tour.tours").add("test_settle_groupable_lot_total_amount", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            PosSale.settleNthOrder(1, { loadSN: true }),
+            Order.hasTotal("12.00"),
         ].flat(),
 });

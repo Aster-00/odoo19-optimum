@@ -73,7 +73,10 @@ class AccountChartTemplate(models.AbstractModel):
             },
         }
         if company.parent_id:
-            return state_specific
+            return {
+                self.company_xmlid(k): v
+                for k, v in state_specific.items()
+            }
         return {
             **state_specific,
             'fiscal_position_in_sez': {
@@ -109,7 +112,7 @@ class AccountChartTemplate(models.AbstractModel):
         }
 
     def _get_l10n_in_fiscal_tax_vals(self, fiscal_position_xml_ids):
-        rates = [1, 2, 5, 12, 18, 28]
+        rates = [1, 2, 5, 12, 18, 28, 40]
         taxes_xml_ids = []
 
         if fiscal_position_xml_ids == 'fiscal_position_in_intra_state':

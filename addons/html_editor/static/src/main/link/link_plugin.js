@@ -6,7 +6,13 @@ import { _t } from "@web/core/l10n/translation";
 import { LinkPopover } from "./link_popover";
 import { DIRECTIONS, leftPos, nodeSize, rightPos } from "@html_editor/utils/position";
 import { EMAIL_REGEX, URL_REGEX, cleanZWChars, deduceURLfromText } from "./utils";
-import { isElement, isVisible, isZwnbsp } from "@html_editor/utils/dom_info";
+import {
+    isElement,
+    isProtected,
+    isProtecting,
+    isVisible,
+    isZwnbsp,
+} from "@html_editor/utils/dom_info";
 import { KeepLast } from "@web/core/utils/concurrency";
 import { rpc } from "@web/core/network/rpc";
 import { memoize } from "@web/core/utils/functions";
@@ -15,6 +21,8 @@ import { isBlock, closestBlock } from "@html_editor/utils/blocks";
 import { isHtmlContentSupported } from "@html_editor/core/selection_plugin";
 import { isBrowserFirefox } from "@web/core/browser/feature_detection";
 
+/** @typedef {import("@odoo/owl").Component} Component */
+/** @typedef {import("plugins").CSSSelector} CSSSelector */
 /**
  * @typedef {import("@html_editor/core/selection_plugin").EditorSelection} EditorSelection
  */
@@ -124,6 +132,19 @@ async function fetchAttachmentMetaData(url, ormService) {
  * @property { LinkPlugin['insertLink'] } insertLink
  */
 
+/**
+ * @typedef {((link: HTMLLinkElement) => boolean)[]} is_link_editable_predicates
+ * @typedef {((link: HTMLLinkElement) => boolean)[]} legit_empty_link_predicates
+ * @typedef {(() => boolean)[]} link_compatible_selection_predicates
+ * @typedef {CSSSelector[]} immutable_link_selectors
+ * @typedef {{
+ *      PopoverClass: Component;
+ *      isAvailable: (linkEl: HTMLLinkElement) => boolean;
+ *      getProps: (props) => props;
+ *  }[]} link_popovers
+ * @typedef {((linkEl: HTMLAnchorElement) => void)[]} create_link_handlers
+ */
+
 export class LinkPlugin extends Plugin {
     static id = "link";
     static dependencies = [
@@ -143,6 +164,7 @@ export class LinkPlugin extends Plugin {
     };
     // @phoenix @todo: do we want to have createLink and insertLink methods in link plugin?
     static shared = ["createLink", "insertLink", "getPathAsUrlCommand"];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: [
             {
@@ -268,6 +290,7 @@ export class LinkPlugin extends Plugin {
         clean_for_save_handlers: ({ root }) => this.removeEmptyLinks(root),
         normalize_handlers: this.normalizeLink.bind(this),
         after_insert_handlers: this.handleAfterInsert.bind(this),
+        on_will_remove_handlers: () => this.closeLinkTools(),
 
         /** Overrides */
         split_element_block_overrides: this.handleSplitBlock.bind(this),
@@ -677,7 +700,7 @@ export class LinkPlugin extends Plugin {
                     link.setAttribute("style", saveCustomStyle);
                 }
                 // Remove the current link (linkInDocument) if it has no content
-                if (cleanZWChars(link.innerText) === "" && !link.querySelector("img")) {
+                if (cleanZWChars(link.textContent) === "" && !link.querySelector("img")) {
                     const [anchorNode, anchorOffset] = rightPos(link);
                     // We force the cursor after the link before removing the link
                     // to ensure we don't lose the selection position.
@@ -774,7 +797,11 @@ export class LinkPlugin extends Plugin {
                 }
             }
         }
-        if (!selectionData.currentSelectionIsInEditable) {
+        const anchorNode = this.document.getSelection()?.anchorNode;
+        const isSelectionInProtected =
+            this.document.getSelection()?.isCollapsed &&
+            (isProtecting(anchorNode) || isProtected(anchorNode));
+        if (!selectionData.currentSelectionIsInEditable || isSelectionInProtected) {
             const popoverEl = document.querySelector(".o-we-linkpopover");
             const anchorNode = document.getSelection()?.anchorNode;
             if (
@@ -860,6 +887,7 @@ export class LinkPlugin extends Plugin {
         }
         cursors.restore();
         this.linkInDocument = null;
+        this.dependencies.selection.focusEditable();
         this.dependencies.history.addStep();
     }
 
@@ -964,7 +992,10 @@ export class LinkPlugin extends Plugin {
             endLink.parentElement.isContentEditable &&
             !this.isUnremovable(endLink)
         ) {
-            focusNode = this.dependencies.split.splitAroundUntil(focusNode, endLink);
+            focusNode = this.dependencies.split.splitAroundUntil(
+                focusNode,
+                closestElement(focusNode, "a")
+            );
             focusOffset = direction === DIRECTIONS.RIGHT ? nodeSize(focusNode) : 0;
             this.dependencies.selection.setSelection(
                 { anchorNode, anchorOffset, focusNode, focusOffset },

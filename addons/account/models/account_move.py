@@ -3,7 +3,7 @@
 import ast
 import calendar
 from collections import Counter, defaultdict
-from contextlib import ExitStack, contextmanager
+from contextlib import ExitStack, contextmanager, nullcontext
 from datetime import date, timedelta
 from dateutil.relativedelta import relativedelta
 from hashlib import sha256
@@ -180,16 +180,18 @@ class AccountMove(models.Model):
     line_ids = fields.One2many(
         'account.move.line',
         'move_id',
-        string='Account Move Line Items',
+        string='Journal Items',
         copy=True,
     )
 
-    journal_line_ids = fields.One2many(  # /!\ journal_line_ids is just a subset of line_ids.
+    # /!\ Deprecated! Kept in stable, but will be removed in master.
+    journal_line_ids = fields.One2many(
         comodel_name='account.move.line',
         inverse_name='move_id',
-        string='Journal Items',
+        string='Journal Items (DEPRECATED)',
         copy=False,
         domain=[('display_type', 'not in', ('line_section', 'line_subsection', 'line_note'))],
+        exportable=False,
     )
 
     # === Link to the partial that created this exchange move === #
@@ -324,7 +326,7 @@ class AccountMove(models.Model):
     made_sequence_gap = fields.Boolean(compute='_compute_made_sequence_gap', store=True)  # store wether this is the first move breaking the natural sequencing
     show_name_warning = fields.Boolean(store=False)
     type_name = fields.Char('Type Name', compute='_compute_type_name')
-    country_code = fields.Char(related='company_id.account_fiscal_country_id.code', readonly=True)
+    country_code = fields.Char(related='company_id.account_fiscal_country_id.code', readonly=True, depends=['company_id'])
     account_fiscal_country_group_codes = fields.Json(related="company_id.account_fiscal_country_group_codes")
     company_price_include = fields.Selection(related='company_id.account_price_include', readonly=True)
     attachment_ids = fields.One2many('ir.attachment', 'res_id', domain=[('res_model', '=', 'account.move')], string='Attachments')
@@ -384,6 +386,7 @@ class AccountMove(models.Model):
         copy=False,
         store=True,
         compute='_compute_delivery_date',
+        inverse='_inverse_delivery_date',
         precompute=True,
         readonly=False,
     )
@@ -686,12 +689,15 @@ class AccountMove(models.Model):
         string='Origin',
         readonly=True,
         tracking=True,
+        copy=False,
         help="The document(s) that generated the invoice.",
     )
     invoice_incoterm_id = fields.Many2one(
         comodel_name='account.incoterms',
         string='Incoterm',
-        default=lambda self: self.env.company.incoterm_id,
+        compute='_compute_incoterm',
+        readonly=False,
+        store=True,
         help='International Commercial Terms are a series of predefined commercial '
              'terms used in international transactions.',
     )
@@ -744,6 +750,7 @@ class AccountMove(models.Model):
         groups="account.group_account_invoice,account.group_account_readonly",
     )
     duplicated_ref_ids = fields.Many2many(comodel_name='account.move', compute='_compute_duplicated_ref_ids')
+    is_draft_duplicated_ref_ids = fields.Boolean(compute="_compute_is_draft_duplicated_ref_ids")
     need_cancel_request = fields.Boolean(compute='_compute_need_cancel_request')
 
     show_update_fpos = fields.Boolean(string="Has Fiscal Position Changed", store=False)  # True if the fiscal position was changed
@@ -768,6 +775,7 @@ class AccountMove(models.Model):
 
     display_send_button = fields.Boolean(compute='_compute_display_send_button')
     highlight_send_button = fields.Boolean(compute='_compute_highlight_send_button')
+    is_sale_installed = fields.Boolean(compute='_compute_is_sale_installed')
 
     _checked_idx = models.Index("(journal_id) WHERE (checked IS NOT TRUE)")
     _payment_idx = models.Index("(journal_id, state, payment_state, move_type, date)")
@@ -915,9 +923,8 @@ class AccountMove(models.Model):
     @api.depends('move_type')
     def _compute_is_storno(self):
         for move in self:
-            move.is_storno = move.is_storno or (
-                move.company_id.account_storno and move.move_type in ('out_refund', 'in_refund')
-            )
+            is_refund = move.move_type in ('out_refund', 'in_refund')
+            move.is_storno = move.is_storno or (is_refund and move.company_id.account_storno)
 
     @api.depends('company_id', 'invoice_filter_type_domain')
     def _compute_suitable_journal_ids(self):
@@ -1039,28 +1046,21 @@ class AccountMove(models.Model):
     def _compute_partner_bank_id(self):
         def _bank_selection_key(bank):
             """Sorting priority:
-            0. Same currency as the move
-            1. No currency set
-            2. Different currency
+            0. Same currency as the move or no currency
+            1. Different currency
             Then: prefer banks allowing outgoing payments (trusted ones)
             """
-            if bank.currency_id == move.currency_id:
+            if bank.currency_id == move.currency_id or not bank.currency_id:
                 currency_priority = 0
-            elif not bank.currency_id:
-                currency_priority = 1
             else:
-                currency_priority = 2
+                currency_priority = 1
             return (currency_priority, not bank.allow_out_payment)
 
         for move in self:
-            if (
+            if move.is_inbound() and (
                 payment_method := (
                     move.preferred_payment_method_line_id
-                    or (
-                        move.bank_partner_id.property_inbound_payment_method_line_id
-                        if move.is_inbound()
-                        else move.bank_partner_id.property_outbound_payment_method_line_id
-                    )
+                    or move.bank_partner_id.property_inbound_payment_method_line_id
                 )
             ) and payment_method.journal_id:
                 move.partner_bank_id = payment_method.journal_id.bank_account_id
@@ -1124,16 +1124,20 @@ class AccountMove(models.Model):
         self.ensure_one()
         return self.invoice_date or fields.Date.context_today(self)
 
+    def _get_expected_currency_rate_at(self, date):
+        self.ensure_one()
+        return self.env['res.currency']._get_conversion_rate(
+            from_currency=self.company_currency_id,
+            to_currency=self.currency_id,
+            company=self.company_id,
+            date=date,
+        )
+
     @api.depends('currency_id', 'company_currency_id', 'company_id', 'invoice_date', 'taxable_supply_date')
     def _compute_expected_currency_rate(self):
         for move in self:
             if move.currency_id:
-                move.expected_currency_rate = move.env['res.currency']._get_conversion_rate(
-                    from_currency=move.company_currency_id,
-                    to_currency=move.currency_id,
-                    company=move.company_id,
-                    date=move._get_invoice_currency_rate_date(),
-                )
+                move.expected_currency_rate = move._get_expected_currency_rate_at(move._get_invoice_currency_rate_date())
             else:
                 move.expected_currency_rate = 1
 
@@ -1167,6 +1171,15 @@ class AccountMove(models.Model):
         'line_ids.full_reconcile_id',
         'state')
     def _compute_amount(self):
+        self.line_ids.fetch([
+            'debit',
+            'balance',
+            'amount_currency',
+            'amount_residual',
+            'amount_residual_currency',
+            'display_type',
+            'tax_repartition_line_id'
+        ])
         for move in self:
             total_untaxed, total_untaxed_currency = 0.0, 0.0
             total_tax, total_tax_currency = 0.0, 0.0
@@ -1492,6 +1505,7 @@ class AccountMove(models.Model):
                     'move_id': line.move_id.id,
                     'date': fields.Date.to_string(line.date),
                     'account_payment_id': line.payment_id.id,
+                    'move_ref': line.ref or "",
                 })
 
             if payments_widget_vals['content']:
@@ -1555,6 +1569,11 @@ class AccountMove(models.Model):
             else:
                 move.invoice_payments_widget = False
 
+    def _get_product_base_line_currency_rate(self, product_line):
+        if self.is_invoice(include_receipts=True):
+            return self.invoice_currency_rate
+        return abs(product_line.amount_currency / product_line.balance) if product_line.balance else 0.0
+
     def _prepare_product_base_line_for_taxes_computation(self, product_line):
         """ Convert an account.move.line having display_type='product' into a base line for the taxes computation.
 
@@ -1564,19 +1583,16 @@ class AccountMove(models.Model):
         self.ensure_one()
         is_invoice = self.is_invoice(include_receipts=True)
         sign = self.direction_sign if is_invoice else 1
-        if is_invoice:
-            rate = self.invoice_currency_rate
-        else:
-            rate = (abs(product_line.amount_currency) / abs(product_line.balance)) if product_line.balance else 0.0
 
         return self.env['account.tax']._prepare_base_line_for_taxes_computation(
             product_line,
             price_unit=product_line.price_unit if is_invoice else product_line.amount_currency,
             quantity=product_line.quantity if is_invoice else 1.0,
             discount=product_line.discount if is_invoice else 0.0,
-            rate=rate,
+            rate=self._get_product_base_line_currency_rate(product_line),
             sign=sign,
             special_mode=False if is_invoice else 'total_excluded',
+            name=product_line.name,
         )
 
     def _prepare_epd_base_line_for_taxes_computation(self, epd_line):
@@ -1771,6 +1787,11 @@ class AccountMove(models.Model):
             AccountTax._add_tax_details_in_base_lines(base_lines, self.company_id)
             tax_amls = self.line_ids.filtered('tax_repartition_line_id')
             tax_lines = [self._prepare_tax_line_for_taxes_computation(tax_line) for tax_line in tax_amls]
+            if round_from_tax_lines == 'reapply_currency_rate':
+                for tax_line in tax_lines:
+                    rate = tax_line['record'].currency_rate
+                    if rate:
+                        tax_line['balance'] = self.company_currency_id.round(tax_line['amount_currency'] / rate)
             AccountTax._round_base_lines_tax_details(base_lines, self.company_id, tax_lines=tax_lines if round_from_tax_lines else [])
         else:
             # The move is not stored yet so the only thing we have is the invoice lines.
@@ -1900,6 +1921,7 @@ class AccountMove(models.Model):
 
     @api.depends('company_id.account_fiscal_country_id', 'fiscal_position_id', 'fiscal_position_id.country_id', 'fiscal_position_id.foreign_vat')
     def _compute_tax_country_id(self):
+        self.fetch(['fiscal_position_id', 'company_id'])
         foreign_vat_records = self.filtered(lambda r: r.fiscal_position_id.foreign_vat)
         for fiscal_position_id, record_group in groupby(foreign_vat_records, key=lambda r: r.fiscal_position_id):
             self.env['account.move'].concat(*record_group).tax_country_id = fiscal_position_id.country_id
@@ -2040,7 +2062,7 @@ class AccountMove(models.Model):
             move.duplicated_ref_ids = move_to_duplicate_move.get(move._origin, self.env['account.move'])
 
     def _fetch_duplicate_reference(self, matching_states=('draft', 'posted')):
-        moves = self.filtered(lambda m: m.is_sale_document() or m.is_purchase_document() and m.ref)
+        moves = self.filtered(lambda m: m.is_sale_document() or m.is_purchase_document())
 
         if not moves:
             return {}
@@ -2089,13 +2111,23 @@ class AccountMove(models.Model):
                 move.move_type in ('in_invoice', 'in_refund')
                 AND duplicate_move.move_type in ('in_invoice', 'in_refund')
                 AND (
-                   move.ref = duplicate_move.ref
-                   AND (
-                       move.invoice_date IS NULL
-                       OR
-                       duplicate_move.invoice_date IS NULL
-                       OR
-                       date_part('year', move.invoice_date) = date_part('year', duplicate_move.invoice_date)
+                   -- case 1: same ref and (no date or same year)
+                     (
+                         move.ref = duplicate_move.ref
+                         AND (
+                             move.invoice_date IS NULL
+                             OR
+                             duplicate_move.invoice_date IS NULL
+                             OR
+                             date_part('year', move.invoice_date) = date_part('year', duplicate_move.invoice_date)
+                         )
+                     )
+                     -- case 2: different refs, same partner, amount and date
+                     OR (
+                            move.commercial_partner_id = duplicate_move.commercial_partner_id
+                            AND move.amount_total = duplicate_move.amount_total
+                            AND move.amount_total != 0.0
+                            AND move.invoice_date = duplicate_move.invoice_date
                    )
                 )
             """)
@@ -2130,6 +2162,11 @@ class AccountMove(models.Model):
             for move_id, duplicate_ids in result
         }
 
+    @api.depends('duplicated_ref_ids')
+    def _compute_is_draft_duplicated_ref_ids(self):
+        for move in self:
+            move.is_draft_duplicated_ref_ids = any(duplicate_move.state == 'draft' for duplicate_move in move.duplicated_ref_ids)
+
     @api.depends('company_id')
     def _compute_display_qr_code(self):
         for move in self:
@@ -2150,6 +2187,12 @@ class AccountMove(models.Model):
     def _compute_amount_total_words(self):
         for move in self:
             move.amount_total_words = move.currency_id.amount_to_text(move.amount_total).replace(',', '')
+
+    @api.depends('company_id', 'move_type')
+    def _compute_incoterm(self):
+        for move in self:
+            if move.move_type.startswith('out_'):
+                move.invoice_incoterm_id = move.company_id.incoterm_id
 
     def _compute_linked_attachment_id(self, attachment_field, binary_field):
         """Helper to retreive Attachment from Binary fields
@@ -2308,7 +2351,10 @@ class AccountMove(models.Model):
         for move in self:
             move.highlight_send_button = not move.is_being_sent and not move.invoice_pdf_report_id
 
-    @api.depends('line_ids.matched_debit_ids', 'line_ids.matched_credit_ids', 'matched_payment_ids')
+    def _compute_is_sale_installed(self):
+        self.is_sale_installed = 'sale_management' in self.env['ir.module.module']._installed()
+
+    @api.depends('line_ids.matched_debit_ids', 'line_ids.matched_credit_ids', 'matched_payment_ids', 'matched_payment_ids.state')
     def _compute_reconciled_payment_ids(self):
         ''' Retrieve the payments reconciled to the invoices through the reconciliation (account.partial.reconcile) '''
         self.env['account.payment'].flush_model(fnames=['move_id'])
@@ -2448,7 +2494,11 @@ class AccountMove(models.Model):
     def _search_journal_group_id(self, operator, value):
         field = 'name' if 'like' in operator else 'id'
         journal_groups = self.env['account.journal.group'].search([(field, operator, value)])
-        return [('journal_id', 'not in', journal_groups.excluded_journal_ids.ids)]
+        return Domain.OR([
+            Domain('journal_id', 'not in', group.excluded_journal_ids.ids)
+            & Domain('journal_id.company_id', '=?', group.company_id.id)
+            for group in journal_groups
+        ])
 
     def _search_reconciled_payment_ids(self, operator, value):
         if operator not in ('in', '='):
@@ -2459,6 +2509,9 @@ class AccountMove(models.Model):
     # -------------------------------------------------------------------------
     # INVERSE METHODS
     # -------------------------------------------------------------------------
+
+    def _inverse_delivery_date(self):
+        pass
 
     def _inverse_tax_totals(self):
         with self._disable_recursion({'records': self}, 'skip_invoice_sync') as disabled:
@@ -2709,7 +2762,8 @@ class AccountMove(models.Model):
             error_msg = _("The following entries are unbalanced:\n\n")
             for move in unbalanced_moves:
                 error_msg += f"  - {self.browse(move[0]).name}\n"
-                raise UserError(error_msg)
+
+            raise UserError(error_msg)
 
     def _get_unbalanced_moves(self, container):
         moves = container['records'].filtered(lambda move: move.line_ids)
@@ -3206,7 +3260,7 @@ class AccountMove(models.Model):
             return move.line_ids.filtered('tax_repartition_line_id')
 
         def get_value(record, field):
-            return self.env['account.move.line']._fields[field].convert_to_write(record[field], record)
+            return record._fields[field].convert_to_write(record[field], record)
 
         def get_tax_line_tracked_fields(line):
             return ('amount_currency', 'balance', 'analytic_distribution')
@@ -3242,7 +3296,7 @@ class AccountMove(models.Model):
         moves_values_before = {
             move: {
                 field: get_value(move, field)
-                for field in ('currency_id', 'partner_id', 'move_type')
+                for field in ('currency_id', 'partner_id', 'move_type', 'invoice_currency_rate', 'invoice_date')
             }
             for move in container['records']
             if move.state == 'draft'
@@ -3288,6 +3342,12 @@ class AccountMove(models.Model):
             ):
                 # Changing the type of an invoice using 'switch to refund' feature or just changing the currency.
                 round_from_tax_lines = False
+            elif any(line not in base_lines for line, values in move_base_lines_values_before.items() if values['tax_ids']):
+                # Removed a base line affecting the taxes.
+                round_from_tax_lines = any_field_has_changed(move_tax_lines_values_before, tax_lines)
+            elif field_has_changed(moves_values_before, move, 'invoice_currency_rate') and not field_has_changed(moves_values_before, move, 'invoice_date'):
+                # Changing the rate should preserve the tax amounts in foreign currency but reapply the currency rate.
+                round_from_tax_lines = 'reapply_currency_rate'
             elif changed_lines := list(get_changed_lines(move_base_lines_values_before, base_lines)):
                 # A base line has been modified.
                 round_from_tax_lines = (
@@ -3314,9 +3374,6 @@ class AccountMove(models.Model):
                     and any(line[field] for line in changed_lines for field in ('amount_currency', 'balance'))
                 ):
                     continue
-            elif any(line not in base_lines for line, values in move_base_lines_values_before.items() if values['tax_ids']):
-                # Removed a base line affecting the taxes.
-                round_from_tax_lines = any_field_has_changed(move_tax_lines_values_before, tax_lines)
             else:
                 continue
 
@@ -3407,7 +3464,7 @@ class AccountMove(models.Model):
         # Collect data to avoid recomputing value unecessarily
         product_lines_before = {
             move: Counter(
-                (line.name, line.price_subtotal, line.tax_ids, line.deductible_amount)
+                (line.name, line.price_subtotal, line.tax_ids, line.deductible_amount, line.account_id)
                 for line in move.line_ids
                 if line.display_type == 'product'
             )
@@ -3420,7 +3477,7 @@ class AccountMove(models.Model):
         to_create = []
         for move in container['records']:
             product_lines_now = Counter(
-                (line.name, line.price_subtotal, line.tax_ids, line.deductible_amount)
+                (line.name, line.price_subtotal, line.tax_ids, line.deductible_amount, line.account_id)
                 for line in move.line_ids
                 if line.display_type == 'product'
             )
@@ -3742,7 +3799,7 @@ class AccountMove(models.Model):
         return _('This entry has been reversed from %s', self._get_html_link()) if default.get('reversed_entry_id') else _('This entry has been duplicated from %s', self._get_html_link())
 
     def _sanitize_vals(self, vals):
-        if vals.get('invoice_line_ids') and vals.get('journal_line_ids'):
+        if vals.get('invoice_line_ids') and vals.get('line_ids'):
             # values can sometimes be in only one of the two fields, sometimes in
             # both fields, sometimes one field can be explicitely empty while the other
             # one is not, sometimes not...
@@ -3751,15 +3808,15 @@ class AccountMove(models.Model):
                 for command, line_id, *line_vals in vals['invoice_line_ids']
                 if command == Command.UPDATE
             }
-            for command, line_id, *line_vals in vals['journal_line_ids']:
+            for command, line_id, *line_vals in vals['line_ids']:
                 if command == Command.UPDATE and line_id in update_vals:
                     line_vals[0].update(update_vals.pop(line_id))
             for line_id, line_vals in update_vals.items():
-                vals['journal_line_ids'] += [Command.update(line_id, line_vals)]
+                vals['line_ids'] += [Command.update(line_id, line_vals)]
             for command, line_id, *line_vals in vals['invoice_line_ids']:
                 assert command not in (Command.SET, Command.CLEAR)
-                if [command, line_id, *line_vals] not in vals['journal_line_ids']:
-                    vals['journal_line_ids'] += [(command, line_id, *line_vals)]
+                if [command, line_id, *line_vals] not in vals['line_ids']:
+                    vals['line_ids'] += [(command, line_id, *line_vals)]
             del vals['invoice_line_ids']
         return vals
 
@@ -3987,6 +4044,18 @@ class AccountMove(models.Model):
         elif 'invoice_line_ids' in field_names:
             values = {key: val for key, val in values.items() if key != 'line_ids'}
             fields_spec = {key: val for key, val in fields_spec.items() if key != 'line_ids'}
+            # When product_id and price_unit are in values, values is reordered to make sure
+            # that product_id is before price_unit because product_id is triggering an onchange
+            # of price_unit that could override the one defined here if the product_id is set
+            # after price_unit
+            invoice_line_ids = values.get('invoice_line_ids')
+            for invoice_line_idx, invoice_line in enumerate(invoice_line_ids):
+                if (len(invoice_line) == 3 and invoice_line[0] == 1 and isinstance(invoice_line[2], dict) and
+                    'product_id' in invoice_line[2] and 'price_unit' in invoice_line[2]
+                ):
+                    if isinstance(invoice_line, tuple):
+                        invoice_line_ids[invoice_line_idx] = invoice_line = list(invoice_line)
+                    invoice_line[2] = dict(sorted(invoice_line[2].items(), key=lambda item: item[0] != 'product_id'))
         return super().onchange(values, field_names, fields_spec)
 
     # -------------------------------------------------------------------------
@@ -4120,7 +4189,7 @@ class AccountMove(models.Model):
                 # "year range monthly"
                 param['anti_regex'] = self._make_regex_non_capturing(self._sequence_yearly_regex.split('(?P<seq>')[0]) + '$'
 
-            if param.get('anti_regex') and not self.journal_id.sequence_override_regex:
+            if param.get('anti_regex') and not self.journal_id.sequence_override_regex and not self.env.context.get('no_anti_regex'):
                 where_string += " AND sequence_prefix !~ %(anti_regex)s "
 
         if self.journal_id.refund_sequence:
@@ -4726,7 +4795,28 @@ class AccountMove(models.Model):
         if new_lines := (self.invoice_line_ids - existing_lines):
             new_lines.is_imported = True
             if not existing_lines:
-                self._link_bill_origin_to_purchase_orders(timeout=4)
+                try:
+                    self.with_context(default_move_type=self.move_type)._link_bill_origin_to_purchase_orders(timeout=4)
+                except (UserError, ValueError):
+                    _logger.exception("Failed to link bill to purchase order")
+
+        if new and res:
+            try:
+                attachments = self._from_files_data(files_data + self._unwrap_attachments(files_data))
+                self.journal_id._notify_invoice_subscribers(
+                    invoice=self,
+                    mail_params={
+                        'attachment_ids': [
+                            Command.create({
+                                'name': f"MAIL_{attachment['name']}",
+                                'mimetype': attachment['mimetype'],
+                                'raw': attachment['raw'],
+                            }) for attachment in attachments
+                        ]
+                    },
+                )
+            except Exception:
+                _logger.exception("Failed to notify invoice subscribers after EDI import.")
 
         return res
 
@@ -5144,7 +5234,10 @@ class AccountMove(models.Model):
         if self.env.context.get('name_as_amount_total'):
             currency_amount = self.currency_id.format(self.amount_total)
             if self.state == 'posted':
-                return _("%(ref)s (%(currency_amount)s)", ref=(self.ref or self.name), currency_amount=currency_amount)
+                ref = f" - {self.ref}" if self.ref else ""
+                return _("%(name)s%(ref)s at %(currency_amount)s", name=(self.name), ref=ref, currency_amount=currency_amount)
+            if self.name:
+                return _("%(name)s - Draft at (%(currency_amount)s)", name=(self.name), currency_amount=currency_amount)
             else:
                 return _("Draft (%(currency_amount)s)", currency_amount=currency_amount)
         name = ''
@@ -5377,7 +5470,7 @@ class AccountMove(models.Model):
                 to_unlink += move
         to_unlink.filtered(lambda m: m.state in ('posted', 'cancel')).button_draft()
         to_unlink.filtered(lambda m: m.state == 'draft').unlink()
-        to_cancel.button_cancel()
+        to_cancel.filtered(lambda m: m.state != 'cancel').button_cancel()
         return to_reverse._reverse_moves(cancel=True)
 
     def _post(self, soft=True):
@@ -5437,13 +5530,13 @@ class AccountMove(models.Model):
 
             # Handle case when the invoice_date is not set. In that case, the invoice_date is set at today and then,
             # lines are recomputed accordingly (if the user didnt' change the rate manually)
-            if not invoice.invoice_date and invoice.is_invoice(include_receipts=True):
-                if invoice.invoice_currency_rate != invoice.expected_currency_rate:
-                    # keep the rate set by the user
-                    with self.env.protecting([self._fields['invoice_currency_rate']], invoice):
+            if not invoice.invoice_date:
+                if invoice.is_sale_document(include_receipts=True):
+                    is_manual_rate = invoice.invoice_currency_rate != invoice._get_expected_currency_rate_at(invoice.create_date.date())
+                    with self.env.protecting([self._fields['invoice_currency_rate']], invoice) if is_manual_rate else nullcontext():
                         invoice.invoice_date = fields.Date.context_today(self)
-                else:
-                    invoice.invoice_date = fields.Date.context_today(self)
+                elif invoice.is_purchase_document(include_receipts=True):
+                    validation_msgs.add(_("The Bill/Refund date is required to validate this document."))
 
         for move in self:
             if move.state in ['posted', 'cancel']:
@@ -5702,7 +5795,22 @@ class AccountMove(models.Model):
         }
 
     def action_update_fpos_values(self):
-        self.invoice_line_ids._compute_price_unit()
+        lines_to_recompute = self.env['account.move.line']
+        for line in self.invoice_line_ids:
+            if line.display_type in ('line_section', 'line_note'):
+                continue
+            if not line.price_unit:
+                lines_to_recompute |= line
+                continue
+            new_taxes = line._get_computed_taxes()
+            if line.tax_ids.filtered('price_include') != new_taxes.filtered('price_include'):
+                line.price_unit = line.product_id._get_tax_included_unit_price_from_price(
+                    line.price_unit,
+                    line.tax_ids,
+                    fiscal_position=line.move_id.fiscal_position_id,
+                    product_taxes_after_fp=new_taxes,
+                )
+        lines_to_recompute._compute_price_unit()
         self.invoice_line_ids._compute_tax_ids()
         self.line_ids._compute_account_id()
 
@@ -6040,6 +6148,10 @@ class AccountMove(models.Model):
 
     def action_activate_currency(self):
         self.currency_id.filtered(lambda currency: not currency.active).write({'active': True})
+
+    def action_delete_duplicates(self):
+        for move in self:
+            move.duplicated_ref_ids.unlink()
 
     def _get_mail_template(self):
         """
@@ -6773,8 +6885,6 @@ class AccountMove(models.Model):
         move = super(AccountMove, move_ctx).message_new(msg_dict, custom_values=values)
         move._compute_name()  # because the name is given, we need to recompute in case it is the first invoice of the journal
 
-        move.journal_id._notify_einvoices_received(move)
-
         return move
 
     def _message_post_after_hook(self, new_message, message_values):
@@ -6804,8 +6914,15 @@ class AccountMove(models.Model):
         if self.env.context.get('from_alias'):
             # This is a newly-created invoice from a mail alias.
             # So dispatch the attachments into groups, and create a new invoice for each group beyond the first.
-            file_data_groups = self._group_files_data_into_groups_of_mixed_types(files_data)
+            valid_files_data = []
+            extra_files_data = []
+            for file_data in files_data:
+                if self._should_attach_to_record(file_data['attachment']) or file_data['xml_tree'] is not None:
+                    valid_files_data.append(file_data)
+                else:
+                    extra_files_data.append(file_data)
 
+            file_data_groups = self._group_files_data_into_groups_of_mixed_types(valid_files_data) or [[]]
             invoices = self
             if len(file_data_groups) > 1:
                 create_vals = (len(file_data_groups) - 1) * self.copy_data()
@@ -6813,9 +6930,8 @@ class AccountMove(models.Model):
 
             for invoice, file_data_group in zip(invoices, file_data_groups):
                 attachment_records = self._from_files_data(file_data_group)
-                invoice._fix_attachments_on_record(attachment_records)
-
                 if invoice == self:
+                    attachment_records |= self._from_files_data(extra_files_data)
                     new_message.attachment_ids = [Command.set(attachment_records.ids)]
                     message_values['attachment_ids'] = [Command.link(attachment.id) for attachment in attachment_records]
                     res = super()._message_post_after_hook(new_message, message_values)
@@ -6830,9 +6946,11 @@ class AccountMove(models.Model):
                         'attachment_ids': [Command.link(attachment.id) for attachment in attachment_records],
                     }
                     super(AccountMove, invoice)._message_post_after_hook(sub_new_message, sub_message_values)
+                invoice._fix_attachments_on_record(attachment_records)
 
             for invoice, file_data_group in zip(invoices, file_data_groups):
-                invoice._extend_with_attachments(file_data_group, new=True)
+                if file_data_group:
+                    invoice._extend_with_attachments(file_data_group, new=True)
 
             return res
 
@@ -7017,15 +7135,31 @@ class AccountMove(models.Model):
     def get_extra_print_items(self):
         """ Helper to dynamically add items in the 'Print' menu of list and form of account.move.
         """
-        if posted_moves := self.filtered(lambda m: m.state == 'posted'):
+        if moves_to_export := self.filtered(lambda m: m._get_move_zip_export_docs()):
             return [
                 {
                     'key': 'download_all',
                     'description': _("Export ZIP"),
-                    **posted_moves.action_move_download_all(),
+                    **moves_to_export.action_move_download_all(),
                 },
             ]
         return []
+
+    def _get_move_zip_export_docs(self):
+        self.ensure_one()
+
+        if self.state != 'posted':
+            return []
+
+        if self.is_purchase_document(include_receipts=True):
+            attachment = self.message_main_attachment_id
+            return [{
+                'filename': attachment.name,
+                'filetype': attachment.mimetype,
+                'content': attachment.raw,
+            }] if attachment else []
+
+        return self._get_invoice_legal_documents_all()
 
     def _get_move_lines_to_report(self):
         def show_line(line):

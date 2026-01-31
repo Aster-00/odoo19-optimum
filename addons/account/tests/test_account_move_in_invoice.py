@@ -943,6 +943,8 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
         })
 
     def test_in_invoice_line_onchange_currency_1(self):
+        self.other_currency.rounding = 0.001
+
         move_form = Form(self.invoice)
         move_form.currency_id = self.other_currency
         move_form.save()
@@ -1849,6 +1851,80 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
             'amount_untaxed': self.move_vals['amount_untaxed'],
         })
 
+    def test_in_invoice_switch_type_storno(self):
+        # Test creating an account_move with an in_invoice_type and switch it in an in_refund,
+        # then switching it back to an in_invoice. When storno accounting is enabled.
+        self.env.company.account_storno = True
+
+        move = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'partner_id': self.partner_a.id,
+            'invoice_date': fields.Date.from_string('2019-01-01'),
+            'invoice_line_ids': [
+                Command.create({
+                    'price_unit': 800.0,
+                    'quantity': 1,
+                }),
+                Command.create({
+                    'price_unit': 160.0,
+                    'quantity': 1,
+                }),
+            ],
+        })
+        move.action_switch_move_type()  # Switch to refund.
+
+        self.assertRecordValues(move, [{'move_type': 'in_refund'}])
+        self.assertInvoiceValues(move, [
+            {
+                'amount_currency': -800.0,
+                'credit': 0.0,
+                'debit': -800.0,
+            },
+            {
+                'amount_currency': -160.0,
+                'credit': 0.0,
+                'debit': -160.0,
+            },
+            {
+                'amount_currency': 960.0,
+                'debit': 0.0,
+                'credit': -960.0,
+            },
+        ], {
+            'partner_id': self.partner_a.id,
+            'amount_untaxed': 960.0,
+            'amount_tax': 0.0,
+            'amount_total': 960.0,
+            'date': fields.Date.from_string('2019-01-31'),
+        })
+
+        move.action_switch_move_type()  # Switch back to invoice.
+
+        self.assertRecordValues(move, [{'move_type': 'in_invoice'}])
+        self.assertInvoiceValues(move, [
+            {
+                'amount_currency': 160.0,
+                'credit': 0.0,
+                'debit': 160.0,
+            },
+            {
+                'amount_currency': 800.0,
+                'credit': 0.0,
+                'debit': 800.0,
+            },
+            {
+                'amount_currency': -960.0,
+                'debit': 0.0,
+                'credit': 960,
+            },
+        ], {
+            'partner_id': self.partner_a.id,
+            'amount_untaxed': 960.0,
+            'amount_tax': 0.0,
+            'amount_total': 960.0,
+            'date': fields.Date.from_string('2019-01-31'),
+        })
+
     def test_in_invoice_change_period_accrual_1(self):
         move = self.env['account.move'].create({
             'move_type': 'in_invoice',
@@ -2223,7 +2299,7 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
     def test_in_invoice_line_tax_line_delete(self):
         with self.assertRaisesRegex(ValidationError, "You cannot delete a tax line"):
             with Form(self.invoice) as invoice_form:
-                invoice_form.journal_line_ids.remove(2)
+                invoice_form.line_ids.remove(2)
 
     @freeze_time('2022-06-17')
     def test_fiduciary_mode_date_suggestion(self):
@@ -2350,22 +2426,6 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
             if reverse_move.state == 'draft':
                 reverse_move.action_post()
 
-        def create_statement_line(move, amount):
-            statement_line = self.env['account.bank.statement.line'].create({
-                'payment_ref': 'ref',
-                'journal_id': self.company_data['default_journal_bank'].id,
-                'amount': amount,
-                'date': '2020-01-10',
-            })
-            _st_liquidity_lines, st_suspense_lines, _st_other_lines = statement_line\
-                .with_context(skip_account_move_synchronization=True)\
-                ._seek_for_lines()
-            line = move.line_ids.filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable'))
-
-            st_suspense_lines.account_id = line.account_id
-            (st_suspense_lines + line).reconcile()
-            assert_partial(st_suspense_lines, line)
-
         move = create_move(move_type, amount)
         line = move.line_ids.filtered(lambda line: line.account_type in ('asset_receivable', 'liability_payable'))
         for counterpart_move_type, counterpart_amount in counterpart_values_list:
@@ -2374,7 +2434,8 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
             elif counterpart_move_type == 'reverse':
                 create_reverse(move, counterpart_amount)
             elif counterpart_move_type == 'statement_line':
-                create_statement_line(move, counterpart_amount)
+                reconciliation_info = self.pay_with_statement_line(move, self.company_data['default_journal_bank'].id, '2020-01-10', counterpart_amount)
+                assert_partial(reconciliation_info['statement_line_reconciled'], reconciliation_info['move_reconciled'])
             else:
                 counterpart_move = create_move(counterpart_move_type, counterpart_amount, account=line.account_id)
                 counterpart_line = counterpart_move.line_ids.filtered(lambda x: x.account_id == line.account_id)
@@ -2557,19 +2618,6 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
         move_form.save()
         self.assertEqual(invoice.currency_id, chf,
                          "Changing to a journal with a set currency should change invoice currency")
-
-    def test_onchange_payment_reference(self):
-        """
-        Ensure payment reference propagation from move to payment term
-        line is done correctly
-        """
-        payment_term_line = self.invoice.line_ids.filtered(lambda l: l.display_type == 'payment_term')
-        with Form(self.invoice) as move_form:
-            move_form.payment_reference = 'test'
-        self.assertEqual(payment_term_line.name, 'test')
-        with Form(self.invoice) as move_form:
-            move_form.payment_reference = False
-        self.assertEqual(payment_term_line.name, False, 'Payment term line was not changed')
 
     def test_taxes_onchange_product_uom_and_price_unit(self):
         """
@@ -2789,11 +2837,24 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
         payment_term_line = self.invoice.line_ids.filtered(lambda l: l.display_type == 'payment_term')
         index = self.invoice.line_ids.ids.index(payment_term_line.id)
         with Form(self.invoice) as move_form:
-            with move_form.journal_line_ids.edit(index) as line_form:
+            with move_form.line_ids.edit(index) as line_form:
                 line_form.name = 'XYZ'
         move_form.save()
         self.invoice.action_post()
         self.assertEqual(payment_term_line.name, 'XYZ', 'Manual name of payment term line should be kept')
+
+    def test_recompute_of_line_name(self):
+        """
+        Ensure name of the line is recomputed when Customer Reference is modified
+        """
+        invoice = self.init_invoice(move_type='out_invoice', products=self.product_a, post=True)
+        line = invoice.line_ids.filtered(lambda l: l.display_type == 'payment_term')
+
+        invoice.ref = "test"
+        self.assertEqual(line.name, f'test - {invoice.payment_reference}')
+
+        invoice.ref = "ABCDEF"
+        self.assertEqual(line.name, f'ABCDEF - {invoice.payment_reference}')
 
     def test_duplicate_invoice_with_separate_discount_acccount(self):
         """When a separate discount account, make sure that discount lines don't have a tax_id set
@@ -2830,7 +2891,7 @@ class TestAccountMoveInInvoiceOnchanges(AccountTestInvoicingCommon):
     def test_journal_item_on_payable_account(self):
         move_form = Form(self.env['account.move'].with_context(default_move_type='in_invoice'))
 
-        with move_form.journal_line_ids.new() as line_form:
+        with move_form.line_ids.new() as line_form:
             line_form.account_id = self.company_data['default_account_payable']
 
         with self.assertRaisesRegex(UserError, 'Any journal item on a payable account must have a due date and vice versa.'):

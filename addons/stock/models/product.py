@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Domain
+from odoo.tools import Query, SQL
 from odoo.tools.barcode import check_barcode_encoding
 from odoo.tools.float_utils import float_compare
 from odoo.tools.mail import html2plaintext, is_html_empty
@@ -150,15 +151,14 @@ class ProductProduct(models.Model):
     def _compute_quantities(self):
         products = self.with_context(prefetch_fields=False).filtered(lambda p: p.type != 'service').with_context(prefetch_fields=True)
         res = products._compute_quantities_dict(self.env.context.get('lot_id'), self.env.context.get('owner_id'), self.env.context.get('package_id'), self.env.context.get('from_date'), self.env.context.get('to_date'))
+        # Set qty fields to 0 for all products as services have 0 quantities. Also skips calling __setitem__ on products with 0 quantites in res.
+        self.with_context(skip_qty_available_update=True).qty_available = 0.0
+        self.incoming_qty = 0.0
+        self.outgoing_qty = 0.0
+        self.virtual_available = 0.0
+        self.free_qty = 0.0
         for product in products:
-            product.with_context(skip_qty_available_update=True).update(res[product.id])
-        # Services need to be set with 0.0 for all quantities
-        services = self - products
-        services.qty_available = 0.0
-        services.incoming_qty = 0.0
-        services.outgoing_qty = 0.0
-        services.virtual_available = 0.0
-        services.free_qty = 0.0
+            product.with_context(skip_qty_available_update=True).update({key: val for key, val in res[product.id].items() if val})
 
     def _compute_quantities_dict(self, lot_id, owner_id, package_id, from_date=False, to_date=False):
         domain_quant_loc, domain_move_in_loc, domain_move_out_loc = self._get_domain_locations()
@@ -177,6 +177,12 @@ class ProductProduct(models.Model):
             domain_quant += [('owner_id', '=', owner_id)]
             domain_move_in += [('restrict_partner_id', '=', owner_id)]
             domain_move_out += [('restrict_partner_id', '=', owner_id)]
+        if 'owners' in self.env.context:
+            owners = self.env.context['owners']
+            if owners:
+                domain_quant += [('owner_id', 'in', self.env.context['owners'])]
+            else:
+                domain_quant += [('owner_id', '=', False)]
         if package_id is not None:
             domain_quant += [('package_id', '=', package_id)]
         if dates_in_the_past:
@@ -199,19 +205,20 @@ class ProductProduct(models.Model):
         quants_res = {product.id: (quantity, reserved_quantity) for product, quantity, reserved_quantity in Quant._read_group(domain_quant, ['product_id'], ['quantity:sum', 'reserved_quantity:sum'])}
         expired_unreserved_quants_res = {}
         if self.env.context.get('with_expiration'):
-            domain_quant += [('removal_date', '<=', self.env.context['with_expiration'])]
+            max_date = self.env.context['to_date'] if self.env.context.get('to_date') else self.env.context['with_expiration']
+            domain_quant += [('removal_date', '<=', max_date)]
             expired_unreserved_quants_res = {product.id: quantity - reserved_quantity for product, quantity, reserved_quantity in Quant._read_group(domain_quant, ['product_id'], ['quantity:sum', 'reserved_quantity:sum'])}
+        moves_in_res_past = defaultdict(float)
+        moves_out_res_past = defaultdict(float)
         if dates_in_the_past:
             # Calculate the moves that were done before now to calculate back in time (as most questions will be recent ones)
             domain_move_in_done = [('state', '=', 'done'), ('date', '>', to_date)] + domain_move_in_done
             domain_move_out_done = [('state', '=', 'done'), ('date', '>', to_date)] + domain_move_out_done
 
             groupby = ['product_id', 'product_uom']
-            moves_in_res_past = defaultdict(float)
             for product, uom, quantity in Move._read_group(domain_move_in_done, groupby, ['quantity:sum']):
                 moves_in_res_past[product.id] += uom._compute_quantity(quantity, product.uom_id)
 
-            moves_out_res_past = defaultdict(float)
             for product, uom, quantity in Move._read_group(domain_move_out_done, groupby, ['quantity:sum']):
                 moves_out_res_past[product.id] += uom._compute_quantity(quantity, product.uom_id)
 
@@ -219,7 +226,14 @@ class ProductProduct(models.Model):
         for product in self.with_context(prefetch_fields=False):
             origin_product_id = product._origin.id
             product_id = product.id
-            if not origin_product_id:
+            if not origin_product_id or (
+                origin_product_id not in quants_res
+                and origin_product_id not in moves_in_res
+                and origin_product_id not in moves_out_res
+                and origin_product_id not in moves_in_res_past
+                and origin_product_id not in moves_out_res_past
+                and origin_product_id not in expired_unreserved_quants_res
+            ):
                 res[product_id] = dict.fromkeys(
                     ['qty_available', 'free_qty', 'incoming_qty', 'outgoing_qty', 'virtual_available'],
                     0.0,
@@ -286,6 +300,10 @@ class ProductProduct(models.Model):
     def get_components(self):
         self.ensure_one()
         return self.ids
+
+    def get_total_routes(self):
+        # Extend the total routes in other modules
+        return self.env['stock.route']
 
     def _get_description(self, picking_type_id):
         """
@@ -375,15 +393,17 @@ class ProductProduct(models.Model):
             dest_loc_domain = Domain('location_dest_id', 'in', locations.ids)
             dest_loc_domain_out = Domain('location_dest_id', 'not in', locations.ids)
         elif locations:
-            paths_domain = Domain.OR(Domain('parent_path', '=like', loc.parent_path + '%') for loc in locations)
-            loc_domain = Domain('location_id', 'any', paths_domain)
+            alias = locations._table + '_inner'
+            paths_query = Query(locations.env, alias, SQL.identifier(locations._table))
+            paths_query.add_where(alias + '.parent_path LIKE ANY(%s)', [[loc.parent_path + '%' for loc in locations]])
+            loc_domain = Domain('location_id', 'in', paths_query)
             # The condition should be split for done and not-done moves as the final_dest_id only make sense
             # for the part of the move chain that is not done yet.
-            dest_loc_domain_done = Domain('location_dest_id', 'any', paths_domain)
+            dest_loc_domain_done = Domain('location_dest_id', 'in', paths_query)
             dest_loc_domain_in_progress = Domain([
                 '|',
-                    '&', ('location_final_id', '!=', False), ('location_final_id', 'any', paths_domain),
-                    '&', ('location_final_id', '=', False), ('location_dest_id', 'any', paths_domain),
+                    '&', ('location_final_id', '!=', False), ('location_final_id', 'in', paths_query),
+                    '&', ('location_final_id', '=', False), ('location_dest_id', 'in', paths_query),
             ])
             dest_loc_domain = Domain([
                 '|',
@@ -865,7 +885,7 @@ class ProductTemplate(models.Model):
             else:
                 template.lot_sequence_id = self.env.ref('stock.sequence_production_lots', raise_if_not_found=False)
 
-    @api.depends('serial_prefix_format', 'lot_sequence_id')
+    @api.depends('lot_sequence_id.number_next_actual')
     def _compute_next_serial(self):
         for template in self:
             if template.lot_sequence_id:

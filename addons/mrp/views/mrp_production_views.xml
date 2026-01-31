@@ -452,7 +452,6 @@
                                         decoration-info="manual_consumption"
                                         decoration-muted="not manual_consumption"
                                         decoration-bf="manual_consumption"
-                                        readonly="has_tracking != 'none'"
                                         force_save="1"/>
                                     <field name="product_uom" readonly="state != 'draft' and id" options="{'no_open': True, 'no_create': True}" groups="uom.group_uom" widget="many2one_uom"/>
                                     <field name="picked" column_invisible="True"/>
@@ -489,7 +488,7 @@
                                         <create string="Add a line"/>
                                         <button name="action_add_from_catalog_byproduct" string="Catalog" type="object" class="px-4 btn-link" context="{'order_id': parent.id}"/>
                                     </control>
-                                    <field name="product_id" context="{'default_is_storable': True}" domain="[('id', '!=', parent.product_id)]" required="1" readonly="move_lines_count &gt; 0 or state == 'cancel' or (state != 'draft' and not additional)"/>
+                                    <field name="product_id" context="{'default_is_storable': True}" domain="[('type', '=', 'consu')]" required="1" readonly="move_lines_count &gt; 0 or state == 'cancel' or (state != 'draft' and not additional)"/>
                                     <field name="location_dest_id" string="To" readonly="1" force_save="1" groups="stock.group_stock_multi_locations"/>
                                     <field name="company_id" column_invisible="True"/>
                                     <field name="allowed_operation_ids" column_invisible="True"/>
@@ -568,8 +567,8 @@
                             <div class="d-flex mb-1">
                                 <field name="priority" widget="priority"/>
                                 <field name="product_id" class="fw-bolder fs-6 ms-1"/>
-                                <field name="product_qty" class="ms-auto"/>
-                                <field name="product_uom_id" class="small ms-1" groups="uom.group_uom"/>
+                                <field name="product_qty" class="ms-auto flex-shrink-0"/>
+                                <field name="product_uom_id" class="small ms-1 flex-shrink-0" groups="uom.group_uom"/>
                             </div>
                             <footer class="text-muted">
                                 <div class="d-flex">

@@ -435,6 +435,8 @@ $-navbar-mobile-bg-color: o-color('menu-custom') or o-color('menu');
         }
 
         .accordion-button {
+            font-size: inherit;
+
             &:not(.collapsed) {
                 @if $-navbar-mobile-bg-color != null {
                     background-color: shade-color($-navbar-mobile-bg-color, 5%);
@@ -1352,17 +1354,39 @@ $-o-carousel-controllers-size: var(--CarouselControllers-size, #{map-get($spacer
 
     // Style - Indicators outside
     &.s_carousel_controllers_indicators_outside {
-        .carousel-control-prev, .carousel-control-next {
-            margin-bottom: $-o-carousel-controllers-size;
+        &:not(:has(.s_carousel_indicators_hidden)) {
+            .carousel-control-prev, .carousel-control-next {
+                margin-bottom: $-o-carousel-controllers-size;
+            }
         }
 
         .carousel-indicators {
             position: relative;
             margin-bottom: 0;
 
-            button {
+            &:not(.s_carousel_indicators_numbers) button {
                 background-color: currentColor;
+            }
+
+            button {
                 color: inherit;
+            }
+            
+            &.s_carousel_indicators_numbers {
+                // For large screen, use the same size as the margin-bottom of
+                // the prev/next buttons (like other indicators; instead of
+                // "auto"), so that the bottom of the buttons is aligned with
+                // the bottom of the slides. For smaller screen, the buttons do
+                // not have the same appearance and their bottoms do not need
+                // to align, and also the numbers may need to go on a second
+                // line if there is many slides, so we keep "auto"
+                @include media-breakpoint-up(md) {
+                    height: $-o-carousel-controllers-size;
+                }
+
+                button:after {
+                    border-top-color: currentColor;
+                }
             }
         }
     }
@@ -1689,6 +1713,10 @@ header {
             display: none;
         }
     }
+
+    .hidden_mega_menu_li {
+        display: none;
+    }
 }
 
 @if o-website-value('header-template') == 'sidebar' {
@@ -1784,9 +1812,15 @@ header {
         @include o-apply-colors('header-sales_three-custom');
         @include o-add-gradient('menu-secondary-gradient');
     }
-    #wrapwrap header .o_header_sales_three_small_links {
-        // Force small links to be proportional to header font size
-        --nav-link-font-size: MAX(12px, .75em);
+    #wrapwrap header {
+        .o_header_sales_three_small_links {
+            // Force small links to be proportional to header font size
+            --nav-link-font-size: MAX(12px, .75em);
+        }
+        .ms-auto:has(> .o_header_sales_three_small_links + .top_menu.o_menu_loading) {
+            // Fix menu auto hide by preventing parent overflow
+            overflow: hidden !important;
+        }
     }
 } @else if o-website-value('header-template') == 'sales_four' {
     #wrapwrap .o_header_sales_four_bot {
@@ -1850,6 +1884,7 @@ header {
         z-index: $o-mega-menu-zindex;
         max-width: $offcanvas-horizontal-width;
         opacity: 0;
+        pointer-events: none;
 
         section {
             @include transition(transform $offcanvas-transition-duration ease-in-out, visibility $offcanvas-transition-duration ease-in-out);
@@ -1864,6 +1899,7 @@ header {
         @include transition(opacity $offcanvas-transition-duration ease-in-out, visibility $offcanvas-transition-duration ease-in-out);
         visibility: visible !important;
         opacity: 1;
+        pointer-events: auto;
 
         section {
             @include transition(transform $offcanvas-transition-duration ease-in-out, visibility $offcanvas-transition-duration ease-in-out);

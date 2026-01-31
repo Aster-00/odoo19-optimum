@@ -338,8 +338,8 @@ class PosConfig(models.Model):
 
     def _split_qr_codes_list(self, floors: List[Dict], cols: int) -> List[Dict]:
         """
-        :floors: the list of floors
-        :cols: the number of qr codes per row
+        :param floors: the list of floors
+        :param cols: the number of qr codes per row
         """
         self.ensure_one()
         return [
@@ -425,6 +425,7 @@ class PosConfig(models.Model):
             'iface_splitbill': True,
             'module_pos_restaurant': True,
             'self_ordering_mode': 'kiosk',
+            'self_ordering_pay_after': 'each',
         })
 
     def _generate_single_qr_code__(self, url):  # noqa: PLW3201

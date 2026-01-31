@@ -102,14 +102,17 @@ class MockEmail(common.BaseCase, MockSmtplibCase):
         self._init_mail_mock()
 
         def _ir_mail_server_build_email(model, email_from, email_to, subject, body, **kwargs):
-            self._mails.append({
+            data = {
                 'email_from': email_from,
                 'email_to': email_to,
                 'subject': subject,
                 'body': body,
                 **kwargs,
-            })
-            return build_email_origin(model, email_from, email_to, subject, body, **kwargs)
+            }
+            res = build_email_origin(model, email_from, email_to, subject, body, **kwargs)
+            data['EmailMessage'] = res
+            self._mails.append(data)
+            return res
 
         def _mail_mail_create(model, *args, **kwargs):
             res = mail_create_origin(model, *args, **kwargs)
@@ -1508,13 +1511,18 @@ class MailCase(common.TransactionCase, MockEmail, BusCase):
                     mbody in message.body and message.message_type == mtype and
                     msubtype == message.subtype_id
                 ))
+                debug_info = '\n'.join(
+                    f'Msg: message_type {message.message_type}, subtype {message.subtype_id.name}, content {message.body}'
+                    for message in messages
+                )
             else:
                 message = self.env['mail.message'].sudo().search([
                     ('body', 'ilike', mbody),
                     ('message_type', '=', mtype),
                     ('subtype_id', '=', msubtype.id)
                 ], limit=1, order='id DESC')
-            self.assertTrue(message, 'Mail: not found message (content: %s, message_type: %s, subtype: %s)' % (mbody, mtype, msubtype and msubtype.name))
+                debug_info = ''
+            self.assertTrue(message, 'Mail: not found message (content: %s, message_type: %s, subtype: %s\n%s)' % (mbody, mtype, msubtype and msubtype.name, debug_info))
 
             # check message values
             if message_values:

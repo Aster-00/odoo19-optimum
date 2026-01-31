@@ -353,6 +353,16 @@ test(`button box rendering on big screen`, async () => {
     }
 });
 
+test(`button box rendering invisible`, async () => {
+    await mountView({
+        resModel: "partner",
+        type: "form",
+        arch: `<form><div name="button_box" invisible="1"><button id="btn1">MyButton</button></div></form>`,
+        resId: 2,
+    });
+    expect(`.o_control_panel .o_control_panel_actions`).toHaveInnerHTML("");
+});
+
 test(`form view gets size class on small and big screens`, async () => {
     let uiSize = SIZES.MD;
     const bus = new EventBus();
@@ -6245,7 +6255,7 @@ test(`onchange returns an error`, async () => {
 
     await contains(`.o_field_widget[name=int_field] input`).edit("64");
     expect.verifyErrors(["Some business message"]);
-    expect(`.modal`).toHaveCount(1);
+    await waitFor(`.modal`);
     expect(`.modal-body`).toHaveText(/Some business message/);
     expect(`.o_field_widget[name="int_field"] input`).toHaveValue("9");
 
@@ -12783,6 +12793,33 @@ test(`cog menu action is executed with up to date context`, async () => {
     await toggleActionMenu();
     await toggleMenuItem("Action Partner");
     expect.verifySteps(["doAction y", "doAction z"]);
+});
+
+test("CogMenu receives the model in env", async () => {
+    class CogItem extends Component {
+        static props = ["*"];
+        static template = xml`<button class="test-cog" t-on-click="onClick">Test</button>`;
+        onClick() {
+            expect.step([`cog clicked`, this.env.model.root.resModel, this.env.model.root.resId]);
+        }
+    }
+    registry.category("cogMenu").add("test-cog", {
+        Component: CogItem,
+        isDisplayed: (env) => {
+            expect.step([`cog displayed`, env.model.root.resModel, env.model.root.resId]);
+            return true;
+        },
+    });
+    await mountView({
+        resModel: "partner",
+        type: "form",
+        resId: 5,
+        arch: `<form><field name="display_name"/></form>`,
+    });
+    expect.verifySteps([["cog displayed", "partner", 5]]);
+    await contains(".o_cp_action_menus button").click();
+    await contains("button.test-cog").click();
+    expect.verifySteps([["cog clicked", "partner", 5]]);
 });
 
 test.tags("mobile");

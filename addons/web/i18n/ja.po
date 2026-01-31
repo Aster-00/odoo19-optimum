@@ -9,16 +9,16 @@
 # Noma Yuki, 2022
 # Yoshi Tashiro (Quartile) <tashiro@roomsfor.hk>, 2022
 # Andy Yiu, 2023
-# Ryoko Tsuda <ryoko@quartile.co>, 2023
+# Ryoko Tsuda <ryoko@quartile.co>, 2023, 2025.
 # Martin Trigaux, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Junko Augias (juau)" <juau@odoo.com>, 2025.
+# "Junko Augias (juau)" <juau@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:39+0000\n"
-"PO-Revision-Date: 2025-10-16 02:30+0000\n"
+"POT-Creation-Date: 2026-01-09 18:38+0000\n"
+"PO-Revision-Date: 2026-01-23 07:35+0000\n"
 "Last-Translator: \"Junko Augias (juau)\" <juau@odoo.com>\n"
 "Language-Team: Japanese <https://translate.odoo.com/projects/odoo-19/web/ja/>"
 "\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: web
 #. odoo-javascript
@@ -303,7 +303,6 @@ msgstr "3.30"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/datetime/datetime_field.js:0
-#, fuzzy
 msgid "31/01/%s"
 msgstr "31/01/%s"
 
@@ -1510,7 +1509,7 @@ msgstr ""
 #: code:addons/web/static/src/views/calendar/calendar_controller.js:0
 #: code:addons/web/static/src/views/view_hook.js:0
 msgid "Bye-bye, record!"
-msgstr "さよなら、レコード！"
+msgstr "このレコードを削除します"
 
 #. module: web
 #. odoo-javascript
@@ -3570,6 +3569,16 @@ msgstr ""
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.js:0
+msgid ""
+"If checked, the checkboxes will be displayed in a column. Otherwise, they "
+"will be inlined."
+msgstr ""
+"チェックを入れると、チェックボックスは縦に並びます。オフの場合は横に並びま"
+"す。"
+
+#. module: web
+#. odoo-javascript
 #: code:addons/web/static/src/views/fields/boolean_favorite/boolean_favorite_field.js:0
 #: code:addons/web/static/src/views/fields/boolean_toggle/boolean_toggle_field.js:0
 #: code:addons/web/static/src/views/fields/priority/priority_field.js:0
@@ -3722,7 +3731,7 @@ msgstr "間隔"
 #. odoo-javascript
 #: code:addons/web/static/src/views/kanban/kanban_record_quick_create.js:0
 msgid "Invalid Display Name"
-msgstr ""
+msgstr "無効な表示名"
 
 #. module: web
 #. odoo-javascript
@@ -4118,7 +4127,7 @@ msgstr "ラベルフィールド"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/field_tooltip.xml:0
 msgid "Label:"
-msgstr "得る："
+msgstr "ラベル:"
 
 #. module: web
 #. odoo-javascript
@@ -4150,13 +4159,13 @@ msgstr "直近12か月"
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_components.js:0
 msgid "Last 30 days"
-msgstr "過去30日間"
+msgstr "直近30日"
 
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor_components.js:0
 msgid "Last 7 days"
-msgstr "過去7日間"
+msgstr "直近7日"
 
 #. module: web
 #: model:ir.model.fields,field_description:web.field_base_document_layout__write_uid
@@ -4552,7 +4561,7 @@ msgstr "レコードIDが不明です"
 #. odoo-javascript
 #: code:addons/web/static/src/model/relational_model/record.js:0
 msgid "Missing required fields"
-msgstr ""
+msgstr "必須項目が未入力です"
 
 #. module: web
 #. odoo-javascript
@@ -4578,7 +4587,7 @@ msgstr "モデル"
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/actions/debug_items.js:0
 msgid "Model Record Rules"
-msgstr "モデルレコード規則"
+msgstr "モデルレコードルール"
 
 #. module: web
 #. odoo-javascript
@@ -4654,7 +4663,7 @@ msgstr "月"
 #: code:addons/web/static/src/views/form/button_box/button_box.xml:0
 #: code:addons/web/static/src/views/form/status_bar_buttons/status_bar_buttons.xml:0
 msgid "More"
-msgstr "さらに表示"
+msgstr "その他"
 
 #. module: web
 #. odoo-javascript
@@ -4935,6 +4944,12 @@ msgstr "データなし"
 #: code:addons/web/static/src/views/no_content_helpers.xml:0
 msgid "No data to display"
 msgstr "表示するデータがありません"
+
+#. module: web
+#. odoo-python
+#: code:addons/web/controllers/pivot.py:0
+msgid "No data to export"
+msgstr ""
 
 #. module: web
 #. odoo-javascript
@@ -5230,7 +5245,6 @@ msgstr "ご確認ください！"
 #. module: web
 #. odoo-javascript
 #: code:addons/web/static/src/core/confirmation_dialog/confirmation_dialog.js:0
-#: code:addons/web/static/src/core/dialog/dialog.xml:0
 #: code:addons/web/static/src/public/error_notifications.js:0
 #: code:addons/web/static/src/views/calendar/calendar_year/calendar_year_popover.xml:0
 #: code:addons/web/static/src/views/view_dialogs/form_view_dialog.xml:0
@@ -5868,7 +5882,7 @@ msgstr "レコード"
 #. odoo-javascript
 #: code:addons/web/static/src/webclient/actions/debug_items.js:0
 msgid "Record Rules"
-msgstr "レコード規則"
+msgstr "レコードルール"
 
 #. module: web
 #. odoo-javascript
@@ -6679,6 +6693,7 @@ msgstr "Speedscope"
 
 #. module: web
 #. odoo-javascript
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.js:0
 #: code:addons/web/static/src/views/graph/graph_controller.xml:0
 msgid "Stacked"
 msgstr "積み上げグラフ"
@@ -6737,7 +6752,7 @@ msgstr "自由の女神"
 #. odoo-javascript
 #: code:addons/web/static/src/views/fields/statusbar/statusbar_field.js:0
 msgid "Status"
-msgstr "状態"
+msgstr "ステータス"
 
 #. module: web
 #. odoo-javascript
@@ -6995,6 +7010,12 @@ msgid "The domain should not involve non-literals"
 msgstr "ドメインに非リテラルを含めてはいけません"
 
 #. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/utils/files.js:0
+msgid "The file is not an image, resizing is not possible"
+msgstr "ファイルが画像でないため、サイズ変更できません"
+
+#. module: web
 #. odoo-python
 #: code:addons/web/models/res_users_settings_embedded_action.py:0
 msgid "The ids in %(field_name)s must not be duplicated: “%(action_ids)s”"
@@ -7018,6 +7039,12 @@ msgid ""
 "The operation was interrupted. This usually means that the current operation "
 "is taking too much time."
 msgstr "処理が中断されました。処理に時間がかかりすぎている可能性があります。"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/utils/files.js:0
+msgid "The resizing of the image failed"
+msgstr "画像のサイズ変更に失敗しました"
 
 #. module: web
 #. odoo-javascript
@@ -7675,12 +7702,12 @@ msgstr "ユーザインタフェース"
 #. module: web
 #: model:ir.model,name:web.model_res_users_settings
 msgid "User Settings"
-msgstr "ユーザ管理設定"
+msgstr "ユーザ設定"
 
 #. module: web
 #: model:ir.model,name:web.model_res_users_settings_embedded_action
 msgid "User Settings for Embedded Actions"
-msgstr "埋め込みアクションのユーザ管理設定"
+msgstr "埋め込みアクションのユーザ設定"
 
 #. module: web
 #. odoo-javascript
@@ -7839,6 +7866,7 @@ msgstr "トイレ"
 #: code:addons/web/static/src/core/errors/error_dialogs.js:0
 #: code:addons/web/static/src/search/control_panel/control_panel.js:0
 #: code:addons/web/static/src/views/fields/domain/domain_field.xml:0
+#: code:addons/web/static/src/views/fields/json_checkboxes/json_checkboxes_field.xml:0
 msgid "Warning"
 msgstr "警告"
 
@@ -10494,7 +10522,7 @@ msgstr "チャーム"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "chart"
-msgstr "チャート"
+msgstr "グラフ"
 
 #. module: web
 #. odoo-javascript
@@ -11886,7 +11914,7 @@ msgstr "だんご"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "dark"
-msgstr "暗い"
+msgstr "ダーク"
 
 #. module: web
 #. odoo-javascript
@@ -19009,7 +19037,7 @@ msgstr "装飾カバーがついたノート"
 #. odoo-javascript
 #: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
 msgid "notes"
-msgstr "音符"
+msgstr "メモ"
 
 #. module: web
 #. odoo-javascript
@@ -19075,7 +19103,7 @@ msgstr "おでん"
 #. odoo-javascript
 #: code:addons/web/static/src/core/tree_editor/tree_editor.xml:0
 msgid "of the following rules:"
-msgstr "以下の規則の："
+msgstr "以下のルールの："
 
 #. module: web
 #. odoo-javascript

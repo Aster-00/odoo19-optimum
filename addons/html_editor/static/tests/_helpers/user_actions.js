@@ -1,6 +1,13 @@
 import { closestBlock, isBlock } from "@html_editor/utils/blocks";
 import { findInSelection } from "@html_editor/utils/selection";
-import { click, manuallyDispatchProgrammaticEvent, press, tick, waitFor } from "@odoo/hoot-dom";
+import {
+    animationFrame,
+    click,
+    manuallyDispatchProgrammaticEvent,
+    press,
+    tick,
+    waitFor,
+} from "@odoo/hoot-dom";
 import { setSelection } from "./selection";
 import { execCommand } from "./userCommands";
 import { isMobileOS } from "@web/core/browser/feature_detection";
@@ -223,8 +230,12 @@ export function splitBlock(editor) {
 }
 
 export async function simulateArrowKeyPress(editor, keys) {
-    await press(keys);
+    const events = await press(keys);
     const keysArray = Array.isArray(keys) ? keys : [keys];
+    if (events.some((event) => event.defaultPrevented)) {
+        // Selection change was already handled.
+        return;
+    }
     const alter = keysArray.includes("Shift") ? "extend" : "move";
     const direction =
         keysArray.includes("ArrowLeft") || keysArray.includes("ArrowUp") ? "left" : "right";
@@ -245,6 +256,8 @@ export async function unlinkFromToolbar() {
 
 export async function unlinkFromPopover() {
     await waitFor(".o-we-linkpopover");
+    await click(".o_we_edit_link");
+    await animationFrame();
     await click(".o_we_remove_link");
 }
 

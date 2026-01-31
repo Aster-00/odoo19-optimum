@@ -11,13 +11,13 @@
 # Larissa Manderfeld, 2023
 # Stefan Reisich <nafex@gmx.net>, 2023
 # "Dylan Kiss (dyki)" <dyki@odoo.com>, 2025.
-# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025.
+# "Larissa Manderfeld (lman)" <lman@odoo.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:37+0000\n"
-"PO-Revision-Date: 2025-10-31 16:28+0000\n"
+"POT-Creation-Date: 2026-01-09 18:36+0000\n"
+"PO-Revision-Date: 2026-01-23 09:26+0000\n"
 "Last-Translator: \"Larissa Manderfeld (lman)\" <lman@odoo.com>\n"
 "Language-Team: German <https://translate.odoo.com/projects/odoo-19/stock/de/>"
 "\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12.2\n"
+"X-Generator: Weblate 5.14.3\n"
 
 #. module: stock
 #. odoo-python
@@ -934,8 +934,8 @@ msgstr "<strong>Kontakt</strong>"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
-msgid "<strong>Customer Address</strong>"
-msgstr "<strong>Kundenadresse</strong>"
+msgid "<strong>Customer</strong>"
+msgstr "<strong>Kunde</strong>"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
@@ -946,6 +946,11 @@ msgstr "<strong>Geliefert</strong>"
 #: model_terms:ir.ui.view,arch_db:stock.report_picking
 msgid "<strong>Delivery Address:</strong>"
 msgstr "<strong>Lieferadresse:</strong>"
+
+#. module: stock
+#: model_terms:ir.ui.view,arch_db:stock.report_delivery_document
+msgid "<strong>Delivery Address</strong>"
+msgstr "<strong>Lieferadresse</strong>"
 
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.report_picking
@@ -1181,7 +1186,7 @@ msgstr "Aktivitäten von"
 #: model:ir.model.fields,field_description:stock.field_stock_lot__activity_exception_decoration
 #: model:ir.model.fields,field_description:stock.field_stock_picking__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Aktivitätsausnahme-Dekoration"
+msgstr "Kennzeichnung von Aktivitätsausnahmen"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_lot__activity_state
@@ -1967,7 +1972,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock.replenishment_option_warning_view
 #: model_terms:ir.ui.view,arch_db:stock.view_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_quantity_history
-#: model_terms:ir.ui.view,arch_db:stock.view_stock_return_picking_form
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_rules_report
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -3504,6 +3508,7 @@ msgstr "Abmessungen"
 #: model_terms:ir.ui.view,arch_db:stock.view_backorder_confirmation
 #: model_terms:ir.ui.view,arch_db:stock.view_product_replenish
 #: model_terms:ir.ui.view,arch_db:stock.view_stock_orderpoint_snooze
+#: model_terms:ir.ui.view,arch_db:stock.view_stock_return_picking_form
 msgid "Discard"
 msgstr "Verwerfen"
 
@@ -4696,7 +4701,7 @@ msgstr "Serien/Lose importieren"
 #. odoo-python
 #: code:addons/stock/models/stock_quant.py:0
 msgid "Import Template for Inventory Adjustments"
-msgstr "Importvorlage für Bestandsaufnahme"
+msgstr "Importvorlage für Bestandsaufnahmen"
 
 #. module: stock
 #. odoo-python
@@ -5042,6 +5047,11 @@ msgid "Inventory at Date"
 msgstr "Lagerbestand zum Zeitpunkt"
 
 #. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_move__is_date_editable
+msgid "Is Date Editable"
+msgstr "Ist das Datum bearbeitbar"
+
+#. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_location__is_empty
 msgid "Is Empty"
 msgstr "Ist leer"
@@ -5069,6 +5079,11 @@ msgstr "Ist Mehrfachstandort"
 #: model:ir.model.fields,field_description:stock.field_stock_quant_relocate__is_partial_package
 msgid "Is Partial Package"
 msgstr "Ist Teillieferung"
+
+#. module: stock
+#: model:ir.model.fields,field_description:stock.field_stock_picking__is_date_editable
+msgid "Is Scheduled Date Editable"
+msgstr "Ist das geplante Datum bearbeitbar"
 
 #. module: stock
 #: model:ir.model.fields,field_description:stock.field_stock_picking__is_signed
@@ -5248,7 +5263,7 @@ msgstr "Letzte 3 Monate"
 #. module: stock
 #: model_terms:ir.ui.view,arch_db:stock.stock_move_line_view_search
 msgid "Last 30 Days"
-msgstr "Letzten 30 Tage"
+msgstr "Letzte 30 Tage"
 
 #. module: stock
 #: model:ir.model.fields.selection,name:stock.selection__stock_replenishment_info__based_on__one_month
@@ -6415,7 +6430,7 @@ msgstr "Anzahl der Nachrichten, die eine Aktion erfordern"
 #: model:ir.model.fields,help:stock.field_stock_picking__message_has_error_counter
 #: model:ir.model.fields,help:stock.field_stock_scrap__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Anzahl der Nachrichten mit Zustellungsfehler."
+msgstr "Anzahl Nachrichten mit Zustellungsfehler"
 
 #. module: stock
 #: model:ir.model.fields,help:stock.field_product_product__nbr_moves_out
@@ -7461,6 +7476,7 @@ msgstr "Produktkategorien"
 
 #. module: stock
 #: model:ir.model,name:stock.model_product_category
+#: model:ir.model.fields,field_description:stock.field_stock_move__product_category_id
 #: model:ir.model.fields,field_description:stock.field_stock_move_line__product_category_name
 #: model:ir.model.fields,field_description:stock.field_stock_putaway_rule__category_id
 #: model:ir.model.fields,field_description:stock.field_stock_quant__product_categ_id
@@ -10196,17 +10212,6 @@ msgid "There are no inventory adjustments to revert."
 msgstr "Es sind keine Bestandsaufnahmen rückgängig zu machen."
 
 #. module: stock
-#. odoo-python
-#: code:addons/stock/models/stock_move_line.py:0
-msgid ""
-"There is nothing eligible to put in a pack. Either there are no quantities "
-"to put in a pack or moves are already done."
-msgstr ""
-"Es gibt nichts, was in ein Paket gepackt werden könnte. Entweder gibt es "
-"keine Mengen, die in ein Paket gepackt werden könnten, oder die Schritte "
-"sind bereits abgeschlossen."
-
-#. module: stock
 #: model_terms:ir.actions.act_window,help:stock.stock_move_line_action
 msgid "There's no product move yet"
 msgstr "Es gibt noch keine Produktbewegung"
@@ -12410,6 +12415,17 @@ msgid ""
 "{{ object.company_id.name }} Delivery Order (Ref {{ object.name or 'n/a' }})"
 msgstr ""
 "{{ object.company_id.name }} Lieferauftrag (Ref {{ object.name or 'k. A.' }})"
+
+#~ msgid "<strong>Customer Address</strong>"
+#~ msgstr "<strong>Kundenadresse</strong>"
+
+#~ msgid ""
+#~ "There is nothing eligible to put in a pack. Either there are no "
+#~ "quantities to put in a pack or moves are already done."
+#~ msgstr ""
+#~ "Es gibt nichts, was in ein Paket gepackt werden könnte. Entweder gibt es "
+#~ "keine Mengen, die in ein Paket gepackt werden könnten, oder die Schritte "
+#~ "sind bereits abgeschlossen."
 
 #~ msgid "If ticked, you will be able to select entire packages to move"
 #~ msgstr ""

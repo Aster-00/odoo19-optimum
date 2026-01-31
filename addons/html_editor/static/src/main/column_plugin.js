@@ -6,7 +6,7 @@ import { closestElement, firstLeaf } from "@html_editor/utils/dom_traversal";
 import { baseContainerGlobalSelector } from "@html_editor/utils/base_container";
 import { isHtmlContentSupported } from "@html_editor/core/selection_plugin";
 
-const REGEX_BOOTSTRAP_COLUMN = /(?:^| )col(-[a-zA-Z]+)?(-\d+)?(?= |$)/;
+const REGEX_BOOTSTRAP_COLUMN = /(^| )col(-[a-zA-Z]+)?(-\d+)?(?= |$)/;
 
 function isUnremovableColumn(node, root) {
     const isColumnInnerStructure =
@@ -32,6 +32,7 @@ function columnIsAvailable(numberOfColumns) {
 export class ColumnPlugin extends Plugin {
     static id = "column";
     static dependencies = ["baseContainer", "selection", "history", "dom"];
+    /** @type {import("plugins").EditorResources} */
     resources = {
         user_commands: [
             {
@@ -50,7 +51,7 @@ export class ColumnPlugin extends Plugin {
                 categoryId: "structure",
                 isAvailable: columnIsAvailable(2),
                 commandId: "columnize",
-                commandParams: { numberOfColumns: 2 },
+                commandParams: 2,
             },
             {
                 title: _t("3 columns"),
@@ -58,7 +59,7 @@ export class ColumnPlugin extends Plugin {
                 categoryId: "structure",
                 isAvailable: columnIsAvailable(3),
                 commandId: "columnize",
-                commandParams: { numberOfColumns: 3 },
+                commandParams: 3,
             },
             {
                 title: _t("4 columns"),
@@ -66,7 +67,7 @@ export class ColumnPlugin extends Plugin {
                 categoryId: "structure",
                 isAvailable: columnIsAvailable(4),
                 commandId: "columnize",
-                commandParams: { numberOfColumns: 4 },
+                commandParams: 4,
             },
             {
                 title: _t("Remove columns"),
@@ -75,13 +76,13 @@ export class ColumnPlugin extends Plugin {
                 isAvailable: (selection) =>
                     !!closestElement(selection.anchorNode, ".o_text_columns .row"),
                 commandId: "columnize",
-                commandParams: { numberOfColumns: 0 },
+                commandParams: 0,
             },
         ],
         hints: [
             {
-                selector: `.odoo-editor-editable .o_text_columns div[class^='col-'],
-                            .odoo-editor-editable .o_text_columns div[class^='col-']>${baseContainerGlobalSelector}:first-child`,
+                selector: `.odoo-editor-editable .o_text_columns div[class*='col-'],
+                            .odoo-editor-editable .o_text_columns div[class*='col-']>${baseContainerGlobalSelector}:first-child`,
                 text: _t("Empty column"),
             },
         ],
@@ -99,9 +100,9 @@ export class ColumnPlugin extends Plugin {
             if (!columnContainer) {
                 return [];
             }
-            const closestColumn = closestElement(anchorNode, "div[class^='col-']");
+            const closestColumn = closestElement(anchorNode, "div[class*='col-']");
             const closestBlockEl = closestBlock(anchorNode);
-            return [...columnContainer.querySelectorAll("div[class^='col-']")]
+            return [...columnContainer.querySelectorAll("div[class*='col-']")]
                 .map((column) => {
                     const block = closestBlock(firstLeaf(column));
                     return column === closestColumn && block !== closestBlockEl ? null : block;
@@ -110,7 +111,7 @@ export class ColumnPlugin extends Plugin {
         },
     };
 
-    columnize({ numberOfColumns, addParagraphAfter = true } = {}) {
+    columnize(numberOfColumns) {
         const selectionToRestore = this.dependencies.selection.getEditableSelection();
         const anchor = selectionToRestore.anchorNode;
         const hasColumns = !!closestElement(anchor, ".o_text_columns");
@@ -121,7 +122,7 @@ export class ColumnPlugin extends Plugin {
                 this.removeColumns(anchor);
             }
         } else if (numberOfColumns) {
-            this.createColumns(anchor, numberOfColumns, addParagraphAfter);
+            this.createColumns(anchor, numberOfColumns);
         }
         this.dependencies.selection.setSelection(selectionToRestore);
         this.dependencies.history.addStep();
@@ -142,7 +143,7 @@ export class ColumnPlugin extends Plugin {
         }
     }
 
-    createColumns(anchor, numberOfColumns, addParagraphAfter) {
+    createColumns(anchor, numberOfColumns) {
         const container = this.document.createElement("div");
         if (!closestElement(anchor, ".container")) {
             container.classList.add("container");
@@ -160,11 +161,6 @@ export class ColumnPlugin extends Plugin {
             column.classList.add(`col-${columnSize}`, "o-contenteditable-true");
             row.append(column);
             columns.push(column);
-        }
-        if (addParagraphAfter) {
-            const baseContainer = this.dependencies.baseContainer.createBaseContainer();
-            baseContainer.append(this.document.createElement("br"));
-            block.after(baseContainer);
         }
         columns.shift().append(block);
         for (const column of columns) {
@@ -186,7 +182,7 @@ export class ColumnPlugin extends Plugin {
         for (const column of columns) {
             column.className = column.className.replace(
                 REGEX_BOOTSTRAP_COLUMN,
-                `col$1-${columnSize}`
+                `$1col$2-${columnSize}`
             );
         }
         if (diff > 0) {

@@ -28,11 +28,12 @@ class TestSubcontractingBasic(TransactionCase):
         Not reusing the existing routes and operation types"""
         wh_original = self.env['stock.warehouse'].search([], limit=1)
         wh_copy = wh_original.copy(default={'name': 'Dummy Warehouse (copy)', 'code': 'Dummy'})
-        wh_original.buy_to_resupply = False
+        if 'buy_to_resupply' in wh_original._fields:
+            # If purchase is installed, the buy route would be reused instead of duplicated.
+            wh_original.buy_to_resupply = False
         wh_original.manufacture_to_resupply = False
         # Check if warehouse routes got RECREATED (instead of reused)
         route_types = [
-            "route_ids",
             "pbm_route_id",
             "subcontracting_route_id",
             "reception_route_id",
@@ -948,6 +949,51 @@ class TestSubcontractingFlows(TestMrpSubcontractingCommon):
         with self.assertRaisesRegex(UserError, error_message):
             subcontract.button_unbuild()
 
+    def test_subcontracted_product_return_locations(self):
+        """
+        Verify that when returning subcontracted and non-subcontracted products:
+        - the picking has destination location set to the supplier location.
+        - The returned move line for the subcontracted product has destination location set to the subcontractor's stock location.
+        - The returned move line for the non-subcontracted product returns to the supplier location.
+        """
+        supplier_location = self.env.ref('stock.stock_location_suppliers')
+        stock_location = self.warehouse.lot_stock_id
+        picking_receipt = self.env['stock.picking'].create({
+            'picking_type_id': self.env.ref('stock.picking_type_in').id,
+            'partner_id': self.subcontractor_partner1.id,
+            'location_id': supplier_location.id,
+            'location_dest_id': stock_location.id,
+            'move_ids': [
+                Command.create({
+                    'product_id': self.finished.id,
+                }),
+                Command.create({
+                    'product_id': self.comp1.id,
+                }),
+            ]
+        })
+        picking_receipt.action_confirm()
+        picking_receipt.move_ids.quantity = 1
+        picking_receipt.move_ids.picked = True
+        picking_receipt.button_validate()
+        self.assertEqual(picking_receipt.state, 'done')
+        # Ensure returns to subcontractor location
+        return_form = Form(self.env['stock.return.picking'].with_context(active_id=picking_receipt.id, active_model='stock.picking'))
+        return_wizard = return_form.save()
+        return_wizard.product_return_moves.quantity = 1
+        return_picking = return_wizard._create_return()
+        self.assertEqual(len(return_picking), 1)
+        self.assertEqual(return_picking.location_dest_id, supplier_location)
+        self.assertEqual(return_picking.location_id, stock_location)
+        self.assertRecordValues(return_picking.move_ids.move_line_ids, [
+            {'product_id': self.finished.id, 'location_id': stock_location.id, 'location_dest_id': self.subcontractor_partner1.property_stock_subcontractor.id},
+            {'product_id': self.comp1.id, 'location_id': stock_location.id, 'location_dest_id': supplier_location.id}
+        ])
+        self.assertRecordValues(return_picking.move_ids, [
+            {'product_id': self.finished.id, 'location_id': stock_location.id, 'location_dest_id': self.subcontractor_partner1.property_stock_subcontractor.id},
+            {'product_id': self.comp1.id, 'location_id': stock_location.id, 'location_dest_id': supplier_location.id}
+        ])
+
 
 @tagged('post_install', '-at_install')
 class TestSubcontractingTracking(TransactionCase):
@@ -1571,3 +1617,88 @@ class TestSubcontractingSerialMassReceipt(TransactionCase):
         ])
         backorder_backorder.button_validate()
         self.assertEqual(subcontracted_produt.qty_available, 9.0)
+
+    def test_use_customized_serial_sequence_in_subcontracting_productions(self):
+        """
+        Test that serial numbers are generated with the correct prefix and sequence,
+        that manually provided serial numbers are correctly applied, and that serial
+        numbering remains consistent across multiple (subcontracted) manufacturing orders.
+        """
+        warehouse = self.env['stock.warehouse'].search([('company_id', '=', self.env.company.id)], limit=1)
+
+        def generate_subcontracting_receipt_and_mo(product_qty):
+            receipt = self.env['stock.picking'].create({
+                'picking_type_id': warehouse.in_type_id.id,
+                'partner_id': self.subcontractor.id,
+                'location_id': self.ref('stock.stock_location_suppliers'),
+                'location_dest_id': warehouse.lot_stock_id.id,
+                'move_ids': [Command.create({
+                   'product_id': self.finished.id,
+                   'product_uom_qty': product_qty,
+                   'product_uom': self.finished.uom_id.id,
+                   'location_id': self.ref('stock.stock_location_suppliers'),
+                   'location_dest_id': warehouse.lot_stock_id.id,
+                })]
+            })
+            receipt.action_confirm()
+            action = receipt.move_ids.action_show_subcontract_details()
+            return receipt, self.env['mrp.production'].browse(action['res_id'])
+
+        receipt, mo = generate_subcontracting_receipt_and_mo(2)
+        self.finished.lot_sequence_id.prefix = 'TEST'
+        self.finished.lot_sequence_id.number_next_actual = 1
+        serials_wizard = Form.from_action(self.env, mo.action_generate_serial())
+        self.assertEqual(serials_wizard.lot_name, 'TEST0000001')
+        serials_wizard.save().action_generate_serial_numbers()
+        serials_wizard.save().action_apply()
+        self.assertRecordValues(mo._get_subcontract_move().lot_ids.sorted('name'), [
+            {'name': 'TEST0000001'},
+            {'name': 'TEST0000002'},
+        ])
+        self.assertRecordValues(receipt.move_ids[0].lot_ids.sorted('name'), [
+            {'name': 'TEST0000001'},
+            {'name': 'TEST0000002'},
+        ])
+        receipt.button_validate()
+        self.assertEqual(self.env['stock.quant']._get_available_quantity(self.finished, warehouse.lot_stock_id), 2)
+        self.assertRecordValues(self.env['stock.lot'].search([('product_id', '=', self.finished.id)]).sorted('name'), [
+            {'name': 'TEST0000001'},
+            {'name': 'TEST0000002'},
+        ])
+        self.assertEqual(self.finished.serial_prefix_format + self.finished.next_serial, 'TEST0000003')
+
+        second_receipt, second_mo = generate_subcontracting_receipt_and_mo(5)
+        second_serials_wizard = Form.from_action(self.env, second_mo.action_generate_serial())
+        self.assertEqual(second_serials_wizard.lot_name, 'TEST0000003')
+        second_serials_wizard.serial_numbers = 'TEST0000005\nLOREM002\nTEST0000003\nIPSUM101\nTEST0000004'
+        second_serials_wizard.save().action_apply()
+        self.assertRecordValues(second_mo._get_subcontract_move().lot_ids.sorted('name'), [
+            {'name': 'IPSUM101'},
+            {'name': 'LOREM002'},
+            {'name': 'TEST0000003'},
+            {'name': 'TEST0000004'},
+            {'name': 'TEST0000005'},
+        ])
+        self.assertRecordValues(second_receipt.move_ids[0].lot_ids.sorted('name'), [
+            {'name': 'IPSUM101'},
+            {'name': 'LOREM002'},
+            {'name': 'TEST0000003'},
+            {'name': 'TEST0000004'},
+            {'name': 'TEST0000005'},
+        ])
+        second_receipt.button_validate()
+        self.assertEqual(self.env['stock.quant']._get_available_quantity(self.finished, warehouse.lot_stock_id), 2 + 5)
+        self.assertRecordValues(self.env['stock.lot'].search([('product_id', '=', self.finished.id)]).sorted('name'), [
+            {'name': 'IPSUM101'},
+            {'name': 'LOREM002'},
+            {'name': 'TEST0000001'},
+            {'name': 'TEST0000002'},
+            {'name': 'TEST0000003'},
+            {'name': 'TEST0000004'},
+            {'name': 'TEST0000005'},
+        ])
+
+        _third_receipt, third_mo = generate_subcontracting_receipt_and_mo(2)
+        third_mo.action_confirm()
+        third_serials_wizard = Form.from_action(self.env, third_mo.action_generate_serial())
+        self.assertEqual(third_serials_wizard.lot_name, 'TEST0000006')

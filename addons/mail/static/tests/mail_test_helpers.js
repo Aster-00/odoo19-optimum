@@ -23,7 +23,7 @@ import {
 } from "@web/../tests/web_test_helpers";
 
 import { CHAT_HUB_KEY } from "@mail/core/common/chat_hub_model";
-import { contains } from "./mail_test_helpers_contains";
+import { click, contains } from "./mail_test_helpers_contains";
 
 import { closeStream, mailGlobal } from "@mail/utils/common/misc";
 import { Component, onMounted, onPatched, onWillDestroy, status } from "@odoo/owl";
@@ -76,7 +76,7 @@ import { ResRole } from "./mock_server/mock_models/res_role";
 import { ResUsers } from "./mock_server/mock_models/res_users";
 import { ResUsersSettings } from "./mock_server/mock_models/res_users_settings";
 import { ResUsersSettingsVolumes } from "./mock_server/mock_models/res_users_settings_volumes";
-import { Network } from "@mail/discuss/call/common/rtc_service";
+import { Network, Rtc } from "@mail/discuss/call/common/rtc_service";
 import { UPDATE_EVENT } from "@mail/discuss/call/common/peer_to_peer";
 
 export * from "./mail_test_helpers_contains";
@@ -104,6 +104,13 @@ addBusMessageHandler("mail.record/insert", (_env, _id, payload) => {
 export function defineMailModels() {
     defineParams({ suite: "mail" }, "replace");
     return defineModels(mailModels);
+}
+
+export function getChannelCommandsForThread(threadId) {
+    const store = getService("mail.store");
+    const suggestionService = getService("mail.suggestion");
+    const thread = store.Thread.get({ model: "discuss.channel", id: threadId });
+    return suggestionService.getChannelCommands(thread);
 }
 
 export const mailModels = {
@@ -309,6 +316,12 @@ let discussAsTabId = 0;
  * }} [options]
  */
 export async function start(options) {
+    patchWithCleanup(Rtc.prototype, {
+        start() {
+            super.start();
+            after(() => this.clear());
+        },
+    });
     if (!MockServer.current) {
         await startServer();
     }
@@ -972,4 +985,39 @@ export function patchVoiceMessageAudio() {
         });
     });
     return res;
+}
+
+export function mockPermissionsPrompt() {
+    patchWithCleanup(browser.navigator.permissions, {
+        async query() {
+            return {
+                state: "prompt",
+                addEventListener: () => {},
+                removeEventListener: () => {},
+                onchange: null,
+            };
+        },
+    });
+}
+
+/**
+ * Assert IM status on chat bubble and chat window of given `conversationName` with `count`.
+ * The conversation should be present as a bubble initially, becomes open and folded again
+ * after calling function.
+ *
+ * This is made as a function so that negative assertion on ImStatus can use this function and
+ * ensure using correct selector and await properly like the positive assertions.
+ *
+ * @param {string} conversationName
+ * @param {Number} count
+ */
+export async function assertChatBubbleAndWindowImStatus(conversationName, count) {
+    await contains(`.o-mail-ChatBubble[name=${conversationName}]`);
+    expect(`.o-mail-ChatBubble[name=${conversationName}] .o-mail-ImStatus`).toHaveCount(count);
+    await click(`.o-mail-ChatBubble[name=${conversationName}]`);
+    await contains(`.o-mail-ChatWindow-header:has(:text(${conversationName}))`);
+    expect(
+        `.o-mail-ChatWindow-header:has(:text(${conversationName})) .o-mail-ImStatus`
+    ).toHaveCount(count);
+    await click(`.o-mail-ChatWindow-header:has(:text(${conversationName}))`);
 }

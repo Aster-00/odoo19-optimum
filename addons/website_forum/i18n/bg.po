@@ -15,13 +15,14 @@
 # Albena Mincheva <albena_vicheva@abv.bg>, 2023
 # Maria Boyadjieva <marabo2000@gmail.com>, 2023
 # "Tiffany Chang (tic)" <tic@odoo.com>, 2025.
+# Weblate <noreply-mt-weblate@weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 18:39+0000\n"
-"PO-Revision-Date: 2025-09-16 15:33+0000\n"
-"Last-Translator: \"Tiffany Chang (tic)\" <tic@odoo.com>\n"
+"POT-Creation-Date: 2025-12-30 18:38+0000\n"
+"PO-Revision-Date: 2025-11-09 15:11+0000\n"
+"Last-Translator: Weblate <noreply-mt-weblate@weblate.org>\n"
 "Language-Team: Bulgarian <https://translate.odoo.com/projects/odoo-19/"
 "website_forum/bg/>\n"
 "Language: bg\n"
@@ -208,7 +209,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_index_tags
 msgid "&amp;nbsp;"
-msgstr ""
+msgstr "&amp;nbsp;"
 
 #. module: website_forum
 #: model_terms:forum.forum,faq:website_forum.forum_help
@@ -318,6 +319,10 @@ msgid ""
 "to dilute the essence of questions and answers. For brief discussions please "
 "use commenting facility."
 msgstr ""
+"<b>От отговорите не следва да започват дискусии</b> Тази общност Q&amp;A не "
+"е дискусионна група. Моля избягвайте дебатирането във Вашите въпроси, тъй "
+"като се разводнява смисъла на въпроси и отговори. За кратки дискусии, моля "
+"използвайте мястото за коментари."
 
 #. module: website_forum
 #: model_terms:forum.forum,faq:website_forum.forum_help
@@ -511,7 +516,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_post_view_kanban
 msgid "<i class=\"fa fa-globe me-1\" title=\"Website\"/>"
-msgstr ""
+msgstr "<i class=\"fa fa-globe me-1\" title=\"Website\"/>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.user_sidebar
@@ -526,6 +531,9 @@ msgid ""
 "                                Edit<span class=\"d-none d-lg-inline\"> your "
 "answer</span>"
 msgstr ""
+"<i class=\"fa fa-pencil\"/>\n"
+"                                Редактирайте<span class=\"d-none d-lg-"
+"inline\"> своя отговор</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.display_post
@@ -582,7 +590,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.show_flag_validator
 msgid "<i class=\"fa fa-times\"/> Reject"
-msgstr ""
+msgstr "<i class=\"fa fa-times\"/> Отхвърлете"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -592,7 +600,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
 msgid "<i class=\"fa fa-times\"/><span class=\"ms-2\">Reject</span>"
-msgstr ""
+msgstr "<i class=\"fa fa-times\"/><span class=\"ms-2\">Отказ</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.moderation_queue
@@ -629,7 +637,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_all_all_entries
 msgid "<span class=\"badge bg-dark me-1\">Last post:</span>"
-msgstr ""
+msgstr "<span class=\"badge bg-dark me-1\">Последна публикация:</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.contact
@@ -713,12 +721,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_forum_view_form
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_post_view_form
 msgid "<span class=\"o_stat_text\">Go to <br/>Website</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Отидете на <br/>уебсайта</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_forum_view_form
 msgid "<span class=\"o_stat_text\">Posts</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Публикации</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.display_activities
@@ -729,6 +737,8 @@ msgstr ""
 #: model_terms:web_tour.tour,rainbow_man_message:website_forum.question
 msgid "<span><b>Good job!</b> You went through all steps of this tour.</span>"
 msgstr ""
+"<span><b>Добра работа!</b> Вие преминахте през всички стъпки от тази "
+"обиколка.</span>"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
@@ -1311,7 +1321,7 @@ msgstr "Причина за затваряне"
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__color
 msgid "Color"
-msgstr ""
+msgstr "Цвят"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.post_display
@@ -1422,7 +1432,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.actions.act_window,help:website_forum.forum_tag_action
 msgid "Create a new tag"
-msgstr ""
+msgstr "Създаване на нов етикет"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_sign_up_cta
@@ -1440,7 +1450,7 @@ msgstr "Създайте нови маркери"
 #. odoo-javascript
 #: code:addons/website_forum/static/src/xml/website_forum_tags_wrapper.xml:0
 msgid "Create option \""
-msgstr ""
+msgstr "Създаване на опция \""
 
 #. module: website_forum
 #: model_terms:gamification.badge,description:website_forum.badge_32
@@ -1487,13 +1497,13 @@ msgstr "Дата"
 #. odoo-javascript
 #: code:addons/website_forum/static/src/website_builder/forum_searchbar_option_plugin.js:0
 msgid "Date (new to old)"
-msgstr ""
+msgstr "Дата (нова към стара)"
 
 #. module: website_forum
 #. odoo-javascript
 #: code:addons/website_forum/static/src/website_builder/forum_searchbar_option_plugin.js:0
 msgid "Date (old to new)"
-msgstr ""
+msgstr "Дата (стара към нова)"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__default_order
@@ -1593,7 +1603,7 @@ msgstr "Дисциплиниран"
 #. module: website_forum
 #: model:ir.model.fields.selection,name:website_forum.selection__forum_forum__mode__discussions
 msgid "Discussions (multiple answers)"
-msgstr ""
+msgstr "Дискусии (множество отговори)"
 
 #. module: website_forum
 #. odoo-python
@@ -1703,7 +1713,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_sign_up_cta
 msgid "Enjoying the discussion? Don't just read, join in!"
-msgstr ""
+msgstr "Харесва ли Ви дискусията? Не просто четете, а се включете!"
 
 #. module: website_forum
 #: model:gamification.badge,name:website_forum.badge_a_5
@@ -1725,7 +1735,7 @@ msgstr ""
 #: code:addons/website_forum/static/src/xml/public_templates.xml:0
 #: model_terms:ir.ui.view,arch_db:website_forum.post_display
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #. module: website_forum
 #: model:gamification.badge,name:website_forum.badge_q_3
@@ -1833,7 +1843,7 @@ msgstr "Сигнализиран от"
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.follow
 msgid "Follow"
-msgstr ""
+msgstr "Последвайте"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.user_profile_content
@@ -2049,7 +2059,7 @@ msgstr "Е отговорил"
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__has_message
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Има съобщение"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__has_pending_post
@@ -2140,6 +2150,11 @@ msgid ""
 "motivation is “I would like others to explain ______ to me”, then you are "
 "probably OK."
 msgstr ""
+"Ако се припознавате в някой от тези примери или ако Вашата мотивация да "
+"зададете въпрос е “Бих искал/а да участвам в дискусия за ______”, то в такъв "
+"случай не би трябвало да питате тук, а на нашия списък с имейли. Обаче, ако "
+"Вашата мотивация е “Бих искал/а другите да обяснят ______ не мен”, то тогава "
+"вероятно сте OK."
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.mark_as_offensive
@@ -2277,7 +2292,7 @@ msgstr "Карма, чиято връзка трябва да се прекра�
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.display_post
 msgid "Last Activity"
-msgstr ""
+msgstr "Последна активност"
 
 #. module: website_forum
 #. odoo-javascript
@@ -2333,7 +2348,7 @@ msgstr ""
 #: code:addons/website_forum/static/src/xml/public_templates.xml:0
 #: model_terms:ir.ui.view,arch_db:website_forum.post_display
 msgid "LinkedIn"
-msgstr ""
+msgstr "LinkedIn"
 
 #. module: website_forum
 #. odoo-javascript
@@ -2420,13 +2435,13 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 msgid "My Favorites"
-msgstr ""
+msgstr "Моите фаворити"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_index
 #: model_terms:ir.ui.view,arch_db:website_forum.user_sidebar_body
 msgid "My Posts"
-msgstr ""
+msgstr "Моите публикации"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__user_vote
@@ -2468,7 +2483,7 @@ msgstr "Нов форум"
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_model_nav
 msgid "New Post"
-msgstr ""
+msgstr "Нова публикация"
 
 #. module: website_forum
 #: model:mail.message.subtype,description:website_forum.mt_question_new
@@ -2564,7 +2579,7 @@ msgstr "Брой сигнализирани публикации"
 #: model:ir.model.fields,help:website_forum.field_forum_post__message_needaction_counter
 #: model:ir.model.fields,help:website_forum.field_forum_tag__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Брой съобщения, изискващи действие"
 
 #. module: website_forum
 #: model:ir.model.fields,help:website_forum.field_forum_forum__message_has_error_counter
@@ -2888,6 +2903,8 @@ msgid ""
 "Questions mode: only one answer allowed\n"
 " Discussions mode: multiple answers allowed"
 msgstr ""
+"Режим за въпроси: позволен е само един отговор\n"
+" Режим за дискусии: позволени са множество отговори"
 
 #. module: website_forum
 #: model:forum.post.reason,name:website_forum.reason_15
@@ -2904,7 +2921,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__rating_ids
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__rating_ids
 msgid "Ratings"
-msgstr ""
+msgstr "Оценявания"
 
 #. module: website_forum
 #. odoo-python
@@ -2993,7 +3010,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.post_stats
 msgid "Reply"
-msgstr ""
+msgstr "Отговорете"
 
 #. module: website_forum
 #. odoo-python
@@ -3010,7 +3027,7 @@ msgstr "Отговорете на собствен въпрос"
 #: model:ir.model.fields,help:website_forum.field_forum_forum__website_id
 #: model:ir.model.fields,help:website_forum.field_forum_post__website_id
 msgid "Restrict to a specific website."
-msgstr ""
+msgstr "Ограничете до конкретен уебсайт."
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.profile_access_denied
@@ -3027,7 +3044,7 @@ msgstr "Прегледано от"
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__is_seo_optimized
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__is_seo_optimized
 msgid "SEO optimized"
-msgstr ""
+msgstr "SEO оптимизиран"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__message_has_sms_error
@@ -3051,7 +3068,7 @@ msgstr "Учен"
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.user_profile_content
 msgid "Search"
-msgstr ""
+msgstr "Потърсете"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.user_profile_content
@@ -3111,7 +3128,7 @@ msgstr "Самообучаващ се"
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__seo_name
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__seo_name
 msgid "Seo name"
-msgstr ""
+msgstr "СЕО име"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__sequence
@@ -3126,6 +3143,8 @@ msgid ""
 "Share and discuss the best content and new marketing ideas, build your "
 "professional profile and become a better marketer together."
 msgstr ""
+"Споделяйте и дискутирайте най-доброто съдържание и нови маркетингови идеи, "
+"създайте Вашия професионален профил и станете по-добри маркетолози заедно."
 
 #. module: website_forum
 #. odoo-javascript
@@ -3158,7 +3177,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_sign_up_cta
 #: model_terms:ir.ui.view,arch_db:website_forum.user_sidebar_header
 msgid "Sign up"
-msgstr ""
+msgstr "Регистрирайте се"
 
 #. module: website_forum
 #: model:ir.model.fields.selection,name:website_forum.selection__forum_forum__privacy__connected
@@ -3169,7 +3188,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_forum.display_post_question_block
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_model_nav
 msgid "Solved"
-msgstr ""
+msgstr "Разрешен"
 
 #. module: website_forum
 #: model:ir.model.fields.selection,name:website_forum.selection__forum_forum__privacy__private
@@ -3248,7 +3267,7 @@ msgstr "Курсист"
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.follow
 msgid "Subscribe"
-msgstr ""
+msgstr "Абонирайте се"
 
 #. module: website_forum
 #: model:gamification.badge,name:website_forum.badge_31
@@ -3266,7 +3285,7 @@ msgstr "Маркер"
 #. module: website_forum
 #: model:ir.model.constraint,message:website_forum.constraint_forum_tag_name_uniq
 msgid "Tag name already exists!"
-msgstr ""
+msgstr "Тагът вече съществува"
 
 #. module: website_forum
 #. odoo-javascript
@@ -3394,7 +3413,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.header
 msgid "This forum has been archived."
-msgstr ""
+msgstr "Този форум е бил архивиран."
 
 #. module: website_forum
 #. odoo-javascript
@@ -3420,6 +3439,10 @@ msgid ""
 "                    As a moderator you can either <b>Accept</b> or "
 "<b>Reject</b> this post."
 msgstr ""
+"Тази публикация в момента чака потвърждение от модератор и не е публикувана."
+"<br/>\n"
+"                   Като модератор, Вие можете или да <b>Приемете</b> или "
+"<b>Откажете</b> този публикация."
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.post_description_full
@@ -3525,7 +3548,7 @@ msgstr ""
 #: code:addons/website_forum/static/src/xml/public_templates.xml:0
 #: model_terms:ir.ui.view,arch_db:website_forum.post_display
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_model_nav
@@ -3540,7 +3563,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.follow
 msgid "Unfollow"
-msgstr ""
+msgstr "Прекратете следенето"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.post_display
@@ -3739,7 +3762,7 @@ msgstr "Мета заглавие на уебсайт"
 #: model:ir.model.fields,field_description:website_forum.field_forum_post__website_meta_og_img
 #: model:ir.model.fields,field_description:website_forum.field_forum_tag__website_meta_og_img
 msgid "Website opengraph image"
-msgstr ""
+msgstr "Уебсайт opengraph изображение"
 
 #. module: website_forum
 #: model:ir.model.fields,field_description:website_forum.field_forum_forum__welcome_message
@@ -3751,7 +3774,7 @@ msgstr "Съобщение за посрещане"
 #: code:addons/website_forum/models/forum_forum.py:0
 #: model_terms:forum.forum,welcome_message:website_forum.forum_help
 msgid "Welcome!"
-msgstr ""
+msgstr "Добре дошли!"
 
 #. module: website_forum
 #: model_terms:forum.forum,faq:website_forum.forum_help
@@ -3883,7 +3906,7 @@ msgstr ""
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.author_box
 msgid "at"
-msgstr ""
+msgstr "на"
 
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.forum_model_nav
@@ -4182,7 +4205,7 @@ msgstr "биографията Ви може да се вижда като из�
 #. module: website_forum
 #: model_terms:ir.ui.view,arch_db:website_forum.follow
 msgid "your email..."
-msgstr ""
+msgstr "Вашият имейл..."
 
 #~ msgid "<b> [Offensive]</b>"
 #~ msgstr "<b> [Оскърбително]</b>"

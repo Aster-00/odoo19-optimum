@@ -205,7 +205,9 @@ class TestFrontendCommon(TestPointOfSaleHttpCommon):
         })
 
         pricelist = cls.env['product.pricelist'].create({'name': 'Restaurant Pricelist'})
+        second_pricelist = cls.env['product.pricelist'].create({'name': 'Second Pricelist'})
         cls.pos_config.write({'pricelist_id': pricelist.id})
+        cls.pos_config.write({'available_pricelist_ids': [(6, 0, [pricelist.id, second_pricelist.id])]})
 
 
 class TestFrontend(TestFrontendCommon):
@@ -339,6 +341,10 @@ class TestFrontend(TestFrontendCommon):
     def test_pos_restaurant_course(self):
         self.pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_pos_restaurant_course')
+        order = self.pos_config.current_session_id.order_ids
+        self.assertEqual(len(order), 1)
+        # Verify whether the two courses have different timestamps
+        self.assertNotEqual(order.course_ids[0].fired_date, order.course_ids[1].fired_date)
 
     def test_preparation_printer_content(self):
         self.preset_eat_in = self.env['pos.preset'].create({
@@ -534,6 +540,11 @@ class TestFrontend(TestFrontendCommon):
         self.assertEqual(line_1.tax_ids, self.tax_sale_a)
         self.assertEqual(line_2.tax_ids, self.tax_sale_a)
 
+    def test_no_ghost_floor(self):
+        self.pos_config.is_order_printer = False
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('no_ghost_floor', login="pos_admin")
+
     def test_multiple_preparation_printer_different_categories(self):
         """This test make sure that no empty receipt are sent when using multiple printer with different categories
            The tour will check that we tried did not try to print two receipt. We can achieve that by checking the content
@@ -591,11 +602,20 @@ class TestFrontend(TestFrontendCommon):
             'name': 'Takeaway',
             'identification': 'name',
         })
+        self.preset_delivery = self.env['pos.preset'].create({
+            'name': 'Delivery',
+            'identification': 'address',
+        })
         self.main_pos_config.write({
             'use_presets': True,
-            'default_preset_id': self.preset_eat_in.id,
-            'available_preset_ids': [(6, 0, [self.preset_takeaway.id])],
+            'default_preset_id': self.preset_delivery.id,
+            'available_preset_ids': [(6, 0, [
+                self.preset_takeaway.id,
+                self.preset_eat_in.id,
+                self.preset_delivery.id,
+            ])],
         })
+        self.start_pos_tour('test_preset_delivery_restaurant')
         resource_calendar = self.env['resource.calendar'].create({
             'name': 'Takeaway',
             'attendance_ids': [(0, 0, {
@@ -610,7 +630,27 @@ class TestFrontend(TestFrontendCommon):
             'use_timing': True,
             'resource_calendar_id': resource_calendar
         })
+        self.main_pos_config.write({'default_preset_id': self.preset_takeaway.id})
+        self.start_pos_tour('test_open_register_with_preset_takeaway')
+        self.main_pos_config.write({'default_preset_id': self.preset_eat_in.id})
+        cancelled_orders = self.env['pos.order'].search([('state', '=', 'cancel')], limit=3)
+        self.assertEqual(len(cancelled_orders), 1)
+        orders = self.env['pos.order'].search([('state', '!=', 'cancel')], limit=3)
+        self.assertEqual(len(orders), 0)
         self.start_pos_tour('test_preset_timing_restaurant')
+        self.preset_eat_in.write({
+            'use_guest': True,
+        })
+        self.start_pos_tour('test_guest_count_bank_payment')
+
+    def test_restaurant_preset_eatin_tour(self):
+        self.pos_config.write({
+            'use_presets': True,
+            'default_preset_id': self.env.ref('pos_restaurant.pos_takein_preset', False).id,
+        })
+        self.pos_user.name = "test_user"
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('RestaurantPresetEatInTour', login="pos_user")
 
     def test_combo_preparation_receipt_layout(self):
         setup_product_combo_items(self)
@@ -705,7 +745,7 @@ class TestFrontend(TestFrontendCommon):
         """
         self.start_pos_tour('test_direct_sales', login="pos_user")
         orders = self.env['pos.order'].search([], limit=3, order='id desc')
-        self.assertEqual(orders[2].floating_order_name, orders[2].pos_reference)
+        self.assertEqual(orders[2].floating_order_name, orders[2].tracking_number)
         self.assertEqual(orders[1].floating_order_name, "Test")
         self.assertEqual(orders[0].floating_order_name, False)
         self.assertIsNotNone(orders[0].table_id)
@@ -726,7 +766,7 @@ class TestFrontend(TestFrontendCommon):
         self.pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_sync_set_partner')
         order = self.pos_config.current_session_id.order_ids[0]
-        self.assertEqual(order.partner_id.name, "Deco Addict")
+        self.assertEqual(order.partner_id.name, "Acme Corporation")
 
     def test_sync_set_note(self):
         self.pos_config.with_user(self.pos_user).open_ui()
@@ -743,10 +783,13 @@ class TestFrontend(TestFrontendCommon):
         self.assertEqual(note[0]["text"], "Demo note")
 
     def test_sync_set_pricelist(self):
+        self.pos_config.write({
+            'use_pricelist': True,
+        })
         self.pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_sync_set_pricelist')
         order = self.pos_config.current_session_id.order_ids[0]
-        self.assertEqual(order.pricelist_id.name, "Restaurant Pricelist")
+        self.assertEqual(order.pricelist_id.name, "Second Pricelist")
 
     def test_delete_line_release_table(self):
         self.pos_config.with_user(self.pos_user).open_ui()
@@ -762,3 +805,36 @@ class TestFrontend(TestFrontendCommon):
         self.pos_config.is_order_printer = False
         self.pos_config.with_user(self.pos_user).open_ui()
         self.start_pos_tour('test_combo_synchronisation')
+
+    def test_global_discount_split(self):
+        if self.env['ir.module.module']._get('pos_discount').state != 'installed':
+            self.skipTest("pos_discount module is required for this test")
+
+        self.discount_product = self.env["product.product"].create({
+            "name": "Discount Product",
+            "type": "service",
+            "list_price": 0,
+            "available_in_pos": True,
+        })
+
+        self.pos_config.write({
+            'iface_discount': True,
+            'module_pos_discount': True,
+            'discount_product_id': self.discount_product.id,
+        })
+
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('SplitBillScreenTourTransfer')
+
+    def test_name_preset_skip_screen(self):
+        self.preset_takeaway = self.env['pos.preset'].create({
+            'name': 'Takeaway',
+            'identification': 'name',
+        })
+        self.pos_config.write({
+            'use_presets': True,
+            'default_preset_id': self.preset_takeaway.id,
+            'available_preset_ids': [(6, 0, [self.preset_takeaway.id])],
+        })
+        self.pos_config.with_user(self.pos_user).open_ui()
+        self.start_pos_tour('test_name_preset_skip_screen')

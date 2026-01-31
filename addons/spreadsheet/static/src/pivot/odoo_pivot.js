@@ -8,6 +8,7 @@ import { EvaluationError, PivotRuntimeDefinition, registries, helpers } from "@o
 import { LOADING_ERROR } from "@spreadsheet/data_sources/data_source";
 import { omit } from "@web/core/utils/objects";
 import { OdooPivotLoader } from "./odoo_pivot_loader";
+import { getRelationalFieldDefinition } from "./pivot_helpers";
 
 const { pivotRegistry, supportedPivotPositionalFormulaRegistry } = registries;
 const {
@@ -377,7 +378,11 @@ export class OdooPivot {
             case "float":
                 return "#,##0.00";
             case "monetary":
-                return this.getters.getCompanyCurrencyFormat() || "#,##0.00";
+                try {
+                    return this.getters.getCompanyCurrencyFormat() || "#,##0.00";
+                } catch {
+                    return "#,##0.00";
+                }
             case "date":
             case "datetime": {
                 const timeAdapter = pivotTimeAdapter(granularity);
@@ -489,17 +494,11 @@ export class OdooPivot {
             );
         await Promise.all(
             related.map((dimension) =>
-                this.odooDataProvider.fieldService
-                    .loadPath(this.coreDefinition.model, dimension.fieldName)
-                    .then(({ modelsInfo, names }) => {
-                        this._fields[dimension.fieldName] = {
-                            ...modelsInfo.at(-1).fieldDefs[dimension.fieldName.split(".").at(-1)],
-                            string: names
-                                .map((name, i) => modelsInfo[i].fieldDefs[name].string)
-                                .join(" > "),
-                            name: dimension.fieldName,
-                        };
-                    })
+                getRelationalFieldDefinition(
+                    this.coreDefinition.model,
+                    dimension.fieldName,
+                    this.odooDataProvider.fieldService
+                ).then((definition) => (this._fields[dimension.fieldName] = definition))
             )
         );
     }

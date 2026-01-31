@@ -34,6 +34,7 @@ class ImageToolOptionPlugin extends Plugin {
         "builderOptions",
     ];
     static shared = ["getCSSColorValue"];
+    /** @type {import("plugins").BuilderResources} */
     resources = {
         builder_options: [
             withSequence(REPLACE_MEDIA, ReplaceMediaOption),
@@ -171,6 +172,11 @@ export class ResetCropAction extends BuilderAction {
 export class ReplaceMediaAction extends BuilderAction {
     static id = "replaceMedia";
     static dependencies = ["media_website"];
+
+    setup() {
+        this.canTimeout = false;
+    }
+
     async apply({ editingElement: mediaEl }) {
         await this.dependencies.media_website.replaceMedia(mediaEl);
     }
