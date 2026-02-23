@@ -4,9 +4,6 @@
 [submodule "custom-addons/base_account_budget"]
 	path = custom-addons/base_account_budget
 	url = https://github.com/Aster-00/Accounting-budget-odoo19
-[submodule "custom-addons/optimum_1"]
-	path = custom-addons/optimum_1
-	url = https://github.com/Aster-00/optimum_1.git
 [submodule "custom-addons/muk_web_colors"]
 	path = custom-addons/muk_web_colors
 	url = https://github.com/Aster-00/MuK-Colors-Odoo19.git
