@@ -25,3 +25,6 @@
 [submodule "custom-addons/optimum_helpdesk"]
 	path = custom-addons/optimum_helpdesk
 	url = https://github.com/Aster-00/optimum_helpdesk.git
+[submodule "custom-addons/optimum_insurance_general"]
+	path = custom-addons/optimum_insurance_general
+	url = https://github.com/Aster-00/optimum_insurance_general
