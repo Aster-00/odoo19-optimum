@@ -3,13 +3,13 @@
 	url = https://github.com/Optimum-Performance-ins/Accounting_kit_odoo19
 [submodule "custom-addons/base_account_budget"]
 	path = custom-addons/base_account_budget
-	url = https://github.com/Optimum-Performance-ins/Accounting-budget-odoo19
+	url = https://github.com/Optimum-Performance-ins/Accounting_budget_odoo19
 [submodule "custom-addons/muk_web_colors"]
 	path = custom-addons/muk_web_colors
-	url = https://github.com/Optimum-Performance-ins/MuK-Colors-Odoo19
+	url = https://github.com/Optimum-Performance-ins/muk_web_colors
 [submodule "custom-addons/muk_web_appsbar"]
 	path = custom-addons/muk_web_appsbar
-	url = https://github.com/Optimum-Performance-ins/MuK-AppsBar-Odoo19
+	url = https://github.com/Optimum-Performance-ins/muk_web_appsbar
 [submodule "custom-addons/optimum_insurance_base"]
 	path = custom-addons/optimum_insurance_base
 	url = https://github.com/Optimum-Performance-ins/optimum_insurance_base
