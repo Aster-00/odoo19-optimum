@@ -32,6 +32,16 @@ This document catalogs all controls that prevent write, delete, or modification 
 | **Condition** | Corporate client has active employees (no end date or end date in the future) |
 | **Error** | _"Cannot delete corporate client '%s' with %s active employee(s). Please terminate all employments first."_ |
 
+### C-112 — Cannot delete offer with a parent offer
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.offer` |
+| **File** | `models/insurance_offer.py` (line ~906) |
+| **Condition** | Offer has a `previous_offer_id` (i.e., it is a child offer or negotiation response) |
+| **Error** | _"You cannot delete offer '%s' because it has a parent offer. Delete child offers first or archive the offer instead."_ |
+
 ### C-03 — Vehicle removal from offer cascades inspection cleanup
 
 | Attribute | Value |
@@ -1074,7 +1084,7 @@ These fields are always `readonly="1"` because they are computed, system-generat
 
 | Category | Count |
 |----------|-------|
-| Delete Prevention (unlink) | 3 |
+| Delete Prevention (unlink) | 4 |
 | Write Validation (write) | 3 |
 | Python Constraints (@api.constrains) | 26 (with sub-controls) |
 | SQL UNIQUE Constraints | 22 (with sub-controls) |
@@ -1083,4 +1093,4 @@ These fields are always `readonly="1"` because they are computed, system-generat
 | Action Method Guards | 4 |
 | Conditional View Readonly | 2 patterns (with 4 extensions) |
 | Always-Readonly View Fields | 100+ fields across all modules |
-| **Total named controls** | **C-01 through C-111** |
+| **Total named controls** | **C-01 through C-112** |
