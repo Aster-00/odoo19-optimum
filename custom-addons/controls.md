@@ -897,6 +897,83 @@ These prevent deletion of parent records when child records reference them.
 | **Condition** | Endorsement `is_applied` is True |
 | **Error** | _"Cannot reset an applied endorsement."_ |
 
+### C-113 — Cannot schedule inspection without scheduled date/time
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_schedule()` |
+| **Condition** | `scheduled_datetime` is not set |
+| **Error** | _"Please set a scheduled date/time before scheduling."_ |
+
+### C-114 — Cannot schedule re-inspection without re-inspection scheduled date/time
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_schedule_reinspection()` |
+| **Condition** | `reinspection_scheduled_datetime` is not set |
+| **Error** | _"Please set a re-inspection scheduled date/time before scheduling."_ |
+
+### C-120 — Cannot complete inspection without actual datetime
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_complete()` |
+| **Condition** | `inspection_datetime` is not set |
+| **Error** | _"Please set the actual inspection date/time before completing."_ |
+
+### C-121 — Cannot complete inspection without inspection report
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_complete()` |
+| **Condition** | `inspection_document` is not uploaded |
+| **Error** | _"Please upload the inspection report before completing."_ |
+
+### C-122 — Cannot confirm re-inspection without actual datetime
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_confirm_reinspection()` |
+| **Condition** | `reinspection_datetime` is not set |
+| **Error** | _"Please set the actual re-inspection date/time before confirming."_ |
+
+### C-123 — Cannot confirm re-inspection without re-inspection report
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.inspection` |
+| **File** | `models/insurance_inspection.py` |
+| **Method** | `action_confirm_reinspection()` |
+| **Condition** | `reinspection_document` is not uploaded |
+| **Error** | _"Please upload the re-inspection report before confirming."_ |
+
+### C-124 — Cannot complete vehicle inspection without body parts on every line
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_vehicle` |
+| **Model** | `insurance.inspection` (inherited) |
+| **File** | `models/vehicle_inspection.py` |
+| **Method** | `action_complete()` |
+| **Condition** | Any `vehicle.inspection.line` has no `body_part_ids` |
+| **Error** | _"Cannot complete inspection: the following vehicles have no body parts recorded: %s"_ |
+
 ---
 
 ## 7. View Readonly Controls
@@ -951,15 +1028,75 @@ These fields become readonly based on business state, preventing modification at
 | **Condition** | `readonly="has_child_offers"` |
 | **Fields affected** | `estate_ids` |
 
-### C-111 — Vehicle inspection body parts readonly during negotiation
+### C-111 — Vehicle inspection body part original fields readonly outside scheduled state
 
 | Attribute | Value |
 |-----------|-------|
 | **Module** | `optimum_insurance_vehicle` |
 | **View** | `views/vehicle_inspection_views.xml` |
-| **Condition** | `readonly="parent.inspection_state == 'negotiation'"` |
-| **Fields affected** | `vehicle_part_id`, `custom_part_name`, `status`, `photo`, `damage_description` |
-| **Purpose** | Prevents modification of damage assessments once inspection enters negotiation |
+| **Condition** | `readonly="parent.inspection_state != 'scheduled'"` |
+| **Fields affected** | `vehicle_part_id`, `custom_part_name`, `status`, `photo`, `damage_description`, `loss_value`, `reimbursed_value` |
+| **Purpose** | Original inspection data can only be edited during the scheduled (active inspection) state; during re-inspection only `negotiation_status` and `resolved_photo` are editable |
+
+### C-115 — Inspection scheduled datetime readonly after scheduling
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_inspection_views.xml` |
+| **Condition** | `readonly="state != 'draft'"` |
+| **Fields affected** | `scheduled_datetime` |
+| **Purpose** | Prevents modification of scheduled date after inspection has been scheduled |
+
+### C-116 — Inspection datetime and document required when completing
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_inspection_views.xml` |
+| **Condition** | `required="state == 'scheduled'"` |
+| **Fields affected** | `inspection_datetime`, `inspection_document` |
+| **Purpose** | Ensures actual inspection time and report are provided before marking inspection complete |
+
+### C-117 — Re-inspection scheduled datetime readonly after scheduling
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_inspection_views.xml` |
+| **Condition** | `readonly="state != 'negotiation'"` |
+| **Fields affected** | `reinspection_scheduled_datetime` |
+| **Purpose** | Prevents modification of re-inspection scheduled date after re-inspection has been scheduled |
+
+### C-118 — Re-inspection datetime and document required when completing
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_inspection_views.xml` |
+| **Condition** | `required="state == 'reinspection_scheduled'"` |
+| **Fields affected** | `reinspection_datetime`, `reinspection_document` |
+| **Purpose** | Ensures actual re-inspection time and report are provided before confirming re-inspection done |
+
+### C-119 — Vehicle inspection body parts One2many locked outside active states
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_vehicle` |
+| **View** | `views/vehicle_inspection_views.xml` |
+| **Condition** | `readonly="inspection_state not in ('scheduled', 'reinspection_scheduled', 'negotiation')"` |
+| **Fields affected** | `body_part_ids` (One2many on `vehicle.inspection.line` form) |
+| **Purpose** | Prevents adding/deleting body part rows outside active inspection, re-inspection, or negotiation states. Individual field editability is controlled by C-111 |
+
+### C-125 — Inspection fields readonly after completion
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_inspection_views.xml` |
+| **Condition** | `readonly="state not in ('draft', 'scheduled')"` |
+| **Fields affected** | `client_id`, `inspection_datetime`, `inspector_name`, `inspector_phone`, `inspector_email`, `notes`, `inspection_document` |
+| **Purpose** | Prevents modification of original inspection data once inspection is completed |
 
 ### 7b. Always-Readonly Fields (computed / reference / system-generated)
 
@@ -1090,7 +1227,7 @@ These fields are always `readonly="1"` because they are computed, system-generat
 | SQL UNIQUE Constraints | 22 (with sub-controls) |
 | SQL CHECK Constraints | 9 (with sub-controls) |
 | Foreign Key Restrictions (ondelete restrict) | 48 |
-| Action Method Guards | 4 |
-| Conditional View Readonly | 2 patterns (with 4 extensions) |
+| Action Method Guards | 11 |
+| Conditional View Readonly | 6 patterns (with 4 extensions) |
 | Always-Readonly View Fields | 100+ fields across all modules |
-| **Total named controls** | **C-01 through C-112** |
+| **Total named controls** | **C-01 through C-125** |
