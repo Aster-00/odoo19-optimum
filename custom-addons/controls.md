@@ -1217,6 +1217,145 @@ These fields are always `readonly="1"` because they are computed, system-generat
 
 ---
 
+## 8. Post-Policy Generation Immutability
+
+When a policy is generated from an accepted offer on an `insurance.request`, all request and offer data becomes immutable. The `policy_generated` computed field on `insurance.request` (stored, depends on `offer_ids.stage` and `offer_ids.final_policy_id`) gates all these controls.
+
+### C-126 — Offer action methods blocked after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.offer` |
+| **File** | `models/insurance_offer.py` |
+| **Method** | `_check_request_policy_generated()` called by: `action_negotiate_offer()`, `action_client_accept_offer()`, `action_accept_offer()`, `action_create_negotiated_offer()`, `action_send_offer_to_client()`, `action_send_to_insurance_company()` |
+| **Condition** | `insurance_request_id.policy_generated` is True |
+| **Error** | _"Cannot perform this action: a policy has already been generated for request '%s'. All offer data is now immutable."_ |
+
+### C-127 — Cannot create new offers for a request with a generated policy
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.offer` |
+| **File** | `models/insurance_offer.py` |
+| **Method** | `create()` |
+| **Condition** | Target `insurance_request_id.policy_generated` is True |
+| **Error** | _"Cannot create new offers for request '%s': a policy has already been generated."_ |
+
+### C-128 — Cannot modify or delete offers after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.offer` |
+| **File** | `models/insurance_offer.py` |
+| **Method** | `write()`, `unlink()` |
+| **Condition** | `insurance_request_id.policy_generated` is True |
+| **Error** | _"Cannot modify/delete offer '%s': a policy has already been generated for request '%s'."_ |
+
+### C-129 — Cannot modify request business fields after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Model** | `insurance.request` |
+| **File** | `models/insurance_request.py` |
+| **Method** | `write()` |
+| **Condition** | `policy_generated` is True and write touches fields other than `insurance_request_stage_id`, `failure_reason_id`, or messaging fields |
+| **Error** | _"Cannot modify request '%s': a policy has already been generated. The request data is now immutable."_ |
+
+### C-130 — Cannot modify request junction tables after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **Models** | `request.coverage.preference`, `request.term.preference`, `request.has.shared.limit`, `request.has.service`, `request.expected.company`, `request.client.company.preference` |
+| **Files** | `models/request_coverage_preference.py`, `models/request_term_preference.py`, `models/request_has_shared_limit.py`, `models/request_has_service.py`, `models/request_expected_company.py`, `models/request_client_company_preference.py` |
+| **Methods** | `create()`, `write()`, `unlink()` on each model |
+| **Condition** | `request_id.policy_generated` is True |
+| **Note** | `request.expected.company.write()` allows system-level updates to `has_offer` and `offer_count` fields |
+
+### C-130-01 — Cannot modify medical submodule junction tables after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_medical` |
+| **Models** | `offer.has.employee`, `insurance.offer.medical.category`, `offer.category.has.benefit.type`, `offer.benefit.has.coverage.item`, `request.has.employee`, `insurance.request.medical.category`, `request.category.has.benefit.type` |
+| **Methods** | `create()`, `write()`, `unlink()` on each model |
+| **Condition** | Traverses to `insurance_request_id.policy_generated` (offer-side via `offer_id`, indirect via `category_id`) |
+| **Error** | _"Cannot modify [entity]: a policy has already been generated for request '%s'."_ |
+
+### C-130-02 — Cannot modify vehicle submodule junction tables after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_vehicle` |
+| **Models** | `offer.has.vehicle`, `request.has.vehicle` |
+| **Methods** | `create()`, `write()`, `unlink()`, `action_create_inspection()` on each model |
+| **Condition** | `offer_id.insurance_request_id.policy_generated` / `insurance_request_id.policy_generated` |
+| **Error** | _"Cannot modify [entity]: a policy has already been generated for request '%s'."_ |
+
+### C-130-03 — Cannot modify shipment submodule junction tables after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_shipment` |
+| **Models** | `offer.has.shipment`, `request.has.shipment`, `insurance.request.shipment` |
+| **Methods** | `create()`, `write()`, `unlink()` on each model |
+| **Condition** | `offer_id.insurance_request_id.policy_generated` / `insurance_request_id.policy_generated` / `request_id.policy_generated` |
+| **Error** | _"Cannot modify [entity]: a policy has already been generated for request '%s'."_ |
+
+### C-130-04 — Cannot modify general submodule junction tables after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_general` |
+| **Models** | `offer.has.estate`, `request.has.estate` |
+| **Methods** | `create()`, `write()`, `unlink()` on each model |
+| **Condition** | `offer_id.insurance_request_id.policy_generated` / `insurance_request_id.policy_generated` |
+| **Error** | _"Cannot modify [entity]: a policy has already been generated for request '%s'."_ |
+
+### C-131 — Request form fields readonly after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_request_views.xml` |
+| **Condition** | `readonly="policy_generated"` |
+| **Fields affected** | `client_id`, `insurance_type_id`, `request_date`, `offer_submission_deadline`, `enforce_company_list`, `currency_id`, `sum_insurance`, `loss_ratio`, `number_of_checks`, `renewal_trigger`, `coverage_preference_ids`, `term_preference_ids`, `shared_limit_ids`, `service_ids`, `declared_company_ids`, `company_preference_ids` |
+| **Purpose** | Prevents UI modification of request data after a policy has been generated |
+
+### C-131-01 — Submodule request form fields readonly after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Modules** | `optimum_insurance_medical`, `optimum_insurance_vehicle`, `optimum_insurance_shipment`, `optimum_insurance_general` |
+| **Views** | `insurance_request_views.xml` in each submodule |
+| **Condition** | `readonly="policy_generated"` |
+| **Fields affected** | `employee_ids`, `medical_category_ids` (medical); `vehicle_ids` (vehicle); `shipment_ids`, `trip_type`, `shipment_location_type`, `shipment_packing_method_id`, `shipment_min_value`, `shipment_max_value`, export/import route fields (shipment); `estate_ids` (general) |
+
+### C-131-02 — Submodule offer form One2many fields readonly after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Modules** | `optimum_insurance_medical`, `optimum_insurance_vehicle`, `optimum_insurance_shipment`, `optimum_insurance_general` |
+| **Views** | `insurance_offer_views.xml` in each submodule |
+| **Condition** | `readonly="has_child_offers or request_policy_generated"` |
+| **Fields affected** | `employee_ids`, `medical_category_ids` (medical); `vehicle_ids` (vehicle); `shipment_ids` (shipment); `estate_ids` (general) |
+
+### C-132 — Offer action buttons hidden after policy generation
+
+| Attribute | Value |
+|-----------|-------|
+| **Module** | `optimum_insurance_base` |
+| **View** | `views/insurance_offer_views.xml` |
+| **Condition** | `invisible="request_policy_generated or ..."` |
+| **Buttons affected** | `action_client_accept_offer`, `action_record_response_not_ready`, `action_accept_offer`, `action_create_negotiated_offer`, `action_negotiate_offer`, `action_send_offer_to_client`, `action_send_not_ready`, `action_send_to_insurance_company` |
+| **Purpose** | Hides all workflow action buttons on offers when the parent request already has a generated policy |
+
+---
+
 ## Summary
 
 | Category | Count |
@@ -1227,7 +1366,8 @@ These fields are always `readonly="1"` because they are computed, system-generat
 | SQL UNIQUE Constraints | 22 (with sub-controls) |
 | SQL CHECK Constraints | 9 (with sub-controls) |
 | Foreign Key Restrictions (ondelete restrict) | 48 |
-| Action Method Guards | 11 |
-| Conditional View Readonly | 6 patterns (with 4 extensions) |
+| Action Method Guards | 12 |
+| Post-Policy Immutability | 13 (C-126 through C-132, with sub-controls C-130-01 to C-130-04, C-131-01, C-131-02) |
+| Conditional View Readonly | 8 patterns (with 6 extensions) |
 | Always-Readonly View Fields | 100+ fields across all modules |
-| **Total named controls** | **C-01 through C-125** |
+| **Total named controls** | **C-01 through C-132 (with sub-controls)** |
