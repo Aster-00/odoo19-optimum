@@ -989,7 +989,7 @@ These fields become readonly based on business state, preventing modification at
 | **Module** | `optimum_insurance_base` |
 | **View** | `views/insurance_offer_views.xml` |
 | **Condition** | `readonly="has_child_offers"` |
-| **Fields affected** | `insurance_request_id`, `insurance_company_id`, `insurance_type_id`, `net_premium`, `gross_premium`, `sum_insurance`, `gross_rate`, `insurance_duration`, `number_of_checks`, `coverage_ids` |
+| **Fields affected** | `insurance_request_id`, `insurance_company_id`, `insurance_type_id`, `net_premium`, `gross_premium`, `sum_insurance`, `gross_rate`, `insurance_duration`, `number_of_cheques`, `coverage_ids` |
 | **Purpose** | Prevents modification of core offer data after negotiation scenarios have been created |
 
 #### C-110-01 — Medical categories readonly when has child offers
@@ -1107,7 +1107,7 @@ These fields are always `readonly="1"` because they are computed, system-generat
 | Fields | Purpose |
 |--------|---------|
 | `name` | Auto-generated offer name |
-| `prev_net_premium`, `prev_gross_premium`, `prev_sum_insurance`, `prev_gross_rate`, `prev_insurance_duration`, `prev_number_of_checks` | Previous version comparison values |
+| `prev_net_premium`, `prev_gross_premium`, `prev_sum_insurance`, `prev_gross_rate`, `prev_insurance_duration`, `prev_number_of_cheques` | Previous version comparison values |
 | `wording_review_status`, `coverage_reviewer_id`, `wording_reviewer_id` | Review status badges |
 | `inspection_id`, `previous_offer_id`, `child_offer_count` | Reference / computed |
 | `mandatory_coverage_status` | Computed widget |
@@ -1323,7 +1323,7 @@ When a policy is generated from an accepted offer on an `insurance.request`, all
 | **Module** | `optimum_insurance_base` |
 | **View** | `views/insurance_request_views.xml` |
 | **Condition** | `readonly="policy_generated"` |
-| **Fields affected** | `client_id`, `insurance_type_id`, `request_date`, `offer_submission_deadline`, `enforce_company_list`, `currency_id`, `sum_insurance`, `loss_ratio`, `number_of_checks`, `renewal_trigger`, `coverage_preference_ids`, `term_preference_ids`, `shared_limit_ids`, `service_ids`, `declared_company_ids`, `company_preference_ids` |
+| **Fields affected** | `client_id`, `insurance_type_id`, `request_date`, `offer_submission_deadline`, `enforce_company_list`, `currency_id`, `sum_insurance`, `loss_ratio`, `number_of_cheques`, `renewal_trigger`, `coverage_preference_ids`, `term_preference_ids`, `shared_limit_ids`, `service_ids`, `declared_company_ids`, `company_preference_ids` |
 | **Purpose** | Prevents UI modification of request data after a policy has been generated |
 
 ### C-131-01 — Submodule request form fields readonly after policy generation
