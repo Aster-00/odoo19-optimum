@@ -1,5 +1,4 @@
 version: "3.7"
-
 services:
   dbv:
     image: pgvector/pgvector:0.8.0-pg17
@@ -8,7 +7,7 @@ services:
       POSTGRES_PASSWORD: odoo19@2024
       POSTGRES_DB: pgvector
     volumes:
-      - odoo19_test_pgdata:/var/lib/postgresql/data
+      - odoo19_pgdata:/var/lib/postgresql/data
     networks:
       - public_network
     deploy:
@@ -16,7 +15,6 @@ services:
       placement:
         constraints:
           - node.role == manager
-
   odoo19:
     image: odoo:latest
     depends_on:
@@ -26,16 +24,18 @@ services:
       USER: odoo19
       PASSWORD: odoo19@2024
     volumes:
-      - odoo19_test_addons:/mnt/extra-addons
-      - odoo19_test_config:/etc/odoo
-      - odoo19_test_data:/var/lib/odoo
+      - odoo19_addons:/mnt/extra-addons
+      - odoo19_config:/etc/odoo
+      - odoo19_data:/var/lib/odoo
     networks:
       - public_network
     command: >
       bash -c "
-      echo 'Waiting for Postgres...';
-      until pg_isready -h dbv -p 5432 -U odoo19; do sleep 2; done;
-      echo 'Starting Odoo...';
+      echo '⏳ Waiting for Postgres to be ready...';
+      until pg_isready -h dbv -p 5432 -U odoo19; do echo 'Waiting...'; sleep 2; done;
+      echo '✅ Postgres is up. Initializing Odoo database...';
+      odoo --db_host=dbv --db_port=5432 --db_user=odoo19 --db_password='odoo19@2024' -d pgvector -i base --stop-after-init;
+      echo '✅ Database initialized. Starting Odoo...';
       exec odoo --db_host=dbv --db_port=5432 --db_user=odoo19 --db_password='odoo19@2024'"
     deploy:
       placement:
@@ -43,18 +43,24 @@ services:
           - node.role == manager
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.odoo19-test.rule=Host(`test.op-eg.com`)"
-        - "traefik.http.routers.odoo19-test.entrypoints=websecure"
-        - "traefik.http.routers.odoo19-test.tls=true"
-        - "traefik.http.routers.odoo19-test.tls.certresolver=letsencryptresolver"
-        - "traefik.http.services.odoo19-test.loadbalancer.server.port=8069"
-
+        - "traefik.http.routers.odoo19.rule=Host(`test.op-eg.com`)"
+        - "traefik.http.routers.odoo19.entrypoints=websecure"
+        - "traefik.http.routers.odoo19.tls=true"
+        - "traefik.http.routers.odoo19.tls.certresolver=letsencryptresolver"
+        - "traefik.http.services.odoo19.loadbalancer.server.port=8069"
 volumes:
-  odoo19_test_pgdata:
-  odoo19_test_addons:
-  odoo19_test_config:
-  odoo19_test_data:
-
+  odoo19_pgdata:
+    external: true
+    name: odoo19_pgdata
+  odoo19_addons:
+    external: true
+    name: odoo19_addons
+  odoo19_config:
+    external: true
+    name: odoo19_config
+  odoo19_data:
+    external: true
+    name: odoo19_data
 networks:
   public_network:
     external: true
