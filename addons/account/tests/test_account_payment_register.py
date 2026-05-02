@@ -72,11 +72,13 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
             'acc_number': "985632147",
             'partner_id': cls.env.company.partner_id.id,
             'acc_type': 'bank',
+            'allow_out_payment': True,
         })
         cls.comp_bank_account2 = cls.env['res.partner.bank'].create({
             'acc_number': "741258963",
             'partner_id': cls.env.company.partner_id.id,
             'acc_type': 'bank',
+            'allow_out_payment': True,
         })
 
         # Customer invoices sharing the same batch.
@@ -585,10 +587,12 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
         bank1 = self.env['res.partner.bank'].create({
             'acc_number': 'BE43798822936101',
             'partner_id': self.partner_a.id,
+            'allow_out_payment': True,
         })
         bank2 = self.env['res.partner.bank'].create({
             'acc_number': 'BE85812541345906',
             'partner_id': self.partner_a.id,
+            'allow_out_payment': True,
         })
 
         self.in_invoice_1.with_context(skip_readonly_check=True).partner_bank_id = bank1
@@ -728,13 +732,17 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
         and one with customer B bill (1000).
         '''
         partner_b = self.partner_b.copy({'property_account_position_id': False})
-        self.env['res.partner.bank'].create({
+        partner_b_bank_account = self.env['res.partner.bank'].create({
             'acc_number': "123454321",
             'partner_id': partner_b.id,
             'acc_type': 'bank',
         })
         invoice_1 = self.in_invoice_1
-        invoice_2 = invoice_1.copy({'invoice_date': invoice_1.invoice_date, 'partner_id': partner_b.id})
+        invoice_2 = invoice_1.copy({
+            'invoice_date': invoice_1.invoice_date,
+            'partner_id': partner_b.id,
+            'partner_bank_id': partner_b_bank_account.id
+        })
         refund_1 = self.env['account.move'].create(
             {
                 'move_type': 'in_refund',
@@ -745,7 +753,7 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
             },
         )
         (invoice_2 + refund_1).action_post()
-        active_ids = (invoice_1 + refund_1 + invoice_2).ids
+        active_ids = (refund_1 + invoice_1 + invoice_2).ids
         payment_register = self.env['account.payment.register']\
             .with_context(active_model='account.move', active_ids=active_ids)\
             .create({'group_payment': True})
@@ -755,10 +763,12 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
             {
                 'memo': 'BILL/2017/01/0001, RBILL/2017/01/0002',
                 'payment_method_line_id': self.outbound_payment_method_line.id,
+                'partner_bank_id': self.partner_bank_account1.id,
             },
             {
                 'memo': 'BILL/2017/01/0004',
                 'payment_method_line_id': self.outbound_payment_method_line.id,
+                'partner_bank_id': partner_b_bank_account.id,
             },
         ])
 
@@ -1375,6 +1385,42 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
         lines = (invoice + payment.move_id).line_ids.filtered(lambda x: x.account_type == 'asset_receivable')
         self.assertRecordValues(lines, [
             {'amount_residual': 0.0, 'amount_residual_currency': 0.0, 'currency_id': self.other_currency.id, 'reconciled': True},
+            {'amount_residual': 0.0, 'amount_residual_currency': 0.0, 'currency_id': self.company_data['currency'].id, 'reconciled': True},
+        ])
+
+    def test_register_partial_payment_with_exchange_account_as_writeoff(self):
+        # Invoice 1200 Gol = 400 USD
+        invoice = self.env['account.move'].create({
+            'move_type': 'out_invoice',
+            'date': '2016-01-01',
+            'invoice_date': '2016-01-01',
+            'partner_id': self.partner_a.id,
+            'currency_id': self.other_currency.id,
+            'invoice_line_ids': [Command.create(
+                {'product_id': self.product_a.id,
+                'price_unit': 1200.0,
+                'tax_ids': [],
+            })],
+        })
+        invoice.action_post()
+
+        # Payment of 200 USD (equivalent to 400 Gol in 2017).
+        # writeoff account set to the exchange loss account but it should
+        # not interfere with the partial payment
+        wizard = self.env['account.payment.register']\
+            .with_context(active_model='account.move', active_ids=invoice.ids)\
+            .create({
+                'currency_id': self.company_data['currency'].id,
+                'payment_date': '2017-01-01',
+                'payment_difference_handling': 'open',
+                'writeoff_account_id': self.env.company.expense_currency_exchange_account_id.id,
+                'amount': 200,
+            })
+
+        payment = wizard._create_payments()
+        lines = (invoice + payment.move_id).line_ids.filtered(lambda x: x.account_type == 'asset_receivable')
+        self.assertRecordValues(lines, [
+            {'amount_residual': 266.67, 'amount_residual_currency': 800.0, 'currency_id': self.other_currency.id, 'reconciled': False},
             {'amount_residual': 0.0, 'amount_residual_currency': 0.0, 'currency_id': self.company_data['currency'].id, 'reconciled': True},
         ])
 
@@ -2139,3 +2185,40 @@ class TestAccountPaymentRegister(AccountTestInvoicingCommon, PaymentCommon):
 
         payments = self._register_payment(move1 + move2, group_payment=False)
         self.assertEqual(len(payments), 3, "We should get 2 payments from the first move and 1 for the second one")
+
+    def test_group_payment_multi_partner_with_installments(self):
+        """
+        When "Group Payments" is selected and vendor bills from different partners are selected,
+        and at least one bill has multiple installments, only the next installment should be
+        included, not all installments of that bill.
+        """
+        in_invoice_with_installments = self.env['account.move'].create({
+            'move_type': 'in_invoice',
+            'invoice_date': '2026-01-01',
+            'invoice_payment_term_id': self.term_0_5_10_days.id,
+            'partner_id': self.partner_a.id,
+            'invoice_line_ids': [Command.create({
+                'product_id': self.product_a.id,
+                'price_unit': 1000.0,
+                'tax_ids': [],
+            })],
+        })
+        in_invoice_with_installments.action_post()
+
+        wizard = self.env['account.payment.register'].with_context(
+            active_model='account.move',
+            active_ids=(self.in_invoice_1 + in_invoice_with_installments + self.in_invoice_3).ids,
+        ).create({
+            'group_payment': True,
+            'payment_date': '2026-01-01',
+        })
+
+        payments = wizard._create_payments()
+
+        self.assertEqual(len(payments), 2)
+
+        payment_a = payments.filtered(lambda p: p.partner_id == self.partner_a)
+        payment_b = payments.filtered(lambda p: p.partner_id == self.partner_b)
+
+        self.assertRecordValues(payment_a, [{'amount': 1100.0, 'partner_id': self.partner_a.id}])
+        self.assertRecordValues(payment_b, [{'amount': 3000.0, 'partner_id': self.partner_b.id}])

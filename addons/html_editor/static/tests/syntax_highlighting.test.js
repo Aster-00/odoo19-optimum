@@ -1,4 +1,4 @@
-import { beforeEach, expect, test } from "@odoo/hoot";
+import { beforeEach, describe, expect, test } from "@odoo/hoot";
 import { getContent, setSelection } from "./_helpers/selection";
 import { animationFrame, click, press, queryOne, waitFor } from "@odoo/hoot-dom";
 import { insertText, splitBlock } from "./_helpers/user_actions";
@@ -162,7 +162,7 @@ test("inserting a code block in an empty paragraph with a style placeholder acti
         stepFunction: async (editor) => {
             await pressAndWait(["ctrl", "b"]);
             expect(getContent(editor.editable)).toBe(
-                `<p o-we-hint-text='Type "/" for commands' class="o-we-hint"><strong data-oe-zws-empty-inline="">[]\u200B</strong></p>`,
+                `<p o-we-hint-text='Type "/" for commands' class="o-we-hint"><strong data-oe-zws-empty-inline="">\u200B[]</strong></p>`,
                 { message: "The style placeholder was inserted." }
             );
             splitBlock(editor);
@@ -1186,5 +1186,165 @@ test("restore paragraph from code block", async () => {
         contentAfterEdit: "<p>[]abc</p>",
         contentAfter: `<p>[]abc</p>`,
         config: configWithEmbeddings,
+    });
+});
+
+test("should keep textarea focused when changing code block language", async () => {
+    const { editor } = await setupEditor(`<pre>ab</pre>`, {
+        config: configWithEmbeddings,
+    });
+
+    await compareHighlightedContent(
+        getContent(editor.editable),
+        unformat(
+            `<p data-selection-placeholder=""><br></p>
+            ${highlightedPre({ value: "ab" })}
+            <p data-selection-placeholder="" style="margin: -9px 0px 8px;"><br></p>`
+        ),
+        "Initial code block is highlighted",
+        editor
+    );
+
+    // Focus the textarea inside the code block
+    const textarea = editor.document.querySelector("textarea");
+    await click(textarea);
+    expect(editor.document.activeElement).toBe(textarea);
+    const from = "Plain Text";
+    const to = "Javascript";
+    // Wait until the language selector button is available in the toolbar
+    await waitFor(`.o_code_toolbar button[name='language'][title='${from}']`);
+    const dropdownButton = document.querySelector(
+        `.o_code_toolbar button[name='language'][title='${from}']`
+    );
+    // Explicitly focus the dropdown button before opening it
+    dropdownButton.focus();
+    await click(dropdownButton);
+    // Language selector dropdown should open.
+    await waitFor(`.o_language_selector .o-dropdown-item[name='${to}']`);
+    await click(`.o_language_selector .o-dropdown-item[name='${to}']`);
+    // Code Toolbar should show the new language name.
+    await waitFor(`.o_code_toolbar button[name='language'][title='${to}']`);
+    // Ensure focus is restored to the textarea after the dropdown closes
+    expect(document.activeElement).toBe(textarea);
+});
+
+test("should keep textarea focused after copying code content", async () => {
+    const { editor } = await setupEditor(`<pre>ab</pre>`, {
+        config: configWithEmbeddings,
+    });
+    await compareHighlightedContent(
+        getContent(editor.editable),
+        unformat(
+            `<p data-selection-placeholder=""><br></p>
+            ${highlightedPre({ value: "ab" })}
+            <p data-selection-placeholder="" style="margin: -9px 0px 8px;"><br></p>`
+        ),
+        "Initial code block is highlighted",
+        editor
+    );
+
+    // Focus the textarea inside the code block
+    const textarea = editor.document.querySelector("textarea");
+    await click(textarea);
+    expect(editor.document.activeElement).toBe(textarea);
+
+    // Wait for the code toolbar and trigger the copy action
+    await waitFor(".o_code_toolbar");
+    await click(".o_code_toolbar .o_clipboard_button");
+
+    // Ensure focus remains on the textarea after copying
+    expect(document.activeElement).toBe(textarea);
+});
+
+describe("Arrow navigation (up/down) across syntax-highlighted code blocks", () => {
+    test("ArrowUp from start of paragraph moves caret to end of previous code block", async () => {
+        await testEditorWithHighlightedContent({
+            contentBefore: "<p>before</p><pre>a<br>b</pre><p>[]<br><br>after</p>",
+            contentBeforeEdit:
+                "<p>before</p>" + highlightedPre({ value: "a\nb" }) + "<p>[]<br><br>after</p>",
+            stepFunction: async () => {
+                await pressAndWait("ArrowUp");
+            },
+            contentAfterEdit:
+                "<p>before</p>" +
+                highlightedPre({
+                    value: "a\nb",
+                    // cursor at end of code block: ("a\nb[]")
+                    textareaRange: 3,
+                }) +
+                "<p><br><br>after</p>",
+            contentAfter:
+                "<p>before</p>" +
+                `<pre data-embedded="readonlySyntaxHighlighting" data-language-id="plaintext">a<br>b</pre>[]` +
+                "<p><br><br>after</p>",
+        });
+    });
+
+    test("ArrowDown from end of paragraph moves caret to start of next code block", async () => {
+        await testEditorWithHighlightedContent({
+            contentBefore:
+                "<p>before<br><strong>abcd<br>[]<br></strong></p><pre>a<br>b</pre><p>after</p>",
+            contentBeforeEdit:
+                "<p>before<br><strong>abcd<br>[]<br></strong></p>" +
+                highlightedPre({ value: "a\nb" }) +
+                "<p>after</p>",
+            stepFunction: async () => {
+                await pressAndWait("ArrowDown");
+            },
+            contentAfterEdit:
+                "<p>before<br><strong>abcd<br><br></strong></p>" +
+                highlightedPre({
+                    value: "a\nb",
+                    // cursor at start of code block: ("[]a\nb")
+                    textareaRange: 0,
+                }) +
+                "<p>after</p>",
+            contentAfter:
+                "<p>before<br><strong>abcd<br><br></strong></p>" +
+                `<pre data-embedded="readonlySyntaxHighlighting" data-language-id="plaintext">a<br>b</pre>[]` +
+                "<p>after</p>",
+        });
+    });
+
+    test("ArrowUp from start of code block moves caret to end of previous paragraph", async () => {
+        await testEditorWithHighlightedContent({
+            contentBefore: "<p>before</p><pre><br><br>abcd</pre><p>after</p>",
+            contentBeforeEdit:
+                "<p>before</p>" + highlightedPre({ value: "\n\nabcd" }) + "<p>after</p>",
+            stepFunction: async () => {
+                await click("textarea");
+                const textarea = queryOne("textarea");
+                // Cursor at start of code block: "[]\n\nabcd"
+                textarea.setSelectionRange(0, 0);
+                await pressAndWait("ArrowUp");
+            },
+            contentAfterEdit:
+                "<p>before[]</p>" + highlightedPre({ value: "\n\nabcd" }) + "<p>after</p>",
+            contentAfter:
+                "<p>before[]</p>" +
+                `<pre data-embedded="readonlySyntaxHighlighting" data-language-id="plaintext"><br><br>abcd</pre>` +
+                "<p>after</p>",
+        });
+    });
+
+    test("ArrowDown from end of code block moves caret to start of next paragraph", async () => {
+        await testEditorWithHighlightedContent({
+            contentBefore: "<p>before</p><pre>a<br>bc<br>d</pre><p>after</p>",
+            contentBeforeEdit:
+                "<p>before</p>" + highlightedPre({ value: "a\nbc\nd" }) + "<p>after</p>",
+            stepFunction: async () => {
+                await click("textarea");
+                const textarea = queryOne("textarea");
+                // Cursor at end of code block: "a\nbc\nd[]"
+                textarea.setSelectionRange(6, 6);
+                await pressAndWait("ArrowDown");
+            },
+            contentAfterEdit:
+                "<p>before</p>" + highlightedPre({ value: "a\nbc\nd" }) + "<p>[]after</p>",
+            contentAfter:
+                "<p>before</p>" +
+                `<pre data-embedded="readonlySyntaxHighlighting" data-language-id="plaintext">a<br>bc<br>d</pre>` +
+                "<p>[]after</p>",
+        });
     });
 });

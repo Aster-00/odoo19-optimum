@@ -241,8 +241,10 @@ patch(PosStore.prototype, {
             }
         }
 
-        await this.deleteOrders([sourceOrder], [], true);
-        this.syncAllOrders({ orders: [destOrder] });
+        if (typeof destOrder.id === "number") {
+            await this.syncAllOrders({ orders: [destOrder] });
+        }
+        await this.deleteOrders([sourceOrder], [], typeof sourceOrder.id === "number");
         return destOrder;
     },
     mergeCourses(sourceOrder, destOrder) {
@@ -590,9 +592,9 @@ patch(PosStore.prototype, {
     async getServerOrders() {
         if (this.config.module_pos_restaurant) {
             const tableIds = [].concat(
-                ...this.models["restaurant.floor"].map((floor) =>
-                    floor.table_ids.map((table) => table.id)
-                )
+                ...this.config.floor_ids
+                    .filter((floor) => floor.active)
+                    .map((floor) => floor.table_ids.map((table) => table.id))
             );
             await this.syncAllOrders({ table_ids: tableIds });
         }
@@ -914,7 +916,11 @@ patch(PosStore.prototype, {
         return this.floorScrollPositions[floorId];
     },
     shouldCreatePendingOrder(order) {
-        return super.shouldCreatePendingOrder(order) || order.course_ids?.length > 0;
+        return (
+            super.shouldCreatePendingOrder(order) ||
+            order.course_ids?.length > 0 ||
+            Boolean(order.table_id)
+        );
     },
     setOrder(order) {
         order?.ensureCourseSelection();

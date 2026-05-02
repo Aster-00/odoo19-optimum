@@ -115,6 +115,13 @@ class CustomerPortal(payment_portal.PaymentPortal):
         request.session['my_orders_history'] = values['orders'].ids[:100]
         return request.render("sale.portal_my_orders", values)
 
+    # ------------------------------------------------------------
+    # My Order
+    # ------------------------------------------------------------
+
+    def _sale_order_get_page_view_values(self, order_sudo, access_token, values, history_session_key, **kwargs):
+        return self._get_page_view_values(order_sudo, access_token, values, history_session_key, False, **kwargs)
+
     @http.route(['/my/orders/<int:order_id>'], type='http', auth="public", website=True)
     def portal_order_page(
         self,
@@ -179,7 +186,7 @@ class CustomerPortal(payment_portal.PaymentPortal):
         }
 
         # Payment values
-        if order_sudo._has_to_be_paid() or payment_amount:
+        if order_sudo._has_to_be_paid() or (payment_amount and not order_sudo.is_expired):
             values.update(self._get_payment_values(
                 order_sudo,
                 is_down_payment=self._determine_is_down_payment(
@@ -187,14 +194,16 @@ class CustomerPortal(payment_portal.PaymentPortal):
                 ),
                 payment_amount=payment_amount,
             ))
+        else:
+            values['payment_amount'] = None
 
         if order_sudo.state in ('draft', 'sent', 'cancel'):
             history_session_key = 'my_quotations_history'
         else:
             history_session_key = 'my_orders_history'
 
-        values = self._get_page_view_values(
-            order_sudo, access_token, values, history_session_key, False, **kw)
+        values = self._sale_order_get_page_view_values(
+            order_sudo, access_token, values, history_session_key, **kw)
 
         return request.render('sale.sale_order_portal_template', values)
 
@@ -233,9 +242,6 @@ class CustomerPortal(payment_portal.PaymentPortal):
         logged_in = not request.env.user._is_public()
         partner_sudo = request.env.user.partner_id if logged_in else order_sudo.partner_id
         currency = order_sudo.currency_id
-
-        if order_sudo.is_expired:
-            raise ValidationError(_("The sale order has expired."))
 
         if is_down_payment:
             if payment_amount and payment_amount < order_sudo.amount_total:
@@ -332,7 +338,7 @@ class CustomerPortal(payment_portal.PaymentPortal):
         if not order_sudo._has_to_be_paid():
             order_sudo._validate_order()
 
-        pdf = request.env['ir.actions.report'].sudo()._render_qweb_pdf('sale.action_report_saleorder', [order_sudo.id])[0]
+        pdf = request.env['ir.actions.report'].sudo().with_context(sale_include_signature=True)._render_qweb_pdf('sale.action_report_saleorder', [order_sudo.id])[0]
 
         order_sudo.message_post(
             attachments=[('%s.pdf' % order_sudo.name, pdf)],

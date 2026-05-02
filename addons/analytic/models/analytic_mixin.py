@@ -64,6 +64,14 @@ class AnalyticMixin(models.AbstractModel):
             rec.distribution_analytic_account_ids = self.env['account.analytic.account'].browse(ids)
 
     def _search_distribution_analytic_account_ids(self, operator, value):
+        if operator in ('any', 'not any', 'any!', 'not any!'):
+            if isinstance(value, Domain):
+                value = self.env['account.analytic.account'].search(value).ids
+            elif isinstance(value, Query):
+                value = value.get_result_ids()
+            else:
+                return NotImplemented
+            operator = 'in' if operator in ('any', 'any!') else 'not in'
         return [('analytic_distribution', operator, value)]
 
     def _compute_analytic_distribution(self):
@@ -73,7 +81,7 @@ class AnalyticMixin(models.AbstractModel):
         # Don't use this override when account_report_analytic_groupby is truly in the context
         # Indeed, when account_report_analytic_groupby is in the context it means that `analytic_distribution`
         # doesn't have the same format and the table is a temporary one, see _prepare_lines_for_analytic_groupby
-        if self.env.context.get('account_report_analytic_groupby'):
+        if self.env.context.get('account_report_analytic_groupby') or (operator in ('in', 'not in') and False in value):
             return Domain('analytic_distribution', operator, value)
 
         def search_value(value: str, exact: bool):
