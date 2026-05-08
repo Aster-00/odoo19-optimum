@@ -32,15 +32,16 @@ This document catalogs all controls that prevent write, delete, or modification 
 | **Condition** | Corporate client has active employees (no end date or end date in the future) |
 | **Error** | _"Cannot delete corporate client '%s' with %s active employee(s). Please terminate all employments first."_ |
 
-### C-112 — Cannot delete offer with a parent offer
+### C-112 — Cannot delete offer with child offers
 
 | Attribute | Value |
 |-----------|-------|
 | **Module** | `optimum_insurance_base` |
 | **Model** | `insurance.offer` |
-| **File** | `models/insurance_offer.py` (line ~906) |
-| **Condition** | Offer has a `previous_offer_id` (i.e., it is a child offer or negotiation response) |
-| **Error** | _"You cannot delete offer '%s' because it has a parent offer. Delete child offers first or archive the offer instead."_ |
+| **File** | `models/insurance_offer.py` (line ~1060) |
+| **Condition** | Offer has any records in `child_offer_ids` (i.e., it is the parent of one or more negotiation scenarios) |
+| **Error** | _"You cannot delete offer '%s' because it has child offers. Delete child offers first or archive the offer instead."_ |
+| **Tests** | `tests/test_insurance_offer.py::TestOfferUnlink::test_unlink_blocked_when_offer_has_child`, `tests/test_insurance_offer.py::TestOfferUnlink::test_unlink_allowed_for_child_without_children` |
 
 ### C-03 — Vehicle removal from offer cascades inspection cleanup
 
@@ -1108,7 +1109,7 @@ These fields are always `readonly="1"` because they are computed, system-generat
 |--------|---------|
 | `name` | Auto-generated offer name |
 | `prev_net_premium`, `prev_gross_premium`, `prev_sum_insurance`, `prev_gross_rate`, `prev_insurance_duration`, `prev_number_of_cheques` | Previous version comparison values |
-| `wording_review_status`, `coverage_reviewer_id`, `wording_reviewer_id` | Review status badges |
+| `wording_review_status`, `reviewer_id`, `reviewed_date` | Review status and reviewer |
 | `inspection_id`, `previous_offer_id`, `child_offer_count` | Reference / computed |
 | `mandatory_coverage_status` | Computed widget |
 | `prev_coverage_*`, `prev_deductible_*`, `prev_copayment_*` fields | Previous version comparison values in coverage/deductible/copayment lines |
