@@ -57,3 +57,4 @@ package.json
 CLAUDE.md
 custom-addons/optimum_1/*
 docs/superpowers/*
+docs/tests/*
