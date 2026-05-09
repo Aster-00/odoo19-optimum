@@ -30,13 +30,20 @@ services:
     networks:
       - public_network
     command: >
-      bash -c "
-      echo '⏳ Waiting for Postgres to be ready...';
-      until pg_isready -h dbv -p 5432 -U odoo19; do echo 'Waiting...'; sleep 2; done;
-      echo '✅ Postgres is up. Initializing Odoo database...';
-      odoo --db_host=dbv --db_port=5432 --db_user=odoo19 --db_password='odoo19@2024' -d pgvector -i base --stop-after-init;
-      echo '✅ Database initialized. Starting Odoo...';
-      exec odoo --db_host=dbv --db_port=5432 --db_user=odoo19 --db_password='odoo19@2024'"
+  bash -c "
+  echo '⏳ Waiting for Postgres to be ready...';
+  until pg_isready -h dbv -p 5432 -U odoo19; do echo 'Waiting...'; sleep 2; done;
+
+  echo '📦 Cloning custom addons...';
+  if [ ! -d /mnt/extra-addons/custom-addons ]; then
+    apt update && apt install -y git;
+    git clone https://github.com/Optimum-Performance-ins/odoo19-optimum.git /tmp/repo;
+    cp -r /tmp/repo/custom-addons/* /mnt/extra-addons/;
+  fi;
+
+  echo '✅ Starting Odoo...';
+  exec odoo --db_host=dbv --db_port=5432 --db_user=odoo19 --db_password='odoo19@2024'
+  "
     deploy:
       placement:
         constraints:
